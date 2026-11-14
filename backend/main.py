@@ -18,6 +18,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select, and_, func
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from config import settings
@@ -305,7 +306,11 @@ async def list_leads_api(
     status: Optional[str] = None,
     db: AsyncSession = Depends(get_db),
 ):
-    stmt = select(Lead).order_by(Lead.id.desc())
+    stmt = (
+        select(Lead)
+        .options(selectinload(Lead.company), selectinload(Lead.draft))
+        .order_by(Lead.id.desc())
+    )
     conditions = []
     if campaign_id:
         conditions.append(Lead.campaign_id == campaign_id)
@@ -319,25 +324,7 @@ async def list_leads_api(
 
     res = await db.execute(stmt)
     leads = res.scalars().all()
-
-    out = []
-    for l in leads:
-        stmt_c = select(Company).where(Company.id == l.company_id)
-        c_res = await db.execute(stmt_c)
-        comp = c_res.scalar_one_or_none()
-
-        stmt_d = select(Draft).where(Draft.lead_id == l.id)
-        d_res = await db.execute(stmt_d)
-        draft = d_res.scalar_one_or_none()
-
-        item = LeadOut.model_validate(l)
-        if comp:
-            item.company = CompanyOut.model_validate(comp)
-        if draft:
-            item.draft = DraftOut.model_validate(draft)
-        out.append(item)
-
-    return out
+    return [LeadOut.model_validate(l) for l in leads]
 
 
 @app.post("/api/leads/upload-csv")
