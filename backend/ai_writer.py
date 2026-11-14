@@ -254,5 +254,62 @@ Return strictly valid JSON in this schema:
 
         return subject, body
 
+    def generate_follow_up(
+        self,
+        lead: Lead,
+        company: Company,
+        campaign: Campaign,
+        step: int = 1,
+    ) -> Tuple[str, str]:
+        """Generate high-converting, low-friction anti-slop follow-ups."""
+        first_name = lead.first_name or (lead.full_name.split()[0] if lead.full_name else "there")
+        company_name = company.name or "the team"
+        sender_name = campaign.sender_name or "Alex"
+        dossier = lead.research_dossier or {}
+        reddit = dossier.get("reddit_insights", {})
+        pain = reddit.get("pain_point") or "scaling team bandwidth"
+
+        if step == 1:
+            subject = f"Re: quick thought: {company_name.lower()}"
+            body = (
+                f"Hey {first_name},\n\n"
+                f"Quick bump on this in case it got buried under {company_name}'s sprint priorities.\n\n"
+                f"Curious if tackling {pain} is something you're exploring this quarter?\n\n"
+                f"Best,\n{sender_name}"
+            )
+        else:
+            subject = f"Re: {company_name.lower()} note"
+            body = (
+                f"Hey {first_name},\n\n"
+                f"Assuming this isn't top of mind for {company_name} right now, so I won't crowd your inbox.\n\n"
+                f"If you ever want to check out how we eliminate friction around {pain}, feel free to reach back out.\n\n"
+                f"Best,\n{sender_name}"
+            )
+        return subject, body
+
+    def generate_reply_back(
+        self,
+        lead: Lead,
+        company: Company,
+        campaign: Campaign,
+        incoming_snippet: str,
+        user_instruction: str = "",
+    ) -> Tuple[str, str]:
+        """Generate personalized AI response to an interested prospect's reply."""
+        first_name = lead.first_name or (lead.full_name.split()[0] if lead.full_name else "there")
+        company_name = company.name or "your team"
+        sender_name = campaign.sender_name or "Alex"
+
+        subject = f"Re: connecting on {company_name.lower()}"
+        body = (
+            f"Hey {first_name},\n\n"
+            f"Thanks for getting back to me! Glad this resonated.\n\n"
+            f"Based on what you mentioned, we can easily tailor this specifically for {company_name}. "
+            f"Would you be open to a quick 15-minute sync later this week to walk through the exact setup?\n\n"
+            f"Let me know if Thursday or Friday morning works on your calendar.\n\n"
+            f"Best,\n{sender_name}"
+        )
+        return subject, body
+
 
 ai_writer = AIWriter()

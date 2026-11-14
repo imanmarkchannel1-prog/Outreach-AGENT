@@ -82,7 +82,7 @@ class Lead(Base):
     linkedin_url = Column(String(512), default="", nullable=False)
     location = Column(String(255), default="", nullable=False)
 
-    # Pipeline Status: imported -> researched -> drafted -> approved -> scheduled -> sent -> bounced / skipped
+    # Pipeline Status: imported -> researched -> drafted -> approved -> scheduled -> sent -> replied / interested -> bounced
     status = Column(String(50), default="imported", nullable=False)
     research_dossier = Column(JSON, default=dict)  # Complete synthesized dossier
     notes = Column(Text, default="", nullable=False)
@@ -94,6 +94,7 @@ class Lead(Base):
     company = relationship("Company", back_populates="leads")
     draft = relationship("Draft", back_populates="lead", uselist=False, cascade="all, delete-orphan")
     queue_slots = relationship("QueueSlot", back_populates="lead", cascade="all, delete-orphan")
+    replies = relationship("Reply", back_populates="lead", cascade="all, delete-orphan")
 
 
 class Draft(Base):
@@ -130,8 +131,8 @@ class Inbox(Base):
     smtp_host = Column(String(255), default="smtp.gmail.com", nullable=False)
     smtp_port = Column(Integer, default=587, nullable=False)
     
-    # Anti-Spam Rate Limits (Personal Gmail protection)
-    daily_limit = Column(Integer, default=35, nullable=False)       # Safe daily limit
+    # Adjustable Anti-Spam Rate Limits (User configurable)
+    daily_limit = Column(Integer, default=35, nullable=False)       # Safe daily limit per inbox
     hourly_limit = Column(Integer, default=5, nullable=False)       # Max sends per hour
     min_delay_seconds = Column(Integer, default=90, nullable=False) # Min gap between sends
     max_delay_seconds = Column(Integer, default=240, nullable=False)# Max gap between sends
@@ -174,6 +175,26 @@ class QueueSlot(Base):
     campaign = relationship("Campaign", back_populates="queue_slots")
     lead = relationship("Lead", back_populates="queue_slots")
     inbox = relationship("Inbox", back_populates="queue_slots")
+
+
+class Reply(Base):
+    __tablename__ = "replies"
+
+    id = Column(Integer, primary_key=True, index=True)
+    lead_id = Column(Integer, ForeignKey("leads.id", ondelete="CASCADE"), nullable=False)
+    inbox_id = Column(Integer, ForeignKey("inboxes.id", ondelete="SET NULL"), nullable=True)
+
+    sender_email = Column(String(255), nullable=False)
+    recipient_email = Column(String(255), nullable=False)
+    subject = Column(String(255), default="", nullable=False)
+    body = Column(Text, nullable=False)
+    intent = Column(String(50), default="interested", nullable=False)  # interested, question, follow_up_requested, meeting_booked
+    received_at = Column(DateTime, default=utcnow, nullable=False)
+    is_replied_to = Column(Boolean, default=False, nullable=False)
+    reply_back_body = Column(Text, nullable=True)
+
+    lead = relationship("Lead", back_populates="replies")
+    inbox = relationship("Inbox")
 
 
 class SendLog(Base):

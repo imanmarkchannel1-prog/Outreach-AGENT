@@ -15,7 +15,7 @@ from sqlalchemy import select, func, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from config import settings
-from backend.models import Campaign, Company, Inbox, Lead, QueueSlot
+from backend.models import Campaign, Company, Inbox, Lead, QueueSlot, Reply, SendLog
 
 logger = logging.getLogger("outreach_engine.deliverability")
 
@@ -92,12 +92,13 @@ class DeliverabilityGovernor:
                 inbox.last_reset_date = today
 
         total_daily_capacity = sum(inbox.daily_limit for inbox in inboxes)
+        total_hourly_capacity = sum(inbox.hourly_limit for inbox in inboxes)
         sent_today_total = sum(inbox.sent_today_count for inbox in inboxes)
         sent_this_hour_total = sum(inbox.sent_this_hour_count for inbox in inboxes)
 
-        # Needed inboxes to reach target safely
-        # E.g. 500 / 35 = 14.28 -> 15 inboxes
-        needed_inboxes = math.ceil(target_daily / self.daily_cap)
+        # Dynamic target calculation based on fleet limit or campaign target
+        avg_cap = (total_daily_capacity / max(1, total_inboxes)) if total_inboxes > 0 else self.daily_cap
+        needed_inboxes = math.ceil(target_daily / max(1, avg_cap))
         capacity_health = min(100.0, (total_daily_capacity / target_daily) * 100.0) if target_daily > 0 else 100.0
 
         # Pending slots in queue
@@ -105,16 +106,47 @@ class DeliverabilityGovernor:
         res_pending = await db.execute(stmt_pending)
         pending_count = res_pending.scalar_one()
 
+        # All-time send and reply statistics
+        stmt_sent_all = select(func.count(SendLog.id))
+        res_sent_all = await db.execute(stmt_sent_all)
+        total_sent_all = res_sent_all.scalar_one()
+
+        stmt_replies = select(func.count(Reply.id))
+        res_replies = await db.execute(stmt_replies)
+        total_replies = res_replies.scalar_one()
+
+        stmt_interested = select(func.count(Reply.id)).where(Reply.intent == "interested")
+        res_interested = await db.execute(stmt_interested)
+        interested_count = res_interested.scalar_one()
+
+        stmt_leads_count = select(func.count(Lead.id))
+        res_leads_count = await db.execute(stmt_leads_count)
+        leads_count = res_leads_count.scalar_one()
+
+        stmt_comp_count = select(func.count(Company.id))
+        res_comp_count = await db.execute(stmt_comp_count)
+        comp_count = res_comp_count.scalar_one()
+
+        # Calculate accurate reply rate percentage
+        reply_rate = round((total_replies / max(1, total_sent_all)) * 100.0, 1) if total_sent_all > 0 else 0.0
+
         return {
             "total_inboxes": total_inboxes,
             "active_inboxes": total_inboxes,
             "quarantined_inboxes": 0,
             "total_fleet_daily_capacity": total_daily_capacity,
+            "total_fleet_hourly_capacity": total_hourly_capacity,
             "target_daily_sends": target_daily,
             "recommended_inboxes_needed": needed_inboxes,
             "fleet_capacity_health_pct": round(capacity_health, 1),
             "sent_today_total": sent_today_total,
             "sent_this_hour_total": sent_this_hour_total,
+            "total_sent_all_time": total_sent_all,
+            "total_replies_count": total_replies,
+            "reply_rate_pct": reply_rate,
+            "interested_replies_count": interested_count,
+            "total_leads_count": leads_count,
+            "total_companies_count": comp_count,
             "pending_queue_count": pending_count,
             "average_jitter_seconds": (self.min_jitter + self.max_jitter) // 2,
             "business_hours_window": f"{settings.SENDING_HOURS_START} - {settings.SENDING_HOURS_END} ({settings.SENDING_TIMEZONE})",

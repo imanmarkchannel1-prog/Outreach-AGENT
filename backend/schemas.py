@@ -171,7 +171,9 @@ class QueueSlotOut(BaseModel):
     sent_at: Optional[datetime] = None
     lead_name: Optional[str] = None
     lead_email: Optional[str] = None
+    company_domain: Optional[str] = None
     inbox_email: Optional[str] = None
+    jitter_seconds: Optional[int] = 120
 
     class Config:
         from_attributes = True
@@ -181,15 +183,62 @@ class DeliverabilityMetricsOut(BaseModel):
     total_inboxes: int
     active_inboxes: int
     quarantined_inboxes: int
-    total_fleet_daily_capacity: int  # Sum of active inboxes' daily limits
-    target_daily_sends: int          # E.g., 500 emails/day
-    recommended_inboxes_needed: int  # target / 35
-    fleet_capacity_health_pct: float # (capacity / target) * 100
+    total_fleet_daily_capacity: int      # Sum of active inboxes' daily limits
+    total_fleet_hourly_capacity: int     # Sum of active inboxes' hourly limits
+    target_daily_sends: int              # Target sends/day (adjustable)
+    recommended_inboxes_needed: int      # target / avg_cap
+    fleet_capacity_health_pct: float     # (capacity / target) * 100
     sent_today_total: int
     sent_this_hour_total: int
+    total_sent_all_time: int = 0
+    total_replies_count: int = 0
+    reply_rate_pct: float = 0.0
+    interested_replies_count: int = 0
+    total_leads_count: int = 0
+    total_companies_count: int = 0
     pending_queue_count: int
     average_jitter_seconds: int
     business_hours_window: str
+
+
+# ── Replies & Follow-Up Schemas ──────────────────────────────────────────────
+
+class ReplyOut(BaseModel):
+    id: int
+    lead_id: int
+    inbox_id: Optional[int] = None
+    sender_email: str
+    recipient_email: str
+    subject: str
+    body: str
+    intent: str  # interested, question, follow_up_requested, meeting_booked
+    received_at: datetime
+    is_replied_to: bool = False
+    reply_back_body: Optional[str] = None
+    lead_name: Optional[str] = None
+    company_name: Optional[str] = None
+    role_title: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class ReplyCreate(BaseModel):
+    lead_id: int
+    subject: Optional[str] = ""
+    body: str
+    intent: Optional[str] = "interested"
+
+
+class ReplyBackRequest(BaseModel):
+    lead_id: int
+    subject: str
+    body: str
+
+
+class FollowUpDraftRequest(BaseModel):
+    lead_id: int
+    step: int = 1  # 1 for bump, 2 for breakup/final
 
 
 # ── Action Requests ──────────────────────────────────────────────────────────

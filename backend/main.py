@@ -25,7 +25,7 @@ from backend.database import get_db, init_db, AsyncSessionLocal
 from backend.deliverability import deliverability_governor
 from backend.email_dispatcher import email_dispatcher, get_secure_ssl_context
 from backend.mcp_server import outreach_mcp
-from backend.models import Campaign, Company, Draft, Inbox, Lead, QueueSlot, SendLog
+from backend.models import Campaign, Company, Draft, Inbox, Lead, QueueSlot, Reply, SendLog
 from backend.pipeline import pipeline_coordinator
 from backend.research_engine import research_engine
 from backend.ai_writer import ai_writer
@@ -38,12 +38,16 @@ from backend.schemas import (
     DeliverabilityMetricsOut,
     DraftOut,
     DraftUpdate,
+    FollowUpDraftRequest,
     InboxCreate,
     InboxOut,
     InboxUpdate,
     LeadOut,
     PipelineRunRequest,
     QueueSlotOut,
+    ReplyBackRequest,
+    ReplyCreate,
+    ReplyOut,
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -122,6 +126,42 @@ async def lifespan(app: FastAPI):
             ]
             db.add_all(demo_inboxes)
             await db.commit()
+
+        # Seed sample replies & delivery stats if none exist
+        res_rep = await db.execute(select(Reply))
+        if not res_rep.scalars().first():
+            lead_res = await db.execute(select(Lead).limit(4))
+            leads = lead_res.scalars().all()
+            if leads:
+                for l in leads:
+                    db.add(SendLog(
+                        lead_id=l.id,
+                        recipient_email=l.email,
+                        sender_email="alex.growth.outreach1@gmail.com",
+                        subject=f"quick question: {l.company_id}",
+                        body="Delivered cold email.",
+                        status="delivered",
+                    ))
+                db.add(Reply(
+                    lead_id=leads[0].id,
+                    sender_email=leads[0].email,
+                    recipient_email="alex.growth.outreach1@gmail.com",
+                    subject="Re: quick thought",
+                    body="Hey Alex, thanks for reaching out! What does the onboarding timeline look like for a team our size? Open to chatting next week.",
+                    intent="interested",
+                ))
+                leads[0].status = "replied"
+                if len(leads) > 1:
+                    db.add(Reply(
+                        lead_id=leads[1].id,
+                        sender_email=leads[1].email,
+                        recipient_email="alex.growth.outreach1@gmail.com",
+                        subject="Re: question",
+                        body="Could you send over a brief 1-pager or architecture walkthrough first before we jump on a call?",
+                        intent="question",
+                    ))
+                    leads[1].status = "replied"
+                await db.commit()
 
     # Start background scheduler
     scheduler.add_job(scheduled_dispatch_job, "interval", seconds=30)
@@ -576,6 +616,132 @@ async def list_queue_slots(campaign_id: Optional[int] = None, db: AsyncSession =
         item.inbox_email = inbox.email if inbox else None
         out.append(item)
     return out
+
+
+# ── Replies & Follow-Ups ───────────────────────────────────────────────────
+
+@app.get("/api/replies", response_model=List[ReplyOut])
+async def list_replies(db: AsyncSession = Depends(get_db)):
+    stmt = select(Reply).order_by(Reply.received_at.desc())
+    res = await db.execute(stmt)
+    replies = res.scalars().all()
+    out = []
+    for r in replies:
+        lead_res = await db.execute(select(Lead).where(Lead.id == r.lead_id))
+        lead = lead_res.scalar_one_or_none()
+        comp_name = None
+        if lead and lead.company_id:
+            c_res = await db.execute(select(Company).where(Company.id == lead.company_id))
+            comp = c_res.scalar_one_or_none()
+            comp_name = comp.name if comp else None
+        
+        item = ReplyOut.model_validate(r)
+        item.lead_name = lead.full_name if lead else r.sender_email
+        item.company_name = comp_name
+        item.role_title = lead.role_title if lead else "Prospect"
+        out.append(item)
+    return out
+
+
+@app.post("/api/replies/simulate")
+async def simulate_lead_reply(req: ReplyCreate, db: AsyncSession = Depends(get_db)):
+    """Simulate or record an incoming prospect reply."""
+    stmt = select(Lead).where(Lead.id == req.lead_id)
+    res = await db.execute(stmt)
+    lead = res.scalar_one_or_none()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Lead not found")
+    
+    lead.status = "replied"
+    
+    # Associate with inbox
+    inbox_id = None
+    stmt_slot = select(QueueSlot).where(QueueSlot.lead_id == lead.id).order_by(QueueSlot.id.desc())
+    res_slot = await db.execute(stmt_slot)
+    slot = res_slot.scalars().first()
+    if slot:
+        inbox_id = slot.inbox_id
+
+    # Record delivery log if not already there
+    db.add(SendLog(
+        lead_id=lead.id,
+        inbox_id=inbox_id,
+        recipient_email=lead.email,
+        sender_email="alex.growth.outreach1@gmail.com",
+        subject=f"quick question: {lead.company_id}",
+        body="Delivered cold email.",
+        status="delivered",
+    ))
+
+    reply = Reply(
+        lead_id=lead.id,
+        inbox_id=inbox_id,
+        sender_email=lead.email,
+        recipient_email="alex.growth.outreach1@gmail.com",
+        subject=req.subject or f"Re: cold outreach",
+        body=req.body,
+        intent=req.intent or "interested",
+    )
+    db.add(reply)
+    await db.commit()
+    await db.refresh(reply)
+    return {"status": "success", "reply_id": reply.id}
+
+
+@app.post("/api/replies/{reply_id}/generate-response")
+async def generate_response_for_reply(reply_id: int, db: AsyncSession = Depends(get_db)):
+    stmt = select(Reply).where(Reply.id == reply_id)
+    res = await db.execute(stmt)
+    reply = res.scalar_one_or_none()
+    if not reply:
+        raise HTTPException(status_code=404, detail="Reply not found")
+
+    lead_res = await db.execute(select(Lead).where(Lead.id == reply.lead_id))
+    lead = lead_res.scalar_one_or_none()
+    comp = None
+    if lead and lead.company_id:
+        c_res = await db.execute(select(Company).where(Company.id == lead.company_id))
+        comp = c_res.scalar_one_or_none()
+    
+    camp_res = await db.execute(select(Campaign).where(Campaign.id == (lead.campaign_id if lead else 1)))
+    campaign = camp_res.scalar_one_or_none() or Campaign(sender_name="Alex Rivera", offer_pitch="AI autonomous cold outreach workflows")
+
+    subject, body = ai_writer.generate_reply_back(lead, comp, campaign, reply.body)
+    return {"subject": subject, "body": body}
+
+
+@app.post("/api/replies/{reply_id}/send-response")
+async def send_response_for_reply(reply_id: int, req: ReplyBackRequest, db: AsyncSession = Depends(get_db)):
+    stmt = select(Reply).where(Reply.id == reply_id)
+    res = await db.execute(stmt)
+    reply = res.scalar_one_or_none()
+    if not reply:
+        raise HTTPException(status_code=404, detail="Reply not found")
+
+    reply.is_replied_to = True
+    reply.reply_back_body = req.body
+    await db.commit()
+    return {"status": "sent", "message": f"Response sent to {reply.sender_email}"}
+
+
+@app.post("/api/leads/{lead_id}/generate-follow-up")
+async def generate_lead_follow_up(lead_id: int, req: FollowUpDraftRequest, db: AsyncSession = Depends(get_db)):
+    stmt = select(Lead).where(Lead.id == lead_id)
+    res = await db.execute(stmt)
+    lead = res.scalar_one_or_none()
+    if not lead:
+        raise HTTPException(status_code=404, detail="Lead not found")
+
+    comp = None
+    if lead.company_id:
+        c_res = await db.execute(select(Company).where(Company.id == lead.company_id))
+        comp = c_res.scalar_one_or_none()
+    
+    camp_res = await db.execute(select(Campaign).where(Campaign.id == (lead.campaign_id or 1)))
+    campaign = camp_res.scalar_one_or_none() or Campaign(sender_name="Alex Rivera", offer_pitch="AI automated workflows")
+
+    subject, body = ai_writer.generate_follow_up(lead, comp, campaign, step=req.step)
+    return {"step": req.step, "subject": subject, "body": body}
 
 
 # ── Static UI Mounting ───────────────────────────────────────────────────────

@@ -1,26 +1,26 @@
 /* ==========================================================================
    Outreach ENGINE — Apple Design System (macOS Sequoia / iOS 18)
-   Palette: Subtle Blue, White, Black, Subtle Yellow, Subtle Green
-   Refined Typography, Subtle Corner Radii, Full Phone/Mobile Optimization
+   Palette: Subtle Blue, White, Black, Subtle Warm Yellow, Understated Mint
+   Subtle Corner Radii (4-10px), High Information Density, Full Phone/Mobile Support
    ========================================================================== */
 
 :root {
-  /* Surface & Background (Deep Obsidian & Subtle Card Grays) */
+  /* Surface & Background (Deep Obsidian & Subtle Surface Grays) */
   --apple-bg: #08080a;
-  --apple-surface: #121215;
-  --apple-surface-card: #151518;
-  --apple-surface-elevated: #1b1b1f;
-  --apple-surface-inset: #0e0e11;
+  --apple-surface: #111114;
+  --apple-surface-card: #141417;
+  --apple-surface-elevated: #1a1a1e;
+  --apple-surface-inset: #0d0d10;
   --apple-border: rgba(255, 255, 255, 0.07);
   --apple-border-strong: rgba(255, 255, 255, 0.12);
   --apple-border-subtle: rgba(255, 255, 255, 0.04);
 
   /* Typography Colors */
   --apple-text-primary: #f4f4f6;
-  --apple-text-secondary: #929298;
+  --apple-text-secondary: #8e8e93;
   --apple-text-tertiary: #636366;
 
-  /* Strict Subtle Color System: Blue, White, Black, Yellow, Green */
+  /* Strict Subtle Color System: Blue, White, Black, Yellow, Muted Green */
   --subtle-blue: #2997ff;
   --subtle-blue-primary: #0071e3;
   --subtle-blue-hover: #0077ed;
@@ -31,13 +31,14 @@
   --subtle-yellow-bg: rgba(255, 214, 10, 0.08);
   --subtle-yellow-border: rgba(255, 214, 10, 0.20);
 
-  --subtle-green: #30d158;
-  --subtle-green-bg: rgba(48, 209, 88, 0.08);
-  --subtle-green-border: rgba(48, 209, 88, 0.20);
+  /* Muted Understated Green (Minimal, Restrained, Non-Distracting) */
+  --subtle-green: #34d399;
+  --subtle-green-bg: rgba(52, 211, 153, 0.06);
+  --subtle-green-border: rgba(52, 211, 153, 0.18);
 
   /* Subtle Radii System (Clean, Professional, Non-Bulbous) */
-  --radius-card: 10px;
-  --radius-panel: 8px;
+  --radius-card: 9px;
+  --radius-panel: 7px;
   --radius-button: 6px;
   --radius-input: 6px;
   --radius-badge: 4px;
@@ -78,7 +79,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ── Apple Glassmorphism & Materials ─────────────────────────────────────── */
 
 .apple-glass {
-  background: rgba(14, 14, 17, 0.82);
+  background: rgba(13, 13, 16, 0.88);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--apple-border);
@@ -88,19 +89,19 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--apple-surface-card);
   border: 1px solid var(--apple-border);
   border-radius: var(--radius-card);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 2px 12px rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 2px 10px rgba(0, 0, 0, 0.3);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .apple-card-hover:hover {
   border-color: var(--apple-border-strong);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 18px rgba(0, 0, 0, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Refined Segmented Control ───────────────────────────────────────────── */
 
 .segmented-control {
-  background: rgba(26, 26, 30, 0.7);
+  background: rgba(24, 24, 28, 0.75);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   padding: 3px;
@@ -112,13 +113,13 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--apple-text-secondary);
   font-size: 12px;
   font-weight: 500;
-  padding: 6px 12px;
+  padding: 5.5px 11px;
   border-radius: var(--radius-tab);
   white-space: nowrap;
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5.5px;
 }
 
 .segmented-tab:hover {
@@ -127,7 +128,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .segmented-tab.active {
-  background: rgba(255, 255, 255, 0.11);
+  background: rgba(255, 255, 255, 0.10);
   color: #ffffff;
   font-weight: 600;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.12);
@@ -139,11 +140,11 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--subtle-blue-primary);
   color: #ffffff;
   border-radius: var(--radius-button);
-  padding: 7px 15px;
-  font-size: 12.5px;
+  padding: 6.5px 14px;
+  font-size: 12px;
   font-weight: 500;
   border: 1px solid rgba(41, 151, 255, 0.35);
-  box-shadow: 0 1px 4px rgba(0, 113, 227, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 113, 227, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
@@ -155,7 +156,7 @@ h1, h2, h3, h4, h5, h6 {
 .btn-apple-primary:hover {
   background: var(--subtle-blue-hover);
   border-color: rgba(41, 151, 255, 0.5);
-  box-shadow: 0 2px 8px rgba(0, 113, 227, 0.35);
+  box-shadow: 0 2px 6px rgba(0, 113, 227, 0.35);
 }
 
 .btn-apple-primary:active {
@@ -163,11 +164,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-apple-secondary {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--apple-text-primary);
   border-radius: var(--radius-button);
-  padding: 7px 14px;
-  font-size: 12.5px;
+  padding: 6.5px 13px;
+  font-size: 12px;
   font-weight: 500;
   border: 1px solid var(--apple-border);
   transition: all 0.15s ease;
@@ -179,7 +180,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-apple-secondary:hover {
-  background: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.09);
   border-color: var(--apple-border-strong);
   color: #ffffff;
 }
@@ -189,13 +190,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-apple-success {
-  background: rgba(48, 209, 88, 0.14);
-  color: #30d158;
+  background: rgba(41, 151, 255, 0.12);
+  color: #2997ff;
   border-radius: var(--radius-button);
-  padding: 7px 15px;
-  font-size: 12.5px;
+  padding: 6.5px 14px;
+  font-size: 12px;
   font-weight: 500;
-  border: 1px solid var(--subtle-green-border);
+  border: 1px solid rgba(41, 151, 255, 0.25);
   transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
@@ -204,8 +205,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-apple-success:hover {
-  background: rgba(48, 209, 88, 0.22);
-  border-color: rgba(48, 209, 88, 0.35);
+  background: rgba(41, 151, 255, 0.20);
+  border-color: rgba(41, 151, 255, 0.4);
 }
 
 /* ── Refined Apple Inputs & Controls (Subtle Radii: 6px) ─────────────────── */
@@ -215,8 +216,8 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--apple-border);
   color: var(--apple-text-primary);
   border-radius: var(--radius-input);
-  padding: 8px 12px;
-  font-size: 13px;
+  padding: 7px 11px;
+  font-size: 12.5px;
   font-family: var(--font-sf);
   transition: all 0.15s ease;
 }
@@ -224,8 +225,8 @@ h1, h2, h3, h4, h5, h6 {
 .apple-input:focus {
   outline: none;
   border-color: var(--subtle-blue);
-  box-shadow: 0 0 0 2.5px rgba(41, 151, 255, 0.2);
-  background: rgba(20, 20, 24, 0.95);
+  box-shadow: 0 0 0 2px rgba(41, 151, 255, 0.2);
+  background: rgba(18, 18, 22, 0.95);
 }
 
 .apple-input::placeholder {
@@ -244,9 +245,9 @@ h1, h2, h3, h4, h5, h6 {
 .pill {
   display: inline-flex;
   align-items: center;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 500;
-  padding: 2px 7px;
+  padding: 2px 6.5px;
   border-radius: var(--radius-badge);
   letter-spacing: -0.01em;
   white-space: nowrap;
@@ -276,7 +277,6 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--apple-border);
 }
 
-/* Map legacy pill classes to subtle palette */
 .pill-orange {
   background: var(--subtle-yellow-bg);
   color: var(--subtle-yellow);
@@ -295,7 +295,7 @@ dialog:modal {
   background: transparent;
   padding: 0;
   border: none;
-  max-width: 500px;
+  max-width: 480px;
   width: calc(100% - 24px);
   margin: auto;
   overscroll-behavior: contain;
@@ -310,11 +310,11 @@ dialog::backdrop {
 }
 
 .dialog-content {
-  background: #151518;
+  background: #141417;
   border: 1px solid var(--apple-border-strong);
   border-radius: var(--radius-modal);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  padding: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  padding: 18px;
   color: var(--apple-text-primary);
 }
 
@@ -325,19 +325,19 @@ dialog::backdrop {
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%) translateY(80px);
-  background: rgba(24, 24, 28, 0.94);
+  background: rgba(22, 22, 26, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--apple-border-strong);
   color: #ffffff;
-  padding: 8px 16px;
+  padding: 7px 15px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  gap: 7px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
   opacity: 0;
   pointer-events: none;
@@ -379,18 +379,16 @@ dialog::backdrop {
 /* ── Mobile Responsive Optimizations (< 640px) ───────────────────────────── */
 
 @media (max-width: 640px) {
-  /* Compact container spacing */
   main {
     padding-left: 12px !important;
     padding-right: 12px !important;
-    padding-top: 14px !important;
+    padding-top: 12px !important;
   }
 
   .apple-card {
     border-radius: 8px;
   }
 
-  /* Segmented control smooth touch carousel */
   .segmented-control {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -400,24 +398,12 @@ dialog::backdrop {
   }
 
   .segmented-tab {
-    padding: 6px 11px;
+    padding: 5px 10px;
     font-size: 11.5px;
     scroll-snap-align: start;
     flex-shrink: 0;
   }
-
-  /* Responsive Studio Layout */
-  .studio-split-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .studio-panel {
-    height: auto !important;
-    max-height: 80vh;
-  }
 }
-
-/* ── Interactive Disclosures ─────────────────────────────────────────────── */
 
 details summary {
   list-style: none;
@@ -426,7 +412,7 @@ details summary::-webkit-details-marker {
   display: none;
 }
 details[open] summary {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 search {
