@@ -5,745 +5,607 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   
   <!-- Primary Meta Tags & SEO Optimization -->
-  <title>Outreach ENGINE — Autonomous Cold Outreach, Replies & Deliverability Platform</title>
-  <meta name="title" content="Outreach ENGINE — Autonomous Cold Outreach, Replies & Deliverability Platform">
-  <meta name="description" content="Dynamic multi-inbox cold email engine with live news and Reddit intelligence, automated reply tracking, AI response composer, and adjustable deliverability governance.">
-  <meta name="keywords" content="cold outreach, reply rate, deliverability, fastmcp, personal gmail, follow-up engine, reddit intelligence">
+  <title>OUTREACH // OS (1) — Autonomous Deliverability & Cold Outreach Platform</title>
+  <meta name="title" content="OUTREACH // OS (1) — Autonomous Deliverability & Cold Outreach Platform">
+  <meta name="description" content="Nothing-inspired cold email operating system. Multi-inbox Gmail fleet, Reddit & news intelligence (<30d), reply tracking, and FastMCP integration.">
+  <meta name="theme-color" content="#000000">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="http://localhost:8000/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="http://localhost:8000/">
-  <meta property="og:title" content="Outreach ENGINE — Multi-Inbox Deliverability & Reply Platform">
-  <meta property="og:description" content="Dynamic multi-inbox scaling with real-time reply rate tracking, automated follow-up bumps, and anti-spam deliverability protection.">
-
-  <!-- Mobile Theme -->
-  <meta name="theme-color" content="#08080a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Outreach ENGINE">
-
-  <!-- Structured Data JSON-LD Schema -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Outreach ENGINE",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "macOS, Linux, Windows",
-    "description": "Dynamic multi-inbox cold email engine with live news and Reddit intelligence, automated reply tracking, AI response composer, and adjustable deliverability governance."
-  }
-  </script>
+  <meta property="og:title" content="OUTREACH // OS (1)">
+  <meta property="og:description" content="High-density autonomous cold outreach system with circular fleet scaling and reply analytics.">
 
   <!-- Tailwind CSS & Font Awesome -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body class="bg-[#08080a] text-[#f4f4f6] min-h-screen flex flex-col selection:bg-[#2997ff] selection:text-white">
+<body class="bg-black text-[#f4f4f6] min-h-screen flex selection:bg-[#ff3b00] selection:text-white">
 
-  <!-- Semantic Header / macOS Translucent Menu Bar -->
-  <header class="sticky top-0 z-40 apple-glass px-3.5 sm:px-6 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-2.5">
-    <div class="flex items-center justify-between w-full md:w-auto">
-      <div class="flex items-center space-x-2.5">
-        <div class="w-6 h-6 rounded-md bg-[#0071e3] flex items-center justify-center shadow-sm">
-          <i class="fa-solid fa-paper-plane text-white text-[10px]" aria-hidden="true"></i>
+  <!-- ======================================================== -->
+  <!-- LEFT RAIL SIDEBAR (ElevenLabs & Nothing OS Architecture) -->
+  <!-- ======================================================== -->
+  <aside id="sidebar-rail" class="w-64 bg-[#09090b] border-r border-white/[0.08] flex flex-col shrink-0 min-h-screen fixed inset-y-0 left-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+    
+    <!-- Wordmark & Technical Brand (No Graphic Logo) -->
+    <div class="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-[#ff3b00] inline-block"></span>
+          <span class="nt-brand-wordmark text-xs text-white">OUTREACH // OS</span>
+          <span class="nt-pill nt-pill-gray text-[9px]">(1)</span>
         </div>
-        <div>
-          <div class="flex items-center space-x-1.5">
-            <span class="text-xs sm:text-sm font-semibold text-white tracking-tight">Outreach ENGINE</span>
-            <span class="pill pill-blue font-mono text-[9px]">v2.1 PRO</span>
-          </div>
-          <p class="text-[10px] text-[#8e8e93] hidden sm:block">Dynamic Multi-Inbox Scaling &middot; Reply Tracking &middot; FastMCP</p>
-        </div>
+        <div class="nt-dot-label mt-1">Autonomous Cold Fleet</div>
+      </div>
+      <button onclick="toggleMobileSidebar()" class="md:hidden text-[#8c8c92] hover:text-white text-base">&times;</button>
+    </div>
+
+    <!-- Streamlined Circular Linked Accounts (Nothing Style) -->
+    <div class="px-5 py-3.5 border-b border-white/[0.06] bg-[#0c0c0e]">
+      <div class="flex items-center justify-between mb-2">
+        <span class="nt-dot-label">CONNECTED FLEET (<span id="sidebar-inbox-count">4</span>)</span>
+        <button onclick="openAddInboxModal()" class="text-[#ff3b00] hover:underline text-[10.5px] font-mono">+ ADD</button>
       </div>
 
-      <!-- Mobile Demo Trigger -->
-      <div class="flex items-center space-x-1.5 md:hidden">
-        <button onclick="loadSampleData()" class="btn-apple-secondary text-[11px] py-1 px-2" title="Load sample data">
-          <i class="fa-solid fa-bolt mr-1 text-[#ffd60a]" aria-hidden="true"></i>
-          <span>Demo</span>
-        </button>
+      <!-- Circular Avatar Stack -->
+      <div id="sidebar-inbox-circles" class="flex items-center gap-1.5 flex-wrap">
+        <!-- Dynamically rendered circles e.g. [AR][SC][MV][+] -->
+      </div>
+
+      <div class="text-[10px] text-[#8c8c92] font-mono mt-2 flex items-center justify-between">
+        <span>CAPACITY: <strong class="text-white" id="sidebar-fleet-cap">165</strong>/DAY</span>
+        <span>RATE: <strong class="text-white" id="sidebar-fleet-rate">23</strong>/HR</span>
       </div>
     </div>
 
-    <!-- macOS Segmented Tab Navigation (Swipeable Carousel on Mobile) -->
-    <nav class="segmented-control flex items-center space-x-1 overflow-x-auto no-scrollbar w-full md:w-auto" aria-label="Main Navigation">
-      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="segmented-tab active flex items-center" aria-controls="tab-dashboard">
-        <i class="fa-solid fa-gauge text-[11px]" aria-hidden="true"></i>
-        <span>Command</span>
-      </button>
-      <button onclick="switchTab('import')" id="nav-import" class="segmented-tab flex items-center" aria-controls="tab-import">
-        <i class="fa-solid fa-file-csv text-[11px]" aria-hidden="true"></i>
-        <span>1. Import</span>
-      </button>
-      <button onclick="switchTab('companies')" id="nav-companies" class="segmented-tab flex items-center" aria-controls="tab-companies">
-        <i class="fa-solid fa-building text-[11px]" aria-hidden="true"></i>
-        <span>2. Leads</span>
-      </button>
-      <button onclick="switchTab('studio')" id="nav-studio" class="segmented-tab flex items-center" aria-controls="tab-studio">
-        <i class="fa-solid fa-wand-magic-sparkles text-[11px] text-[#2997ff]" aria-hidden="true"></i>
-        <span>3. Studio</span>
-      </button>
-      <button onclick="switchTab('inboxes')" id="nav-inboxes" class="segmented-tab flex items-center" aria-controls="tab-inboxes">
-        <i class="fa-solid fa-envelope text-[11px]" aria-hidden="true"></i>
-        <span>4. Fleet (<span id="inbox-count-badge">3</span>)</span>
-      </button>
-      <button onclick="switchTab('queue')" id="nav-queue" class="segmented-tab flex items-center" aria-controls="tab-queue">
-        <i class="fa-solid fa-clock text-[11px]" aria-hidden="true"></i>
-        <span>5. Queue</span>
-      </button>
-      <button onclick="switchTab('replies')" id="nav-replies" class="segmented-tab flex items-center" aria-controls="tab-replies">
-        <i class="fa-solid fa-reply text-[11px] text-[#ffd60a]" aria-hidden="true"></i>
-        <span>6. Replies (<span id="replies-count-badge" class="font-mono text-[#ffd60a]">0</span>)</span>
-      </button>
+    <!-- Main Navigation List -->
+    <nav class="flex-1 px-3 py-3 space-y-1 overflow-y-auto no-scrollbar" aria-label="Main Navigation">
+      <div onclick="switchTab('dashboard')" id="nav-dashboard" class="nt-sidebar-item active">
+        <div class="flex items-center space-x-2.5">
+          <i class="fa-solid fa-gauge text-xs" aria-hidden="true"></i>
+          <span>Command Center</span>
+        </div>
+        <span class="nt-pill nt-pill-orange text-[9px]">LIVE</span>
+      </div>
+
+      <div onclick="switchTab('import')" id="nav-import" class="nt-sidebar-item">
+        <div class="flex items-center space-x-2.5">
+          <i class="fa-solid fa-file-csv text-xs" aria-hidden="true"></i>
+          <span>1. Import & Setup</span>
+        </div>
+      </div>
+
+      <div onclick="switchTab('companies')" id="nav-companies" class="nt-sidebar-item">
+        <div class="flex items-center space-x-2.5">
+          <i class="fa-solid fa-building text-xs" aria-hidden="true"></i>
+          <span>2. Clustered Leads</span>
+        </div>
+        <span class="nt-pill nt-pill-gray text-[9px]" id="sidebar-lead-count">8</span>
+      </div>
+
+      <div onclick="switchTab('studio')" id="nav-studio" class="nt-sidebar-item">
+        <div class="flex items-center space-x-2.5">
+          <i class="fa-solid fa-wand-magic-sparkles text-xs text-[#ff3b00]" aria-hidden="true"></i>
+          <span>3. AI Review Studio</span>
+        </div>
+      </div>
+
+      <div onclick="switchTab('inboxes')" id="nav-inboxes" class="nt-sidebar-item">
+        <div class="flex items-center space-x-2.5">
+          <i class="fa-solid fa-envelope text-xs" aria-hidden="true"></i>
+          <span>4. Fleet Accounts</span>
+        </div>
+      </div>
+
+      <div onclick="switchTab('queue')" id="nav-queue" class="nt-sidebar-item">
+        <div class="flex items-center space-x-2.5">
+          <i class="fa-solid fa-clock text-xs" aria-hidden="true"></i>
+          <span>5. Dispatch Queue</span>
+        </div>
+        <span class="nt-pill nt-pill-gray text-[9px]" id="sidebar-queue-count">8</span>
+      </div>
+
+      <div onclick="switchTab('replies')" id="nav-replies" class="nt-sidebar-item">
+        <div class="flex items-center space-x-2.5">
+          <i class="fa-solid fa-reply text-xs text-[#ff3b00]" aria-hidden="true"></i>
+          <span>6. Replies & Follow-Ups</span>
+        </div>
+        <span class="nt-pill nt-pill-orange text-[9px]" id="sidebar-reply-count">2</span>
+      </div>
     </nav>
 
-    <!-- Desktop Understated MCP Indicator & Action -->
-    <div class="hidden md:flex items-center space-x-3">
-      <div class="text-right">
-        <div class="text-[10px] font-mono text-[#2997ff] flex items-center justify-end space-x-1">
-          <span class="w-1.5 h-1.5 rounded-sm bg-[#2997ff]"></span>
-          <span>MCP Active</span>
-        </div>
-        <div class="text-[9.5px] text-[#636366] font-mono">/api/mcp</div>
+    <!-- Bottom Protocol Status & Deliverability Indicator -->
+    <div class="p-3.5 border-t border-white/[0.06] bg-[#070709] space-y-2">
+      <div class="flex items-center justify-between text-[10px] font-mono text-[#8c8c92]">
+        <span>PROTOCOL // MCP</span>
+        <span class="text-[#ff3b00] font-semibold">ACTIVE &middot; 8000</span>
       </div>
-      <button onclick="loadSampleData()" class="btn-apple-secondary text-xs py-1.5 px-3">
-        <i class="fa-solid fa-bolt mr-1.5 text-[#ffd60a]" aria-hidden="true"></i>
-        <span>Load Demo Data</span>
-      </button>
-    </div>
-  </header>
-
-  <!-- Sticky System Toolbar / Compact HUD Summary Bar (Responsive Scroll) -->
-  <aside class="bg-[#0f0f12] border-b border-white/[0.05] px-3.5 sm:px-6 py-2 flex items-center justify-between text-xs text-[#8e8e93] overflow-x-auto no-scrollbar gap-3">
-    <div class="flex items-center space-x-3 sm:space-x-4 shrink-0">
-      <div class="flex items-center space-x-1.5">
-        <span class="w-1.5 h-1.5 rounded-sm bg-[#2997ff]"></span>
-        <span class="text-white font-medium text-[11px]">Fleet Capacity:</span>
-        <span class="text-[#2997ff] text-[11px] font-mono font-medium" id="hud-capacity-banner">140/day</span>
+      <div class="bg-[#121215] p-2 rounded border border-white/[0.05] text-[10px] font-mono text-[#8c8c92] flex items-center justify-between">
+        <span>DELIVERABILITY</span>
+        <span class="text-white font-semibold">100% PRIMARY</span>
       </div>
-      <span class="text-white/[0.12]">|</span>
-      <div class="text-[11px]">Pacing: <strong class="text-white font-mono" id="hud-pace">20</strong>/hr</div>
-      <span class="text-white/[0.12]">|</span>
-      <div class="text-[11px]">Reply Rate: <strong class="text-[#ffd60a] font-mono" id="hud-reply-rate">0.0%</strong> (<span id="hud-replies-count">0</span> replies)</div>
-      <span class="text-white/[0.12]">|</span>
-      <div class="text-[11px]">Stagger: <strong class="text-white font-mono">24h Separation</strong></div>
-    </div>
-
-    <div class="flex items-center space-x-2 shrink-0">
-      <button onclick="runAutonomousPipeline()" id="hud-btn-run" class="btn-apple-primary text-xs py-1 px-3">
-        <i class="fa-solid fa-play mr-1.5 text-[9px]" aria-hidden="true"></i>
-        <span>Run Pipeline</span>
-      </button>
     </div>
   </aside>
 
-  <!-- Main Landmark -->
-  <main class="flex-1 p-3 sm:p-6 max-w-7xl w-full mx-auto space-y-4 sm:space-y-6">
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="sidebar-backdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 hidden md:hidden"></div>
 
-    <!-- ======================================================== -->
-    <!-- TAB 1: FLEET COMMAND & DELIVERABILITY -->
-    <!-- ======================================================== -->
-    <section id="tab-dashboard" class="tab-pane space-y-4 sm:space-y-6" aria-labelledby="heading-command">
-      
-      <!-- High-Density Dynamic Scaling Banner -->
-      <article class="apple-card p-4 sm:p-5 relative overflow-hidden bg-[#111114]">
-        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 relative z-10">
-          <div class="space-y-1.5 max-w-2xl">
-            <div class="flex items-center space-x-2">
-              <span class="pill pill-blue">
-                <i class="fa-solid fa-shield-halved mr-1 text-[9.5px]" aria-hidden="true"></i> Dynamic Deliverability Governor
-              </span>
-              <span class="text-[10.5px] text-[#8e8e93] font-mono">TLS 587 Verified</span>
-            </div>
-            <h1 id="heading-command" class="text-base sm:text-xl font-semibold text-white tracking-tight">Flexible Multi-Inbox Scaling & Reply Intelligence</h1>
-            <p class="text-xs text-[#8e8e93] leading-relaxed">
-              No arbitrary caps: connect any number of Gmail accounts to scale safely. Each account runs with customizable daily limits (e.g. 35–75/day) and hourly pacing (e.g. 5–15/hr) with human typing jitter and 24h colleague staggering to ensure maximum Primary Inbox delivery and authentic replies.
-            </p>
-          </div>
+  <!-- ======================================================== -->
+  <!-- RIGHT WORKSTATION (High-Density Multi-Feature Surface) -->
+  <!-- ======================================================== -->
+  <div class="flex-1 flex flex-col md:pl-64 min-w-0">
 
-          <div class="bg-[#17171b] border border-white/[0.07] p-3.5 rounded-md flex items-center space-x-4 w-full sm:w-auto min-w-[260px]">
-            <div class="w-12 h-12 rounded-md border border-[#2997ff]/40 flex items-center justify-center relative shrink-0">
-              <span id="metric-health-pct" class="text-base font-bold font-mono text-[#2997ff]">100%</span>
-            </div>
-            <div>
-              <div class="text-[10px] text-[#8e8e93] uppercase tracking-wider font-semibold">Active Fleet Capacity</div>
-              <div class="text-base sm:text-lg font-bold text-white font-mono">
-                <span id="metric-capacity">140</span> <span class="text-xs text-[#8e8e93] font-normal">sends / day</span>
-              </div>
-              <div class="text-[10px] text-[#ffd60a] mt-0.5 flex items-center">
-                <i class="fa-solid fa-arrows-split-up-and-left mr-1 text-[9px]" aria-hidden="true"></i>
-                <span id="metric-fleet-summary">4 inboxes pooled &middot; 20 sends/hr</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
+    <!-- Top Workstation Header Bar -->
+    <header class="sticky top-0 z-30 bg-[#08080a]/90 backdrop-blur-md border-b border-white/[0.07] px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <!-- Mobile Drawer Toggle -->
+        <button onclick="toggleMobileSidebar()" class="md:hidden text-[#8c8c92] hover:text-white text-base">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
 
-      <!-- 4 Core Metrics Grid (Now Featuring Reply Rate & All-Time Sends) -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
-        <div class="apple-card p-3 sm:p-4 apple-card-hover">
-          <div class="flex items-center justify-between text-[#8e8e93] text-[10.5px] mb-1 font-medium">
-            <span>FLEET CAPACITY</span>
-            <i class="fa-solid fa-inbox text-[#2997ff]" aria-hidden="true"></i>
+        <div>
+          <div class="nt-dot-label text-[#8c8c92] flex items-center space-x-1.5">
+            <span>OUTREACH // OS</span>
+            <span>/</span>
+            <span class="text-white font-semibold" id="topbar-current-view">COMMAND CENTER</span>
           </div>
-          <div class="text-lg sm:text-2xl font-bold text-white font-mono">
-            <span id="metric-total-inboxes">4</span> <span class="text-xs text-[#8e8e93] font-normal">accounts</span>
-          </div>
-          <div class="text-[10px] text-[#8e8e93] mt-0.5"><span id="metric-capacity-sub">140</span> total daily sends</div>
-        </div>
-
-        <div class="apple-card p-3 sm:p-4 apple-card-hover">
-          <div class="flex items-center justify-between text-[#8e8e93] text-[10.5px] mb-1 font-medium">
-            <span>HOURLY PACING</span>
-            <i class="fa-solid fa-gauge-high text-[#2997ff]" aria-hidden="true"></i>
-          </div>
-          <div class="text-lg sm:text-2xl font-bold text-white font-mono">
-            <span id="metric-hourly-rate">20</span> <span class="text-xs font-normal text-[#8e8e93]">/hr fleet</span>
-          </div>
-          <div class="text-[10px] text-[#8e8e93] mt-0.5">Jitter: 90s–240s randomized</div>
-        </div>
-
-        <div class="apple-card p-3 sm:p-4 apple-card-hover">
-          <div class="flex items-center justify-between text-[#8e8e93] text-[10.5px] mb-1 font-medium">
-            <span>TOTAL DELIVERED</span>
-            <i class="fa-solid fa-paper-plane text-white" aria-hidden="true"></i>
-          </div>
-          <div class="text-lg sm:text-2xl font-bold text-white font-mono" id="metric-total-delivered">4</div>
-          <div class="text-[10px] text-[#8e8e93] mt-0.5">100% Primary Inbox landing</div>
-        </div>
-
-        <div class="apple-card p-3 sm:p-4 apple-card-hover cursor-pointer" onclick="switchTab('replies')">
-          <div class="flex items-center justify-between text-[#8e8e93] text-[10.5px] mb-1 font-medium">
-            <span class="text-[#ffd60a]">REPLY RATE</span>
-            <i class="fa-solid fa-reply text-[#ffd60a]" aria-hidden="true"></i>
-          </div>
-          <div class="text-lg sm:text-2xl font-bold text-[#ffd60a] font-mono" id="metric-reply-rate">50.0%</div>
-          <div class="text-[10px] text-[#8e8e93] mt-0.5"><span id="metric-replies-count">2</span> replies (<span id="metric-interested-count">1</span> interested)</div>
         </div>
       </div>
 
-      <!-- Live Fleet List & Autonomous Flow -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-3.5 sm:gap-5">
-        <div class="lg:col-span-2 apple-card p-3.5 sm:p-5 space-y-3">
-          <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-xs sm:text-sm font-semibold text-white">Active Sender Rotation Pool</h2>
-              <p class="text-[10.5px] text-[#8e8e93]">Load balanced rotation with adjustable per-inbox caps</p>
+      <!-- Live Tickers & Action Buttons -->
+      <div class="flex items-center space-x-2.5">
+        <span class="hidden lg:inline-flex nt-pill nt-pill-gray text-[9.5px]">
+          REPLY RATE: <strong class="text-[#ff3b00] ml-1" id="topbar-reply-rate">50.0%</strong>
+        </span>
+        <span class="hidden sm:inline-flex nt-pill nt-pill-gray text-[9.5px]">
+          FLEET: <strong class="text-white ml-1" id="topbar-fleet-rate">23/hr</strong>
+        </span>
+
+        <button onclick="loadSampleData()" class="nt-btn-secondary text-[11px] py-1 px-2.5">
+          <i class="fa-solid fa-bolt mr-1 text-[#ff3b00]" aria-hidden="true"></i>
+          <span>Demo Data</span>
+        </button>
+        <button onclick="runAutonomousPipeline()" id="topbar-btn-run" class="nt-btn-orange text-[11px] py-1 px-3">
+          <i class="fa-solid fa-play mr-1 text-[9px]" aria-hidden="true"></i>
+          <span>Run Pipeline</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 p-3.5 sm:p-6 space-y-4 sm:space-y-5 max-w-7xl w-full mx-auto">
+
+      <!-- ======================================================== -->
+      <!-- TAB 1: COMMAND CENTER (Unified 1-Page Dashboard) -->
+      <!-- ======================================================== -->
+      <section id="tab-dashboard" class="tab-pane space-y-4" aria-labelledby="heading-command">
+        
+        <!-- 4 Core Metric Widgets Strip -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
+          <div class="nt-card p-3 sm:p-3.5 nt-card-glow">
+            <div class="flex items-center justify-between text-[10px] font-mono text-[#8c8c92] mb-1">
+              <span>FLEET CAPACITY</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#ff3b00]"></span>
             </div>
-            <button onclick="switchTab('inboxes')" class="text-xs text-[#2997ff] hover:underline font-medium">Manage & Adjust &rarr;</button>
+            <div class="text-lg sm:text-2xl font-bold font-mono text-white">
+              <span id="metric-capacity">165</span> <span class="text-xs text-[#8c8c92] font-normal">sends/day</span>
+            </div>
+            <div class="text-[10px] text-[#8c8c92] font-mono mt-0.5"><span id="metric-total-inboxes">4</span> inboxes pooled</div>
           </div>
-          <div class="space-y-2" id="dashboard-inbox-list">
-            <!-- Rendered dynamically -->
+
+          <div class="nt-card p-3 sm:p-3.5 nt-card-glow">
+            <div class="flex items-center justify-between text-[10px] font-mono text-[#8c8c92] mb-1">
+              <span>HOURLY PACING</span>
+              <i class="fa-solid fa-gauge-high text-xs text-[#8c8c92]" aria-hidden="true"></i>
+            </div>
+            <div class="text-lg sm:text-2xl font-bold font-mono text-white">
+              <span id="metric-hourly-rate">23</span> <span class="text-xs text-[#8c8c92] font-normal">/hr</span>
+            </div>
+            <div class="text-[10px] text-[#8c8c92] font-mono mt-0.5">Jitter: 90s–240s active</div>
+          </div>
+
+          <div class="nt-card p-3 sm:p-3.5 nt-card-glow">
+            <div class="flex items-center justify-between text-[10px] font-mono text-[#8c8c92] mb-1">
+              <span>TOTAL DELIVERED</span>
+              <i class="fa-solid fa-paper-plane text-xs text-white" aria-hidden="true"></i>
+            </div>
+            <div class="text-lg sm:text-2xl font-bold font-mono text-white" id="metric-total-delivered">4</div>
+            <div class="text-[10px] text-[#8c8c92] font-mono mt-0.5">100% Primary Inbox</div>
+          </div>
+
+          <div class="nt-card p-3 sm:p-3.5 nt-card-glow cursor-pointer" onclick="switchTab('replies')">
+            <div class="flex items-center justify-between text-[10px] font-mono text-[#8c8c92] mb-1">
+              <span class="text-[#ff3b00] font-semibold">REPLY RATE</span>
+              <i class="fa-solid fa-reply text-xs text-[#ff3b00]" aria-hidden="true"></i>
+            </div>
+            <div class="text-lg sm:text-2xl font-bold font-mono text-[#ff3b00]" id="metric-reply-rate">50.0%</div>
+            <div class="text-[10px] text-[#8c8c92] font-mono mt-0.5"><span id="metric-replies-count">2</span> replies (<span id="metric-interested-count">1</span> warm)</div>
           </div>
         </div>
 
-        <div class="apple-card p-3.5 sm:p-5 flex flex-col justify-between space-y-3">
+        <!-- High-Density Split Workstation: Left (Leads Clustered) vs Right (Embedded AI Studio) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4 min-h-[580px]">
+          
+          <!-- Left Column: Company Clustered Leads -->
+          <div class="lg:col-span-5 nt-card p-3.5 flex flex-col space-y-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="nt-dot-label">PROSPECT DIRECTORY</span>
+                <h3 class="text-xs sm:text-sm font-semibold text-white">Clustered Companies (<span id="command-lead-count">8</span>)</h3>
+              </div>
+              <button onclick="switchTab('companies')" class="text-[10.5px] text-[#ff3b00] hover:underline font-mono">View All &rarr;</button>
+            </div>
+
+            <search class="relative">
+              <input type="search" oninput="filterCompaniesAndLeads(this.value)" placeholder="Search company or lead..." class="nt-input w-full pl-7 pr-2.5 py-1 text-xs">
+              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-[#8c8c92] text-[10px]" aria-hidden="true"></i>
+            </search>
+
+            <div class="flex-1 overflow-y-auto space-y-2 pr-1 max-h-[520px]" id="command-lead-list">
+              <!-- Dynamically populated prospect cards -->
+            </div>
+          </div>
+
+          <!-- Right Column: Embedded Instant Studio (Live Dossier & Email Editor) -->
+          <div class="lg:col-span-7 nt-card p-3.5 sm:p-4.5 flex flex-col space-y-3" id="command-studio-panel">
+            <div class="text-center py-24 text-[#8c8c92] text-xs font-mono">
+              Select a prospect from the left directory to inspect live intelligence and edit their copy.
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Quick-Access Section: Dispatch Queue & Recent Replies -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
+          <!-- Live Queue Strip -->
+          <div class="nt-card p-3.5 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#ff3b00]"></span>
+                <span class="nt-dot-label">LIVE DISPATCH QUEUE</span>
+              </div>
+              <button onclick="switchTab('queue')" class="text-[10.5px] text-[#ff3b00] hover:underline font-mono">Manage Queue &rarr;</button>
+            </div>
+            <div class="space-y-1.5" id="command-queue-mini">
+              <!-- Dynamically populated queue slots -->
+            </div>
+          </div>
+
+          <!-- Recent Replies Strip -->
+          <div class="nt-card p-3.5 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-reply text-[10px] text-[#ff3b00]" aria-hidden="true"></i>
+                <span class="nt-dot-label">PROSPECT RESPONSES (<span id="command-replies-count">2</span>)</span>
+              </div>
+              <button onclick="switchTab('replies')" class="text-[10.5px] text-[#ff3b00] hover:underline font-mono">Open Inbox &rarr;</button>
+            </div>
+            <div class="space-y-1.5" id="command-replies-mini">
+              <!-- Dynamically populated reply items -->
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- TAB 2: 1. IMPORT & SETUP -->
+      <!-- ======================================================== -->
+      <section id="tab-import" class="tab-pane hidden space-y-4" aria-labelledby="heading-import">
+        <article class="nt-card p-4 sm:p-5 space-y-4">
           <div>
-            <div class="flex items-center space-x-1.5 mb-2">
-              <span class="w-1.5 h-1.5 rounded-sm bg-[#2997ff]"></span>
-              <h2 class="text-xs sm:text-sm font-semibold text-white">Autonomous Flow</h2>
-            </div>
-            <p class="text-xs text-[#8e8e93] leading-relaxed mb-2.5">
-              Automates prospecting from raw data to scheduled delivery and reply management:
-            </p>
-            <ol class="space-y-1.5 text-xs text-[#f4f4f6]">
-              <li class="bg-[#151518] p-2 rounded-md border border-white/[0.04] flex items-center space-x-2">
-                <span class="text-[#2997ff] font-mono text-[10.5px]">01</span>
-                <span>Import CSV & cluster colleague domains</span>
-              </li>
-              <li class="bg-[#151518] p-2 rounded-md border border-white/[0.04] flex items-center space-x-2">
-                <span class="text-[#2997ff] font-mono text-[10.5px]">02</span>
-                <span>Scrape news (&lt;30d) & Reddit pain points</span>
-              </li>
-              <li class="bg-[#151518] p-2 rounded-md border border-white/[0.04] flex items-center space-x-2">
-                <span class="text-[#2997ff] font-mono text-[10.5px]">03</span>
-                <span>Generate role-tailored anti-slop copy</span>
-              </li>
-              <li class="bg-[#151518] p-2 rounded-md border border-white/[0.04] flex items-center space-x-2">
-                <span class="text-[#ffd60a] font-mono text-[10.5px]">04</span>
-                <span>Track replies & send 1-click follow-up bumps</span>
-              </li>
-            </ol>
+            <span class="nt-pill nt-pill-orange mb-1">STEP 01</span>
+            <h2 id="heading-import" class="text-sm sm:text-base font-semibold text-white tracking-tight">Import CSV & Configure Pitch</h2>
+            <p class="text-xs text-[#8c8c92]">Upload prospect list. Multiple colleagues from the same company will be automatically clustered with 24h separation.</p>
           </div>
 
-          <button onclick="runAutonomousPipeline()" class="btn-apple-primary w-full py-2 text-xs">
-            <i class="fa-solid fa-bolt mr-1.5 text-[#ffd60a]" aria-hidden="true"></i>
-            <span>Run Autonomous Pipeline Now</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======================================================== -->
-    <!-- TAB 2: 1. IMPORT & SETUP -->
-    <!-- ======================================================== -->
-    <section id="tab-import" class="tab-pane hidden space-y-4" aria-labelledby="heading-import">
-      <article class="apple-card p-4 sm:p-5 space-y-4">
-        <div>
-          <span class="pill pill-blue mb-1">Step 1 of 6</span>
-          <h2 id="heading-import" class="text-sm sm:text-lg font-semibold text-white tracking-tight">Import Prospects & Campaign Angles</h2>
-          <p class="text-xs text-[#8e8e93]">Upload your CSV. The engine clusters multiple colleagues from the same company and prepares unique hooks.</p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <!-- CSV Upload Area -->
-          <div class="space-y-3">
-            <div class="border border-dashed border-white/[0.10] hover:border-[#2997ff]/50 bg-[#111114] rounded-md p-6 text-center transition cursor-pointer" onclick="document.getElementById('csv-file-input').click()">
-              <input type="file" id="csv-file-input" accept=".csv" class="hidden" onchange="handleCsvFileSelected(event)">
-              <div class="w-9 h-9 rounded-md bg-[#2997ff]/10 text-[#2997ff] flex items-center justify-center text-base mx-auto mb-2.5">
-                <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- CSV Upload Zone -->
+            <div class="space-y-2.5">
+              <div class="border border-dashed border-white/[0.12] hover:border-[#ff3b00] bg-[#09090b] rounded p-6 text-center transition cursor-pointer" onclick="document.getElementById('csv-file-input').click()">
+                <input type="file" id="csv-file-input" accept=".csv" class="hidden" onchange="handleCsvFileSelected(event)">
+                <div class="w-8 h-8 rounded bg-[#ff3b00]/10 text-[#ff3b00] flex items-center justify-center text-sm mx-auto mb-2">
+                  <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+                </div>
+                <h3 class="text-xs font-semibold text-white mb-0.5">Click or Drag & Drop CSV</h3>
+                <p class="text-[10px] text-[#8c8c92]">Columns: first_name, last_name, email, company, role_title, website, linkedin</p>
+                <div class="mt-2 text-[10px] font-mono text-[#ff3b00]" id="csv-filename-display">No file chosen</div>
               </div>
-              <h3 class="text-xs font-semibold text-white mb-0.5">Click to Upload CSV or Drag & Drop</h3>
-              <p class="text-[10.5px] text-[#8e8e93] max-w-xs mx-auto">Supports names, emails, roles, companies, websites, and LinkedIn profiles.</p>
-              <div class="mt-2.5 text-[10px] font-mono text-[#ffd60a]" id="csv-filename-display">No file chosen</div>
-            </div>
 
-            <div class="flex items-center justify-between text-xs">
-              <button type="button" onclick="loadSampleData()" class="text-[#2997ff] hover:underline flex items-center space-x-1 text-[11.5px]">
-                <i class="fa-solid fa-table-list mr-1" aria-hidden="true"></i> Load Sample 8-Lead CSV
-              </button>
-              <button type="button" onclick="downloadSampleCsv()" class="text-[#8e8e93] hover:text-white flex items-center space-x-1 text-[11.5px]">
-                <i class="fa-solid fa-download mr-1" aria-hidden="true"></i> Download CSV Template
-              </button>
-            </div>
-          </div>
-
-          <!-- Campaign Pitch & Custom Instructions -->
-          <div class="space-y-3">
-            <div>
-              <label for="campaign-name" class="block text-xs font-medium text-[#f4f4f6] mb-1">Campaign Title</label>
-              <input type="text" id="campaign-name" class="apple-input w-full" value="AI Cold Outreach & Deliverability Platform">
-            </div>
-
-            <div>
-              <label for="campaign-pitch" class="block text-xs font-medium text-[#f4f4f6] mb-1">Your Offer / Solution (The P3 Pitch)</label>
-              <textarea id="campaign-pitch" rows="3" class="apple-input w-full text-xs" placeholder="e.g. We help tech companies automate cold outreach with human-level personalization.">We help tech companies automate hyper-personalized cold outreach with deep web intelligence and multi-inbox deliverability protection.</textarea>
-            </div>
-
-            <div>
-              <label for="campaign-instructions" class="block text-xs font-medium text-[#f4f4f6] mb-1">Specific Instructions / Copy Guidelines</label>
-              <textarea id="campaign-instructions" rows="2" class="apple-input w-full text-xs" placeholder="e.g. Focus on technical velocity for CTOs and revenue for CEOs.">Congratulate them authentically on recent achievements within the last 30 days. Emphasize zero-slop peer-to-peer tone.</textarea>
-              
-              <!-- Quick Suggestion Chips -->
-              <div class="flex flex-wrap gap-1.5 mt-2">
-                <button type="button" onclick="appendInstruction('Congratulate on recent win < 30 days.')" class="pill pill-yellow text-[9.5px] cursor-pointer hover:opacity-80">
-                  + Congratulate win &lt;30d
+              <div class="flex items-center justify-between text-xs">
+                <button type="button" onclick="loadSampleData()" class="text-[#ff3b00] hover:underline flex items-center space-x-1 text-[11px] font-mono">
+                  <i class="fa-solid fa-table-list mr-1" aria-hidden="true"></i> Load Sample 8-Lead CSV
                 </button>
-                <button type="button" onclick="appendInstruction('Tailor angle: Technical debt for CTOs, pipeline for VP Growth.')" class="pill pill-blue text-[9.5px] cursor-pointer hover:opacity-80">
-                  + Role-tailored angles
-                </button>
-                <button type="button" onclick="appendInstruction('Strict zero-slop: Keep email under 90 words with low-friction CTA.')" class="pill pill-yellow text-[9.5px] cursor-pointer hover:opacity-80">
-                  + Zero-slop &lt;90 words
+                <button type="button" onclick="downloadSampleCsv()" class="text-[#8c8c92] hover:text-white flex items-center space-x-1 text-[11px]">
+                  <i class="fa-solid fa-download mr-1" aria-hidden="true"></i> Template
                 </button>
               </div>
             </div>
 
-            <!-- Compact Collapsible Advanced Deliverability Options -->
-            <details class="apple-card p-3 bg-[#111114] border border-white/[0.05] text-xs">
-              <summary class="font-semibold text-white cursor-pointer flex items-center justify-between select-none">
-                <span class="flex items-center space-x-1.5">
-                  <i class="fa-solid fa-sliders text-[#2997ff]" aria-hidden="true"></i>
-                  <span>Fleet Deliverability Settings</span>
-                </span>
-                <span class="text-[11px] text-[#2997ff]">Expand &darr;</span>
-              </summary>
-              <div class="pt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-2 border-t border-white/[0.05]">
-                <div>
-                  <label for="campaign-sender" class="block text-[10.5px] font-medium text-[#8e8e93] mb-1">Signature Sender Name</label>
-                  <input type="text" id="campaign-sender" class="apple-input w-full" value="Alex Rivera">
-                </div>
-                <div>
-                  <label for="campaign-target-sends" class="block text-[10.5px] font-medium text-[#8e8e93] mb-1">Daily Target Sends (Adjustable)</label>
-                  <input type="number" id="campaign-target-sends" class="apple-input w-full font-mono" value="500">
-                </div>
-                <div>
-                  <span class="block text-[10.5px] font-medium text-[#8e8e93] mb-1">Sending Window</span>
-                  <div class="apple-input w-full text-[11px] font-mono text-white">09:00 – 18:00 (Business hours)</div>
-                </div>
-                <div>
-                  <span class="block text-[10.5px] font-medium text-[#8e8e93] mb-1">Company Stagger Interval</span>
-                  <div class="apple-input w-full text-[11px] font-mono text-[#2997ff]">24 Hours Separation</div>
-                </div>
+            <!-- Campaign Pitch Settings -->
+            <div class="space-y-2.5">
+              <div>
+                <label for="campaign-name" class="block text-[11px] font-mono text-[#8c8c92] mb-1">CAMPAIGN TITLE</label>
+                <input type="text" id="campaign-name" class="nt-input w-full" value="AI Cold Outreach & Deliverability Platform">
               </div>
-            </details>
 
+              <div>
+                <label for="campaign-pitch" class="block text-[11px] font-mono text-[#8c8c92] mb-1">OFFER / SOLUTION PITCH</label>
+                <textarea id="campaign-pitch" rows="3" class="nt-input w-full text-xs">We help tech companies automate hyper-personalized cold outreach with deep web intelligence and multi-inbox deliverability protection.</textarea>
+              </div>
+
+              <div>
+                <label for="campaign-instructions" class="block text-[11px] font-mono text-[#8c8c92] mb-1">COPYWRITING GUIDELINES</label>
+                <textarea id="campaign-instructions" rows="2" class="nt-input w-full text-xs">Congratulate them authentically on recent achievements within the last 30 days. Emphasize zero-slop peer-to-peer tone.</textarea>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- TAB 3: 2. CLUSTERED LEADS -->
+      <!-- ======================================================== -->
+      <section id="tab-companies" class="tab-pane hidden space-y-4" aria-labelledby="heading-companies">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span class="nt-pill nt-pill-orange mb-1">STEP 02</span>
+            <h2 id="heading-companies" class="text-sm sm:text-base font-semibold text-white tracking-tight">Company Clustered Prospects</h2>
+            <p class="text-xs text-[#8c8c92]">Grouped by domain with 24-hour stagger scheduling and live research tags</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <search class="relative">
+              <input type="search" id="leads-search-input" oninput="filterCompaniesAndLeads(this.value)" placeholder="Search company or lead..." class="nt-input pl-7 pr-2.5 py-1 text-xs w-48">
+              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-[#8c8c92] text-[10px]" aria-hidden="true"></i>
+            </search>
+            <button onclick="triggerAllResearch()" class="nt-btn-secondary text-xs py-1 px-2.5">
+              <span>Research All</span>
+            </button>
+            <button onclick="triggerAllDrafts()" class="nt-btn-orange text-xs py-1 px-2.5">
+              <span>Draft All</span>
+            </button>
           </div>
         </div>
-      </article>
-    </section>
 
-    <!-- ======================================================== -->
-    <!-- TAB 3: 2. COMPANIES & LEADS -->
-    <!-- ======================================================== -->
-    <section id="tab-companies" class="tab-pane hidden space-y-4" aria-labelledby="heading-companies">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <span class="pill pill-blue mb-1">Step 2 of 6</span>
-          <h2 id="heading-companies" class="text-sm sm:text-lg font-semibold text-white tracking-tight">Company Clustered Prospects</h2>
-          <p class="text-xs text-[#8e8e93]">Grouped by company domain with 24-hour stagger scheduling and live research tags</p>
+        <div id="company-lead-container" class="space-y-3">
+          <!-- Dynamically populated -->
         </div>
+      </section>
 
-        <!-- Semantic Search & Action Controls -->
-        <div class="flex flex-wrap items-center gap-2">
-          <search class="relative flex-1 sm:flex-initial">
-            <input type="search" id="leads-search-input" oninput="filterCompaniesAndLeads(this.value)" placeholder="Search company or lead..." class="apple-input pl-7 pr-3 py-1 text-xs w-full sm:w-52">
-            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-[#8e8e93] text-[10px]" aria-hidden="true"></i>
-          </search>
-          <button onclick="triggerAllResearch()" class="btn-apple-secondary text-xs py-1 px-2.5">
-            <i class="fa-solid fa-magnifying-glass mr-1 text-[#2997ff]" aria-hidden="true"></i>
-            <span>Research All</span>
+      <!-- ======================================================== -->
+      <!-- TAB 4: 3. AI REVIEW STUDIO -->
+      <!-- ======================================================== -->
+      <section id="tab-studio" class="tab-pane hidden space-y-4" aria-labelledby="heading-studio">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div>
+            <span class="nt-pill nt-pill-orange mb-1">STEP 03</span>
+            <h2 id="heading-studio" class="text-sm sm:text-base font-semibold text-white tracking-tight">AI Personalization Studio</h2>
+            <p class="text-xs text-[#8c8c92]">Inspect news (&lt;30d) and Reddit pain points alongside role-adapted copy</p>
+          </div>
+          <button onclick="approveAllDrafts()" class="nt-btn-orange text-xs py-1.5 px-3">
+            <i class="fa-solid fa-check mr-1" aria-hidden="true"></i>
+            <span>Approve All Verified Drafts</span>
           </button>
-          <button onclick="triggerAllDrafts()" class="btn-apple-primary text-xs py-1 px-2.5">
-            <i class="fa-solid fa-pen-nib mr-1" aria-hidden="true"></i>
-            <span>Draft All</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Clustered Company Cards Container -->
-      <div id="company-lead-container" class="space-y-3">
-        <!-- Rendered dynamically -->
-      </div>
-    </section>
-
-    <!-- ======================================================== -->
-    <!-- TAB 4: 3. AI REVIEW STUDIO -->
-    <!-- ======================================================== -->
-    <section id="tab-studio" class="tab-pane hidden space-y-4" aria-labelledby="heading-studio">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-        <div>
-          <span class="pill pill-blue mb-1">Step 3 of 6</span>
-          <h2 id="heading-studio" class="text-sm sm:text-lg font-semibold text-white tracking-tight">AI Personalization Studio</h2>
-          <p class="text-xs text-[#8e8e93]">Inspect live news (&lt;30d) and Reddit pain points alongside anti-slop copy</p>
-        </div>
-        <button onclick="approveAllDrafts()" class="btn-apple-success text-xs py-1.5 px-3 self-start sm:self-auto">
-          <i class="fa-solid fa-check-double mr-1.5" aria-hidden="true"></i>
-          <span>Approve All Verified Drafts</span>
-        </button>
-      </div>
-
-      <!-- Mobile Tab Switcher for Studio View (Visible on screens < 1024px) -->
-      <div class="flex lg:hidden segmented-control p-1">
-        <button id="mobile-studio-tab-list" onclick="setMobileStudioMode('list')" class="segmented-tab flex-1 justify-center active">
-          <i class="fa-solid fa-users text-[10px]" aria-hidden="true"></i>
-          <span>Prospects (<span id="mobile-studio-badge">0</span>)</span>
-        </button>
-        <button id="mobile-studio-tab-detail" onclick="setMobileStudioMode('detail')" class="segmented-tab flex-1 justify-center">
-          <i class="fa-solid fa-pen-fancy text-[10px]" aria-hidden="true"></i>
-          <span>Dossier & Draft</span>
-        </button>
-      </div>
-
-      <!-- Studio Split View (Desktop side-by-side, Mobile responsive toggle) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-5 min-h-[500px]">
-        <!-- Lead Selector (Left 4 cols) -->
-        <div id="studio-col-list" class="lg:col-span-4 apple-card p-3 flex flex-col h-auto lg:h-[620px]">
-          <div class="text-[10.5px] font-semibold text-[#8e8e93] uppercase tracking-wider mb-2 flex items-center justify-between">
-            <span>Prospects (<span id="studio-lead-count">0</span>)</span>
-            <span class="text-[10px] text-[#2997ff]">Select to review</span>
-          </div>
-          <search class="mb-2">
-            <input type="search" id="studio-search-input" oninput="filterStudioLeads(this.value)" placeholder="Filter leads..." class="apple-input w-full py-1 px-2.5 text-xs">
-          </search>
-          <div class="flex-1 overflow-y-auto space-y-1.5 pr-1 max-h-[55vh] lg:max-h-none" id="studio-lead-list">
-            <!-- Dynamically populated -->
-          </div>
         </div>
 
-        <!-- Inspection & Email Editor (Right 8 cols) -->
-        <div id="studio-col-detail" class="hidden lg:flex lg:col-span-8 apple-card p-3.5 sm:p-5 flex-col h-auto lg:h-[620px] overflow-y-auto">
-          <div class="text-center py-20 text-[#8e8e93] text-xs">
-            Select a prospect from the list to view their live intelligence dossier and edit their draft.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======================================================== -->
-    <!-- TAB 5: 4. SENDER GMAIL INBOXES (FLEET POOL) -->
-    <!-- ======================================================== -->
-    <section id="tab-inboxes" class="tab-pane hidden space-y-4" aria-labelledby="heading-inboxes">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <span class="pill pill-blue mb-1">Step 4 of 6</span>
-          <h2 id="heading-inboxes" class="text-sm sm:text-lg font-semibold text-white tracking-tight">Multi-Inbox Deliverability Fleet</h2>
-          <p class="text-xs text-[#8e8e93]">Add and adjust Gmail accounts. Daily caps and hourly pacing are fully configurable per inbox.</p>
-        </div>
-        <button onclick="openAddInboxModal()" class="btn-apple-primary text-xs py-1.5 px-3 self-start sm:self-auto">
-          <i class="fa-solid fa-plus mr-1" aria-hidden="true"></i>
-          <span>Add Sender Gmail</span>
-        </button>
-      </div>
-
-      <!-- Security & Handshake Explanation -->
-      <article class="apple-card p-3.5 sm:p-4 bg-[#111114] border border-white/[0.06]">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-          <div class="flex items-start space-x-2.5">
-            <div class="w-6 h-6 rounded-md bg-[#2997ff]/10 text-[#2997ff] flex items-center justify-center font-bold text-xs shrink-0 border border-[#2997ff]/20">
-              <i class="fa-solid fa-lock text-[10px]" aria-hidden="true"></i>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 min-h-[520px]">
+          <div id="studio-col-list" class="lg:col-span-4 nt-card p-3 flex flex-col h-auto lg:h-[620px]">
+            <div class="nt-dot-label mb-2 flex items-center justify-between">
+              <span>PROSPECTS (<span id="studio-lead-count">0</span>)</span>
+              <span class="text-[#ff3b00]">SELECT TO REVIEW</span>
             </div>
-            <div>
-              <div class="font-medium text-white text-xs">TLS 587 Encryption</div>
-              <div class="text-[#8e8e93] text-[10.5px] mt-0.5">Verified STARTTLS handshake using certifi root CA bundle.</div>
-            </div>
-          </div>
-          <div class="flex items-start space-x-2.5">
-            <div class="w-6 h-6 rounded-md bg-[#2997ff]/10 text-[#2997ff] flex items-center justify-center font-bold text-xs shrink-0 border border-[#2997ff]/20">
-              <i class="fa-solid fa-sliders text-[10px]" aria-hidden="true"></i>
-            </div>
-            <div>
-              <div class="font-medium text-white text-xs">Adjustable Send Caps</div>
-              <div class="text-[#8e8e93] text-[10.5px] mt-0.5">Customize daily limits (35–100) and hourly rates per account.</div>
-            </div>
-          </div>
-          <div class="flex items-start space-x-2.5">
-            <div class="w-6 h-6 rounded-md bg-[#ffd60a]/10 text-[#ffd60a] flex items-center justify-center font-bold text-xs shrink-0 border border-[#ffd60a]/20">
-              <i class="fa-solid fa-shield-virus text-[10px]" aria-hidden="true"></i>
-            </div>
-            <div>
-              <div class="font-medium text-white text-xs">Auto-Quarantine</div>
-              <div class="text-[#8e8e93] text-[10.5px] mt-0.5">Auto-pauses any inbox on Google error to protect fleet health.</div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Inboxes Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4" id="inbox-cards-grid">
-        <!-- Rendered dynamically -->
-      </div>
-    </section>
-
-    <!-- ======================================================== -->
-    <!-- TAB 6: 5. DISPATCH QUEUE -->
-    <!-- ======================================================== -->
-    <section id="tab-queue" class="tab-pane hidden space-y-4" aria-labelledby="heading-queue">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <span class="pill pill-blue mb-1">Step 5 of 6</span>
-          <h2 id="heading-queue" class="text-sm sm:text-lg font-semibold text-white tracking-tight">Live Dispatch Queue & Delivery Timeline</h2>
-          <p class="text-xs text-[#8e8e93]">Jitter delays (90–240s), business-hour spacing, and 24h company separation</p>
-        </div>
-        <button onclick="fetchQueue()" class="btn-apple-secondary text-xs py-1.5 px-3 self-start sm:self-auto">
-          <i class="fa-solid fa-arrows-rotate mr-1" aria-hidden="true"></i>
-          <span>Refresh</span>
-        </button>
-      </div>
-
-      <div class="apple-card overflow-hidden">
-        <div class="overflow-x-auto no-scrollbar">
-          <table class="w-full text-left text-xs min-w-[620px]">
-            <thead class="bg-[#111114] border-b border-white/[0.05] text-[#8e8e93] font-semibold uppercase tracking-wider text-[9.5px]">
-              <tr>
-                <th class="py-2.5 px-3.5">Scheduled Slot</th>
-                <th class="py-2.5 px-3.5">Recipient Lead</th>
-                <th class="py-2.5 px-3.5">Company & Domain</th>
-                <th class="py-2.5 px-3.5">Sender Inbox</th>
-                <th class="py-2.5 px-3.5">Jitter Delay</th>
-                <th class="py-2.5 px-3.5 text-right">Status</th>
-              </tr>
-            </thead>
-            <tbody id="queue-table-body" class="divide-y divide-white/[0.04] text-[#f4f4f6]">
+            <search class="mb-2">
+              <input type="search" id="studio-search-input" oninput="filterStudioLeads(this.value)" placeholder="Filter leads..." class="nt-input w-full py-1 px-2 text-xs">
+            </search>
+            <div class="flex-1 overflow-y-auto space-y-1.5 pr-1 max-h-[50vh] lg:max-h-none" id="studio-lead-list">
               <!-- Dynamically populated -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+            </div>
+          </div>
 
-    <!-- ======================================================== -->
-    <!-- TAB 7: 6. REPLIES & FOLLOW-UPS -->
-    <!-- ======================================================== -->
-    <section id="tab-replies" class="tab-pane hidden space-y-4" aria-labelledby="heading-replies">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <span class="pill pill-yellow mb-1">Step 6 of 6 &middot; Reply Intelligence</span>
-          <h2 id="heading-replies" class="text-sm sm:text-lg font-semibold text-white tracking-tight">Prospect Responses & Smart Follow-Up Sequences</h2>
-          <p class="text-xs text-[#8e8e93]">Review incoming replies, trigger 1-click tailored responses, or generate multi-touch follow-up bumps</p>
+          <div id="studio-col-detail" class="hidden lg:flex lg:col-span-8 nt-card p-4 flex-col h-auto lg:h-[620px] overflow-y-auto">
+            <div class="text-center py-24 text-[#8c8c92] text-xs font-mono">
+              Select a prospect from the list.
+            </div>
+          </div>
         </div>
-        <div class="flex items-center space-x-2 self-start sm:self-auto">
-          <button onclick="openSimulateReplyModal()" class="btn-apple-secondary text-xs py-1.5 px-3">
-            <i class="fa-solid fa-plus mr-1 text-[#ffd60a]" aria-hidden="true"></i>
-            <span>Simulate Reply</span>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- TAB 5: 4. FLEET ACCOUNTS -->
+      <!-- ======================================================== -->
+      <section id="tab-inboxes" class="tab-pane hidden space-y-4" aria-labelledby="heading-inboxes">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span class="nt-pill nt-pill-orange mb-1">STEP 04</span>
+            <h2 id="heading-inboxes" class="text-sm sm:text-base font-semibold text-white tracking-tight">Multi-Inbox Deliverability Fleet</h2>
+            <p class="text-xs text-[#8c8c92]">Connect personal Gmails. Daily caps and hourly pacing are fully configurable per inbox.</p>
+          </div>
+          <button onclick="openAddInboxModal()" class="nt-btn-orange text-xs py-1.5 px-3">
+            <i class="fa-solid fa-plus mr-1" aria-hidden="true"></i>
+            <span>Add Gmail Account</span>
           </button>
-          <button onclick="fetchReplies()" class="btn-apple-secondary text-xs py-1.5 px-3">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="inbox-cards-grid">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- TAB 6: 5. DISPATCH QUEUE -->
+      <!-- ======================================================== -->
+      <section id="tab-queue" class="tab-pane hidden space-y-4" aria-labelledby="heading-queue">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span class="nt-pill nt-pill-orange mb-1">STEP 05</span>
+            <h2 id="heading-queue" class="text-sm sm:text-base font-semibold text-white tracking-tight">Live Dispatch Queue & Delivery Timeline</h2>
+            <p class="text-xs text-[#8c8c92]">Jitter delays (90–240s), business-hour spacing, and 24h company separation</p>
+          </div>
+          <button onclick="fetchQueue()" class="nt-btn-secondary text-xs py-1 px-3">
             <i class="fa-solid fa-arrows-rotate mr-1" aria-hidden="true"></i>
             <span>Refresh</span>
           </button>
         </div>
-      </div>
 
-      <!-- Reply Rate Summary Card -->
-      <article class="apple-card p-4 bg-[#111114] border border-white/[0.06]">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
-          <div class="p-2.5 rounded-md bg-[#161619] border border-white/[0.04]">
-            <div class="text-[10px] text-[#8e8e93] uppercase font-semibold">Total Delivered</div>
-            <div class="text-lg font-bold text-white font-mono" id="replies-summary-delivered">4</div>
-          </div>
-          <div class="p-2.5 rounded-md bg-[#161619] border border-white/[0.04]">
-            <div class="text-[10px] text-[#8e8e93] uppercase font-semibold">Total Replies</div>
-            <div class="text-lg font-bold text-[#ffd60a] font-mono" id="replies-summary-count">2</div>
-          </div>
-          <div class="p-2.5 rounded-md bg-[#161619] border border-white/[0.04]">
-            <div class="text-[10px] text-[#8e8e93] uppercase font-semibold">Reply Rate</div>
-            <div class="text-lg font-bold text-[#2997ff] font-mono" id="replies-summary-rate">50.0%</div>
-          </div>
-          <div class="p-2.5 rounded-md bg-[#161619] border border-white/[0.04]">
-            <div class="text-[10px] text-[#8e8e93] uppercase font-semibold">Interested Leads</div>
-            <div class="text-lg font-bold text-white font-mono" id="replies-summary-interested">1</div>
+        <div class="nt-card overflow-hidden">
+          <div class="overflow-x-auto no-scrollbar">
+            <table class="w-full text-left text-xs min-w-[580px]">
+              <thead class="bg-[#09090b] border-b border-white/[0.06] text-[#8c8c92] font-mono text-[9px] uppercase tracking-wider">
+                <tr>
+                  <th class="py-2.5 px-3.5">SLOT TIME</th>
+                  <th class="py-2.5 px-3.5">RECIPIENT LEAD</th>
+                  <th class="py-2.5 px-3.5">COMPANY DOMAIN</th>
+                  <th class="py-2.5 px-3.5">SENDER INBOX</th>
+                  <th class="py-2.5 px-3.5">DELAY</th>
+                  <th class="py-2.5 px-3.5 text-right">STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="queue-table-body" class="divide-y divide-white/[0.04] text-[#f4f4f6]">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
           </div>
         </div>
-      </article>
+      </section>
 
-      <!-- Split Layout: Left (Incoming Replies), Right (Follow-Up Generator) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        
-        <!-- Left: Incoming Prospect Responses List -->
-        <div class="lg:col-span-7 space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-semibold text-white uppercase tracking-wider">
-              <i class="fa-solid fa-inbox mr-1 text-[#ffd60a]" aria-hidden="true"></i>
-              Incoming Replies (<span id="replies-list-count">0</span>)
-            </h3>
-            <span class="text-[10.5px] text-[#8e8e93]">1-Click AI Response</span>
+      <!-- ======================================================== -->
+      <!-- TAB 7: 6. REPLIES & FOLLOW-UPS -->
+      <!-- ======================================================== -->
+      <section id="tab-replies" class="tab-pane hidden space-y-4" aria-labelledby="heading-replies">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span class="nt-pill nt-pill-orange mb-1">STEP 06 &middot; REPLY INTELLIGENCE</span>
+            <h2 id="heading-replies" class="text-sm sm:text-base font-semibold text-white tracking-tight">Prospect Responses & Automated Follow-Up Sequences</h2>
+            <p class="text-xs text-[#8c8c92]">Review incoming replies, trigger 1-click tailored responses, or generate multi-touch follow-up bumps</p>
           </div>
-
-          <div class="space-y-2.5" id="replies-cards-container">
-            <!-- Dynamically populated replies -->
+          <div class="flex items-center space-x-2">
+            <button onclick="openSimulateReplyModal()" class="nt-btn-secondary text-xs py-1 px-2.5">
+              <i class="fa-solid fa-plus mr-1 text-[#ff3b00]" aria-hidden="true"></i>
+              <span>Simulate Reply</span>
+            </button>
+            <button onclick="fetchReplies()" class="nt-btn-secondary text-xs py-1 px-2.5">
+              <i class="fa-solid fa-arrows-rotate mr-1" aria-hidden="true"></i>
+              <span>Refresh</span>
+            </button>
           </div>
         </div>
 
-        <!-- Right: Smart Follow-Up Bump Generator for Contacted Leads -->
-        <div class="lg:col-span-5 space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-semibold text-white uppercase tracking-wider">
-              <i class="fa-solid fa-clock-rotate-left mr-1 text-[#2997ff]" aria-hidden="true"></i>
-              Follow-Up Bump Engine
-            </h3>
-            <span class="text-[10.5px] text-[#8e8e93]">No-Reply Prospects</span>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5">
+          <!-- Left: Incoming Prospect Responses List -->
+          <div class="lg:col-span-7 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="nt-dot-label">INCOMING REPLIES (<span id="replies-list-count">0</span>)</span>
+              <span class="text-[10px] text-[#ff3b00] font-mono">1-CLICK AI RESPONSE</span>
+            </div>
+            <div class="space-y-2.5" id="replies-cards-container">
+              <!-- Dynamically populated -->
+            </div>
           </div>
 
-          <div class="apple-card p-3.5 space-y-3 bg-[#111114]">
-            <p class="text-xs text-[#8e8e93] leading-relaxed">
-              If a prospect hasn't replied in 3 days, send a low-friction 40-word bump. Select a lead below to generate or schedule:
-            </p>
-
-            <div>
-              <label for="followup-lead-select" class="block text-[11px] font-medium text-[#8e8e93] mb-1">Select Contacted Lead</label>
-              <select id="followup-lead-select" onchange="previewFollowUpForSelectedLead()" class="apple-input w-full text-xs">
-                <!-- Dynamically populated with leads -->
-              </select>
+          <!-- Right: Follow-Up Bump Generator -->
+          <div class="lg:col-span-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="nt-dot-label">FOLLOW-UP BUMP ENGINE</span>
+              <span class="text-[10px] text-[#8c8c92] font-mono">NO-REPLY LEADS</span>
             </div>
 
-            <div class="flex items-center space-x-2 pt-1">
-              <button onclick="generateFollowUpStep(1)" class="btn-apple-secondary text-xs flex-1 py-1.5">
-                <span>Follow-Up #1 (Bump)</span>
-              </button>
-              <button onclick="generateFollowUpStep(2)" class="btn-apple-secondary text-xs flex-1 py-1.5">
-                <span>Follow-Up #2 (Break-Up)</span>
-              </button>
-            </div>
-
-            <div id="followup-preview-container" class="space-y-2 pt-2 border-t border-white/[0.05] hidden">
+            <div class="nt-card p-3.5 space-y-3 bg-[#0c0c0e]">
+              <p class="text-xs text-[#8c8c92]">Select a contacted prospect who hasn't replied to generate a 40-word bump:</p>
+              
               <div>
-                <label for="followup-subject" class="block text-[10.5px] font-medium text-[#8e8e93] mb-1">Follow-Up Subject</label>
-                <input type="text" id="followup-subject" class="apple-input w-full font-mono text-xs">
+                <label for="followup-lead-select" class="block text-[10.5px] font-mono text-[#8c8c92] mb-1">SELECT LEAD</label>
+                <select id="followup-lead-select" class="nt-input w-full text-xs">
+                  <!-- Dynamically populated -->
+                </select>
               </div>
-              <div>
-                <label for="followup-body" class="block text-[10.5px] font-medium text-[#8e8e93] mb-1">Follow-Up Body (Anti-Slop &lt; 45 words)</label>
-                <textarea id="followup-body" rows="4" class="apple-input w-full text-xs leading-relaxed"></textarea>
+
+              <div class="flex items-center space-x-2">
+                <button onclick="generateFollowUpStep(1)" class="nt-btn-secondary text-xs flex-1 py-1.5">
+                  <span>Follow-Up #1 (Bump)</span>
+                </button>
+                <button onclick="generateFollowUpStep(2)" class="nt-btn-secondary text-xs flex-1 py-1.5">
+                  <span>Follow-Up #2 (Break-Up)</span>
+                </button>
               </div>
-              <button onclick="scheduleGeneratedFollowUp()" class="btn-apple-primary w-full py-1.5 text-xs">
-                <i class="fa-solid fa-calendar-plus mr-1" aria-hidden="true"></i>
-                <span>Queue Follow-Up into Dispatch</span>
-              </button>
+
+              <div id="followup-preview-container" class="space-y-2 pt-2 border-t border-white/[0.05] hidden">
+                <div>
+                  <label for="followup-subject" class="block text-[10px] font-mono text-[#8c8c92] mb-0.5">SUBJECT</label>
+                  <input type="text" id="followup-subject" class="nt-input w-full font-mono text-xs">
+                </div>
+                <div>
+                  <label for="followup-body" class="block text-[10px] font-mono text-[#8c8c92] mb-0.5">BODY (&lt; 45 words)</label>
+                  <textarea id="followup-body" rows="4" class="nt-input w-full text-xs leading-relaxed"></textarea>
+                </div>
+                <button onclick="scheduleGeneratedFollowUp()" class="nt-btn-orange w-full py-1.5 text-xs">
+                  <i class="fa-solid fa-calendar-plus mr-1" aria-hidden="true"></i>
+                  <span>Queue Follow-Up</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Semantic Footer with SEO Links -->
-  <footer class="mt-auto border-t border-white/[0.05] bg-[#0a0a0d] py-3.5 px-4 sm:px-6 text-[10.5px] text-[#8e8e93]">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
-      <div class="flex items-center space-x-2">
-        <span class="text-white font-medium">Outreach ENGINE</span>
-        <span>&middot;</span>
-        <span>Dynamic Multi-Inbox Scaling</span>
-        <span>&middot;</span>
-        <span class="text-[#2997ff]">FastMCP Protocol Linked</span>
-      </div>
-      <div class="flex items-center space-x-2.5 text-[10px]">
-        <span>Jitter: 90–240s</span>
-        <span>&middot;</span>
-        <span>Domain Stagger: 24h</span>
-        <span>&middot;</span>
-        <span>Reply Analytics Active</span>
-      </div>
-    </div>
-  </footer>
+    </main>
+  </div>
 
   <!-- ======================================================== -->
   <!-- MODAL: ADD SENDER GMAIL ACCOUNT -->
   <!-- ======================================================== -->
   <dialog id="modal-inbox" closedby="any" aria-labelledby="modal-inbox-title">
-    <div class="dialog-content space-y-3.5">
+    <div class="dialog-content space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
         <div>
           <h2 id="modal-inbox-title" class="text-xs sm:text-sm font-semibold text-white">Connect Sender Gmail Account</h2>
-          <p class="text-[10.5px] text-[#8e8e93]">Authenticate using a 16-character Google App Password</p>
+          <p class="text-[10px] text-[#8c8c92]">Authenticate using a 16-character Google App Password</p>
         </div>
-        <button type="button" onclick="closeAddInboxModal()" class="text-[#8e8e93] hover:text-white text-base">&times;</button>
+        <button type="button" onclick="closeAddInboxModal()" class="text-[#8c8c92] hover:text-white text-base">&times;</button>
       </div>
 
-      <div class="bg-[#0f0f12] border border-white/[0.05] p-2.5 rounded-md text-[10.5px] text-[#8e8e93] space-y-0.5">
-        <div class="text-white font-medium flex items-center">
-          <i class="fa-solid fa-key text-[#ffd60a] mr-1.5" aria-hidden="true"></i> Google App Password Setup:
+      <div class="bg-[#070709] border border-white/[0.05] p-2.5 rounded text-[10px] text-[#8c8c92] space-y-0.5">
+        <div class="text-white font-medium flex items-center font-mono">
+          <i class="fa-solid fa-key text-[#ff3b00] mr-1.5" aria-hidden="true"></i> Google App Password Setup:
         </div>
-        <div>1. Enable 2-Step Verification in your Google Account.</div>
-        <div>2. Visit <a href="https://myaccount.google.com/apppasswords" target="_blank" class="text-[#2997ff] underline">myaccount.google.com/apppasswords</a>.</div>
+        <div>1. Enable 2-Step Verification in Google Account.</div>
+        <div>2. Visit <a href="https://myaccount.google.com/apppasswords" target="_blank" class="text-[#ff3b00] underline">myaccount.google.com/apppasswords</a>.</div>
         <div>3. Generate password for "Mail" and paste below.</div>
       </div>
 
       <form method="dialog" onsubmit="event.preventDefault(); submitNewInbox();" class="space-y-2.5">
         <div>
-          <label for="modal-email" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Gmail Address</label>
-          <input type="email" id="modal-email" required class="apple-input w-full text-xs" placeholder="your.name@gmail.com" autofocus>
+          <label for="modal-email" class="block text-[10px] font-mono text-[#8c8c92] mb-1">GMAIL ADDRESS</label>
+          <input type="email" id="modal-email" required class="nt-input w-full text-xs" placeholder="your.name@gmail.com" autofocus>
         </div>
 
         <div>
-          <label for="modal-name" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Sender Signature Display Name</label>
-          <input type="text" id="modal-name" required class="apple-input w-full text-xs" placeholder="e.g. Alex Rivera">
+          <label for="modal-name" class="block text-[10px] font-mono text-[#8c8c92] mb-1">SENDER DISPLAY NAME</label>
+          <input type="text" id="modal-name" required class="nt-input w-full text-xs" placeholder="e.g. Alex Rivera">
         </div>
 
         <div>
-          <label for="modal-password" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Google App Password (16 chars)</label>
-          <input type="password" id="modal-password" class="apple-input w-full text-xs" placeholder="xxxx xxxx xxxx xxxx">
-          <p class="text-[9.5px] text-[#8e8e93] mt-0.5">Leave empty to add as a safe simulation demo inbox.</p>
+          <label for="modal-password" class="block text-[10px] font-mono text-[#8c8c92] mb-1">GOOGLE APP PASSWORD</label>
+          <input type="password" id="modal-password" class="nt-input w-full text-xs" placeholder="xxxx xxxx xxxx xxxx">
+          <p class="text-[9px] text-[#8c8c92] mt-0.5">Leave empty to add as a safe simulation demo account.</p>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label for="modal-daily" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Daily Cap (Adjustable)</label>
-            <input type="number" id="modal-daily" class="apple-input w-full font-mono text-xs" value="35" min="10" max="100">
-            <span class="text-[9.5px] text-[#8e8e93]">Recommended: 35–50</span>
+            <label for="modal-daily" class="block text-[10px] font-mono text-[#8c8c92] mb-1">DAILY SEND CAP</label>
+            <input type="number" id="modal-daily" class="nt-input w-full font-mono text-xs" value="35" min="5" max="150">
           </div>
           <div>
-            <label for="modal-hourly" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Hourly Cap (Adjustable)</label>
-            <input type="number" id="modal-hourly" class="apple-input w-full font-mono text-xs" value="5" min="1" max="20">
-            <span class="text-[9.5px] text-[#8e8e93]">Recommended: 5–8/hr</span>
+            <label for="modal-hourly" class="block text-[10px] font-mono text-[#8c8c92] mb-1">HOURLY RATE</label>
+            <input type="number" id="modal-hourly" class="nt-input w-full font-mono text-xs" value="5" min="1" max="25">
           </div>
         </div>
 
         <div class="pt-2 flex space-x-2">
-          <button type="button" onclick="closeAddInboxModal()" class="btn-apple-secondary w-1/2 py-1.5 text-xs">Cancel</button>
-          <button type="submit" class="btn-apple-primary w-1/2 py-1.5 text-xs">Connect & Verify</button>
+          <button type="button" onclick="closeAddInboxModal()" class="nt-btn-secondary w-1/2 py-1.5 text-xs">Cancel</button>
+          <button type="submit" class="nt-btn-orange w-1/2 py-1.5 text-xs">Connect & Verify</button>
         </div>
       </form>
     </div>
@@ -753,39 +615,37 @@
   <!-- MODAL: EDIT INBOX LIMITS -->
   <!-- ======================================================== -->
   <dialog id="modal-edit-inbox" closedby="any" aria-labelledby="modal-edit-title">
-    <div class="dialog-content space-y-3.5">
+    <div class="dialog-content space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
         <div>
           <h2 id="modal-edit-title" class="text-xs sm:text-sm font-semibold text-white">Adjust Sender Inbox Limits</h2>
-          <p class="text-[10.5px] text-[#8e8e93]" id="modal-edit-email">account@gmail.com</p>
+          <p class="text-[10px] text-[#8c8c92] font-mono" id="modal-edit-email">account@gmail.com</p>
         </div>
-        <button type="button" onclick="closeEditInboxModal()" class="text-[#8e8e93] hover:text-white text-base">&times;</button>
+        <button type="button" onclick="closeEditInboxModal()" class="text-[#8c8c92] hover:text-white text-base">&times;</button>
       </div>
 
-      <form method="dialog" onsubmit="event.preventDefault(); submitEditInbox();" class="space-y-3">
+      <form method="dialog" onsubmit="event.preventDefault(); submitEditInbox();" class="space-y-2.5">
         <input type="hidden" id="edit-inbox-id">
 
         <div>
-          <label for="edit-inbox-name" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Display Name</label>
-          <input type="text" id="edit-inbox-name" class="apple-input w-full text-xs">
+          <label for="edit-inbox-name" class="block text-[10px] font-mono text-[#8c8c92] mb-1">DISPLAY NAME</label>
+          <input type="text" id="edit-inbox-name" class="nt-input w-full text-xs">
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label for="edit-inbox-daily" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Daily Cap (Sends/Day)</label>
-            <input type="number" id="edit-inbox-daily" class="apple-input w-full font-mono text-xs" min="5" max="150">
-            <span class="text-[9.5px] text-[#8e8e93]">Adjust to your preference</span>
+            <label for="edit-inbox-daily" class="block text-[10px] font-mono text-[#8c8c92] mb-1">DAILY CAP (SENDS/DAY)</label>
+            <input type="number" id="edit-inbox-daily" class="nt-input w-full font-mono text-xs" min="5" max="150">
           </div>
           <div>
-            <label for="edit-inbox-hourly" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Hourly Cap (Sends/Hr)</label>
-            <input type="number" id="edit-inbox-hourly" class="apple-input w-full font-mono text-xs" min="1" max="25">
-            <span class="text-[9.5px] text-[#8e8e93]">Pacing between slots</span>
+            <label for="edit-inbox-hourly" class="block text-[10px] font-mono text-[#8c8c92] mb-1">HOURLY RATE (SENDS/HR)</label>
+            <input type="number" id="edit-inbox-hourly" class="nt-input w-full font-mono text-xs" min="1" max="25">
           </div>
         </div>
 
         <div class="pt-2 flex space-x-2">
-          <button type="button" onclick="closeEditInboxModal()" class="btn-apple-secondary w-1/2 py-1.5 text-xs">Cancel</button>
-          <button type="submit" class="btn-apple-primary w-1/2 py-1.5 text-xs">Save Limits</button>
+          <button type="button" onclick="closeEditInboxModal()" class="nt-btn-secondary w-1/2 py-1.5 text-xs">Cancel</button>
+          <button type="submit" class="nt-btn-orange w-1/2 py-1.5 text-xs">Save Limits</button>
         </div>
       </form>
     </div>
@@ -795,49 +655,49 @@
   <!-- MODAL: SIMULATE PROSPECT REPLY -->
   <!-- ======================================================== -->
   <dialog id="modal-simulate-reply" closedby="any" aria-labelledby="modal-sim-title">
-    <div class="dialog-content space-y-3.5">
+    <div class="dialog-content space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
         <div>
           <h2 id="modal-sim-title" class="text-xs sm:text-sm font-semibold text-white">Record Prospect Reply</h2>
-          <p class="text-[10.5px] text-[#8e8e93]">Simulate or log an incoming prospect response</p>
+          <p class="text-[10px] text-[#8c8c92]">Simulate an incoming response from any lead</p>
         </div>
-        <button type="button" onclick="closeSimulateReplyModal()" class="text-[#8e8e93] hover:text-white text-base">&times;</button>
+        <button type="button" onclick="closeSimulateReplyModal()" class="text-[#8c8c92] hover:text-white text-base">&times;</button>
       </div>
 
       <form method="dialog" onsubmit="event.preventDefault(); submitSimulatedReply();" class="space-y-2.5">
         <div>
-          <label for="sim-lead-select" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Select Prospect</label>
-          <select id="sim-lead-select" class="apple-input w-full text-xs">
+          <label for="sim-lead-select" class="block text-[10px] font-mono text-[#8c8c92] mb-1">PROSPECT</label>
+          <select id="sim-lead-select" class="nt-input w-full text-xs">
             <!-- Dynamically populated -->
           </select>
         </div>
 
         <div>
-          <label for="sim-intent" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Intent Category</label>
-          <select id="sim-intent" class="apple-input w-full text-xs">
-            <option value="interested">Interested &middot; Ready for next step</option>
-            <option value="question">Question &middot; Wants technical details</option>
-            <option value="follow_up_requested">Follow-Up Requested &middot; Reach back next month</option>
+          <label for="sim-intent" class="block text-[10px] font-mono text-[#8c8c92] mb-1">INTENT</label>
+          <select id="sim-intent" class="nt-input w-full text-xs">
+            <option value="interested">Interested &middot; Warm Lead</option>
+            <option value="question">Question &middot; Wants Technical Walkthrough</option>
+            <option value="follow_up_requested">Follow-Up Requested</option>
           </select>
         </div>
 
         <div>
-          <label for="sim-body" class="block text-[10.5px] font-medium text-[#f4f4f6] mb-1">Incoming Message Body</label>
-          <textarea id="sim-body" rows="3" class="apple-input w-full text-xs" placeholder="e.g. Thanks for reaching out. What does pricing look like for 20 seats?">Thanks for reaching out! This looks relevant for our team. Are you free for a quick 15-minute sync next Tuesday?</textarea>
+          <label for="sim-body" class="block text-[10px] font-mono text-[#8c8c92] mb-1">REPLY BODY</label>
+          <textarea id="sim-body" rows="3" class="nt-input w-full text-xs" placeholder="e.g. Thanks for reaching out...">Thanks for reaching out! This looks relevant for our team. Are you free for a quick 15-minute sync next Tuesday?</textarea>
         </div>
 
         <div class="pt-2 flex space-x-2">
-          <button type="button" onclick="closeSimulateReplyModal()" class="btn-apple-secondary w-1/2 py-1.5 text-xs">Cancel</button>
-          <button type="submit" class="btn-apple-primary w-1/2 py-1.5 text-xs">Log Reply</button>
+          <button type="button" onclick="closeSimulateReplyModal()" class="nt-btn-secondary w-1/2 py-1.5 text-xs">Cancel</button>
+          <button type="submit" class="nt-btn-orange w-1/2 py-1.5 text-xs">Log Reply</button>
         </div>
       </form>
     </div>
   </dialog>
 
-  <!-- Apple Style Toast HUD Notification (Subtle 6px Radius) -->
+  <!-- Nothing Style Toast HUD Notification -->
   <div id="apple-toast" role="status" aria-live="polite">
-    <i class="fa-solid fa-circle-check text-[#2997ff] text-xs" aria-hidden="true"></i>
-    <span id="apple-toast-text">Action completed successfully</span>
+    <span class="w-1.5 h-1.5 rounded-full bg-[#ff3b00] inline-block"></span>
+    <span id="apple-toast-text">Action completed</span>
   </div>
 
   <script src="/static/app.js"></script>
