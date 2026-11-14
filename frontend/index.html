@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>Outreach ENGINE — Autonomous Cold Outreach & Deliverability Platform</title>
+  <meta name="title" content="Outreach ENGINE — Autonomous Cold Outreach & Deliverability Platform">
+  <meta name="description" content="AI-powered cold email engine with deep Reddit & live news intelligence (<30d), multi-inbox personal Gmail rotation, 24h company staggering, and FastMCP integration with Antigravity Agent.">
+  <meta name="keywords" content="cold email outreach, AI email writer, multi-inbox rotation, Gmail deliverability, spam protection, sales automation, MCP, Model Context Protocol">
+  <meta name="author" content="Outreach ENGINE">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="http://localhost:8000/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://localhost:8000/">
+  <meta property="og:title" content="Outreach ENGINE — Autonomous Cold Outreach Platform">
+  <meta property="og:description" content="Deliver 500 personalized cold emails per day into the Primary Inbox. Features live news (<30d) and Reddit context scraping, role-adapted anti-slop copy, and 24-hour company stagger protection.">
+  <meta property="og:site_name" content="Outreach ENGINE">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="http://localhost:8000/">
+  <meta name="twitter:title" content="Outreach ENGINE — Autonomous Cold Outreach Platform">
+  <meta name="twitter:description" content="Autonomous cold outreach platform with multi-inbox personal Gmail deliverability and live web intelligence.">
+
+  <!-- Schema.org JSON-LD Structured Data for SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Outreach ENGINE",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "macOS, Linux, Windows",
+    "description": "Autonomous cold outreach platform combining multi-inbox rotation, live Reddit and recent news enrichment, 24h company staggering, and Model Context Protocol integration.",
+    "softwareVersion": "2.0.0",
+    "featureList": [
+      "Multi-Inbox Personal Gmail Rotation (35 sends/day cap)",
+      "Hourly Pacing (5 sends/hr per account)",
+      "Live News & Milestones Enrichment (< 30 days)",
+      "Reddit Community Sentiment & Pain Point Extraction",
+      "Company Domain Clustering & 24h Stagger Scheduling",
+      "Anti-Slop AI Copywriting (Hook -> Context -> Value -> Soft CTA)",
+      "Streamable HTTP FastMCP Server at /api/mcp"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "price": "0.00",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- Tailwind CSS & Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="bg-black text-[#f5f5f7] min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
+
+  <!-- Semantic Header / macOS Translucent Menu Bar -->
+  <header class="sticky top-0 z-40 apple-glass border-b border-white/[0.08] px-6 py-2.5 flex items-center justify-between">
+    <div class="flex items-center space-x-3.5">
+      <div class="w-8 h-8 rounded-xl bg-gradient-to-b from-[#2997ff] to-[#0071e3] flex items-center justify-center shadow-lg shadow-blue-500/25">
+        <i class="fa-solid fa-paper-plane text-white text-xs" aria-hidden="true"></i>
+      </div>
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="text-sm font-semibold text-white tracking-tight">Outreach ENGINE</span>
+          <span class="pill pill-blue font-mono text-[10px]">MCP ACTIVE</span>
+        </div>
+        <p class="text-[11px] text-[#86868b]">Personal Gmail Fleet · 500 Sends/Day Anti-Spam Architecture</p>
+      </div>
+    </div>
+
+    <!-- macOS Segmented Tab Navigation -->
+    <nav class="segmented-control flex items-center space-x-1" aria-label="Main Navigation">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="segmented-tab active flex items-center space-x-1.5" aria-controls="tab-dashboard">
+        <i class="fa-solid fa-gauge text-xs" aria-hidden="true"></i>
+        <span>Command Center</span>
+      </button>
+      <button onclick="switchTab('import')" id="nav-import" class="segmented-tab flex items-center space-x-1.5" aria-controls="tab-import">
+        <i class="fa-solid fa-file-csv text-xs" aria-hidden="true"></i>
+        <span>1. Import & Setup</span>
+      </button>
+      <button onclick="switchTab('companies')" id="nav-companies" class="segmented-tab flex items-center space-x-1.5" aria-controls="tab-companies">
+        <i class="fa-solid fa-building text-xs" aria-hidden="true"></i>
+        <span>2. Companies & Leads</span>
+      </button>
+      <button onclick="switchTab('studio')" id="nav-studio" class="segmented-tab flex items-center space-x-1.5" aria-controls="tab-studio">
+        <i class="fa-solid fa-wand-magic-sparkles text-xs text-[#2997ff]" aria-hidden="true"></i>
+        <span>3. AI Review Studio</span>
+      </button>
+      <button onclick="switchTab('inboxes')" id="nav-inboxes" class="segmented-tab flex items-center space-x-1.5" aria-controls="tab-inboxes">
+        <i class="fa-solid fa-envelope text-xs" aria-hidden="true"></i>
+        <span>4. Sender Gmails (<span id="inbox-count-badge">2</span>)</span>
+      </button>
+      <button onclick="switchTab('queue')" id="nav-queue" class="segmented-tab flex items-center space-x-1.5" aria-controls="tab-queue">
+        <i class="fa-solid fa-clock text-xs" aria-hidden="true"></i>
+        <span>5. Dispatch Queue</span>
+      </button>
+    </nav>
+
+    <!-- MCP Server & Demo Action -->
+    <div class="flex items-center space-x-3">
+      <div class="text-right hidden md:block">
+        <div class="text-[11px] font-mono text-[#34c759] flex items-center justify-end space-x-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#34c759] animate-pulse"></span>
+          <span>Antigravity Agent Linked</span>
+        </div>
+        <div class="text-[10px] text-[#636366] font-mono">/api/mcp</div>
+      </div>
+      <button onclick="loadSampleData()" class="btn-apple-secondary text-xs py-1.5 px-3">
+        <i class="fa-solid fa-bolt mr-1.5 text-[#ff9f0a]" aria-hidden="true"></i>
+        <span>Load Demo Data</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sticky System Toolbar / Compact HUD Summary Bar -->
+  <aside class="bg-[#121214] border-b border-white/[0.06] px-6 py-2 flex flex-wrap items-center justify-between text-xs text-[#86868b] gap-3">
+    <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-1.5">
+        <span class="w-2 h-2 rounded-full bg-[#34c759]"></span>
+        <span class="text-white font-medium">Deliverability Status:</span>
+        <span class="text-[#34c759]">100% Primary Inbox</span>
+      </div>
+      <span class="text-white/[0.15]">|</span>
+      <div>Daily Fleet Capacity: <strong class="text-white font-mono" id="hud-capacity">70</strong> / 500</div>
+      <span class="text-white/[0.15]">|</span>
+      <div>Hourly Pace: <strong class="text-white font-mono" id="hud-pace">10</strong> / hr</div>
+      <span class="text-white/[0.15]">|</span>
+      <div>Company Stagger: <strong class="text-white font-mono">24h Active</strong></div>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <button onclick="runAutonomousPipeline()" id="hud-btn-run" class="btn-apple-primary text-xs py-1 px-3">
+        <i class="fa-solid fa-play mr-1.5 text-[10px]" aria-hidden="true"></i>
+        <span>Run Pipeline</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Landmark -->
+  <main class="flex-1 p-6 max-w-7xl w-full mx-auto space-y-6">
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: FLEET COMMAND & DELIVERABILITY -->
+    <!-- ======================================================== -->
+    <section id="tab-dashboard" class="tab-pane space-y-6" aria-labelledby="heading-command">
+      
+      <!-- Apple Hero Banner: 500 Emails/Day Anti-Spam Equation -->
+      <article class="apple-card p-6 relative overflow-hidden bg-gradient-to-b from-[#18181b] to-[#121214]">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
+          <div class="space-y-2 max-w-2xl">
+            <div class="flex items-center space-x-2">
+              <span class="pill pill-green">
+                <i class="fa-solid fa-shield-halved mr-1" aria-hidden="true"></i> Anti-Spam Delivery Governor Active
+              </span>
+              <span class="text-xs text-[#86868b] font-mono">TLS 587 Encryption</span>
+            </div>
+            <h1 id="heading-command" class="text-2xl font-bold text-white tracking-tight">Responsible 500-Send Daily Outreach Fleet</h1>
+            <p class="text-sm text-[#86868b] leading-relaxed">
+              Google algorithms flag personal Gmails sending &gt;40-50 cold emails/day. To guarantee <strong class="text-white">Primary Inbox delivery</strong> with zero spam-box penalties, Outreach ENGINE pools <span id="metric-needed-inboxes" class="text-white font-semibold">15 inboxes</span>, caps sends at <strong class="text-white">35/day</strong> and <strong class="text-white">5/hour</strong> per account, injects <strong class="text-white">90–240s randomized human jitter</strong>, and enforces a <strong class="text-white">24h stagger</strong> across colleagues at the same company.
+            </p>
+          </div>
+
+          <div class="bg-[#1c1c1e] border border-white/[0.08] p-5 rounded-2xl flex items-center space-x-5 min-w-[300px] shadow-lg">
+            <div class="w-16 h-16 rounded-full border-4 border-[#2997ff]/40 flex items-center justify-center relative">
+              <span id="metric-health-pct" class="text-lg font-bold font-mono text-[#2997ff]">14%</span>
+            </div>
+            <div>
+              <div class="text-[11px] text-[#86868b] uppercase tracking-wider font-semibold">Fleet Daily Capacity</div>
+              <div class="text-xl font-bold text-white font-mono"><span id="metric-capacity">70</span> / 500 <span class="text-xs text-[#86868b] font-normal">sends</span></div>
+              <div class="text-[11px] text-[#ff9f0a] mt-0.5 flex items-center">
+                <i class="fa-solid fa-circle-info mr-1" aria-hidden="true"></i> Add 13 inboxes for 500/day
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Quick Metrics Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="apple-card p-5 apple-card-hover">
+          <div class="flex items-center justify-between text-[#86868b] text-xs mb-1.5 font-medium">
+            <span>SENDER INBOXES</span>
+            <i class="fa-solid fa-inbox text-[#2997ff]" aria-hidden="true"></i>
+          </div>
+          <div class="text-2xl font-bold text-white font-mono" id="metric-total-inboxes">2</div>
+          <div class="text-[11px] text-[#86868b] mt-1">Safe cap: 35/day per account</div>
+        </div>
+
+        <div class="apple-card p-5 apple-card-hover">
+          <div class="flex items-center justify-between text-[#86868b] text-xs mb-1.5 font-medium">
+            <span>HOURLY PACING LIMIT</span>
+            <i class="fa-solid fa-gauge-high text-[#34c759]" aria-hidden="true"></i>
+          </div>
+          <div class="text-2xl font-bold text-white font-mono">5 <span class="text-xs font-normal text-[#86868b]">/hr/inbox</span></div>
+          <div class="text-[11px] text-[#34c759] mt-1 font-mono">Fleet send rate: <span id="metric-hourly-rate">10</span>/hr</div>
+        </div>
+
+        <div class="apple-card p-5 apple-card-hover">
+          <div class="flex items-center justify-between text-[#86868b] text-xs mb-1.5 font-medium">
+            <span>RANDOMIZED JITTER</span>
+            <i class="fa-solid fa-shuffle text-[#ff9f0a]" aria-hidden="true"></i>
+          </div>
+          <div class="text-2xl font-bold text-white font-mono">90s – 240s</div>
+          <div class="text-[11px] text-[#86868b] mt-1">Human typing delay simulation</div>
+        </div>
+
+        <div class="apple-card p-5 apple-card-hover">
+          <div class="flex items-center justify-between text-[#86868b] text-xs mb-1.5 font-medium">
+            <span>DISPATCH QUEUE</span>
+            <i class="fa-solid fa-layer-group text-[#af52de]" aria-hidden="true"></i>
+          </div>
+          <div class="text-2xl font-bold text-white font-mono" id="metric-pending-queue">8</div>
+          <div class="text-[11px] text-[#86868b] mt-1" id="metric-window">09:00 – 18:00 (Business hours)</div>
+        </div>
+      </div>
+
+      <!-- Live Fleet List & Quick Flow -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 apple-card p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-sm font-semibold text-white">Active Sender Rotation Pool</h2>
+              <p class="text-xs text-[#86868b]">Round-robin load balancing with hourly meters and quarantine protection</p>
+            </div>
+            <button onclick="switchTab('inboxes')" class="text-xs text-[#2997ff] hover:underline font-medium">Manage Inboxes &rarr;</button>
+          </div>
+          <div class="space-y-2.5" id="dashboard-inbox-list">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <div class="apple-card p-6 flex flex-col justify-between space-y-4">
+          <div>
+            <div class="flex items-center space-x-2 mb-2">
+              <span class="w-2 h-2 rounded-full bg-[#2997ff] animate-pulse"></span>
+              <h2 class="text-sm font-semibold text-white">Autonomous Flow</h2>
+            </div>
+            <p class="text-xs text-[#86868b] leading-relaxed mb-3">
+              Automates the complete workflow from raw CSV to scheduled multi-inbox delivery:
+            </p>
+            <ol class="space-y-2 text-xs font-mono text-[#f5f5f7]">
+              <li class="bg-[#1c1c1e] p-2.5 rounded-xl border border-white/[0.06] flex items-center space-x-2.5">
+                <span class="text-[#2997ff] font-bold">1</span>
+                <span>Cluster leads & detect multiple per company</span>
+              </li>
+              <li class="bg-[#1c1c1e] p-2.5 rounded-xl border border-white/[0.06] flex items-center space-x-2.5">
+                <span class="text-[#2997ff] font-bold">2</span>
+                <span>Scrape news & milestones (&lt;30d) + Reddit</span>
+              </li>
+              <li class="bg-[#1c1c1e] p-2.5 rounded-xl border border-white/[0.06] flex items-center space-x-2.5">
+                <span class="text-[#2997ff] font-bold">3</span>
+                <span>Write 4-part anti-slop personalized email</span>
+              </li>
+              <li class="bg-[#1c1c1e] p-2.5 rounded-xl border border-white/[0.06] flex items-center space-x-2.5">
+                <span class="text-[#2997ff] font-bold">4</span>
+                <span>Schedule slots across inboxes with 24h stagger</span>
+              </li>
+            </ol>
+          </div>
+
+          <button onclick="runAutonomousPipeline()" id="btn-run-all" class="btn-apple-primary w-full py-3">
+            <i class="fa-solid fa-play mr-2 text-xs" aria-hidden="true"></i>
+            <span>Run Autonomous Pipeline Now</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: 1. IMPORT CSV & SETUP -->
+    <!-- ======================================================== -->
+    <section id="tab-import" class="tab-pane hidden space-y-6" aria-labelledby="heading-import">
+      
+      <article class="apple-card p-6">
+        <div class="flex items-start justify-between pb-4 border-b border-white/[0.08]">
+          <div>
+            <span class="pill pill-blue mb-2">Step 1 of 5</span>
+            <h2 id="heading-import" class="text-xl font-bold text-white tracking-tight">Import Prospects CSV & Configure Campaign Options</h2>
+            <p class="text-xs text-[#86868b] mt-1">Upload your prospect list. The engine clusters multiple colleagues from the same company and tailors each angle.</p>
+          </div>
+          <button onclick="clearCurrentLeads()" class="text-xs text-[#ff453a] hover:underline flex items-center space-x-1">
+            <i class="fa-solid fa-trash-can text-[11px]" aria-hidden="true"></i>
+            <span>Clear Leads List</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6">
+          
+          <!-- LEFT: Drag & Drop CSV Zone (5 cols) -->
+          <div class="lg:col-span-5 space-y-4">
+            <label for="csv-file-input" class="block text-xs font-semibold text-white uppercase tracking-wider">Prospects CSV File</label>
+            
+            <div id="drop-zone" class="border-2 border-dashed border-white/[0.12] hover:border-[#2997ff] rounded-2xl p-8 flex flex-col items-center justify-center text-center transition bg-[#18181b]/50 cursor-pointer min-h-[220px]">
+              <input type="file" id="csv-file-input" accept=".csv" class="hidden">
+              <div class="w-12 h-12 rounded-2xl bg-[#2997ff]/10 border border-[#2997ff]/20 flex items-center justify-center mb-3 text-[#2997ff] text-xl">
+                <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+              </div>
+              <h3 class="text-sm font-semibold text-white mb-1">Click to browse or drop CSV</h3>
+              <p class="text-xs text-[#86868b] max-w-xs">Auto-detects columns: name, email, company, role/post, website, location</p>
+              <div id="selected-file-name" class="mt-3 text-xs font-mono text-[#2997ff] bg-[#2997ff]/10 px-3 py-1 rounded-full hidden"></div>
+            </div>
+
+            <div class="bg-[#1c1c1e] border border-white/[0.06] p-4 rounded-xl flex items-center justify-between">
+              <div>
+                <div class="text-xs font-semibold text-white">Sample Dataset Available</div>
+                <div class="text-[11px] text-[#86868b]">Pre-loaded with Stripe, Linear, Anthropic, Vercel</div>
+              </div>
+              <button onclick="loadSampleCSVDirectly()" class="btn-apple-secondary text-xs py-1.5 px-3">
+                Load Sample CSV
+              </button>
+            </div>
+
+            <button onclick="submitCSVUpload()" id="btn-upload-csv" class="btn-apple-primary w-full py-3">
+              <i class="fa-solid fa-arrow-right-to-bracket mr-2" aria-hidden="true"></i>
+              <span>Process Leads & Cluster by Company</span>
+            </button>
+          </div>
+
+          <!-- RIGHT: Campaign Pitch & Custom Instructions (7 cols) -->
+          <div class="lg:col-span-7 space-y-4">
+            <div>
+              <label for="campaign-name" class="block text-xs font-semibold text-white uppercase tracking-wider mb-1.5">Campaign Name</label>
+              <input type="text" id="campaign-name" class="apple-input w-full" value="AI Automated Cold Outreach">
+            </div>
+
+            <div>
+              <label for="campaign-pitch" class="block text-xs font-semibold text-white uppercase tracking-wider mb-1.5">
+                What We Offer / Value Proposition (The Core Pitch)
+              </label>
+              <textarea id="campaign-pitch" rows="3" class="apple-input w-full" placeholder="e.g. We help B2B tech companies automate cold outreach with human-level personalization.">We help tech companies automate hyper-personalized cold outreach with deep web intelligence and multi-inbox deliverability protection.</textarea>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="campaign-instructions" class="block text-xs font-semibold text-white uppercase tracking-wider">
+                  <i class="fa-solid fa-comment-dots text-[#2997ff] mr-1" aria-hidden="true"></i> Custom Instructions from Chat / User
+                </label>
+                <span class="text-[11px] text-[#86868b]">Dynamic prompt overrides</span>
+              </div>
+              <textarea id="campaign-instructions" rows="2" class="apple-input w-full" placeholder="e.g. Focus on technical velocity for CTOs and revenue for CEOs.">Congratulate them authentically on recent achievements within the last 30 days. Emphasize zero-slop peer-to-peer tone.</textarea>
+              
+              <!-- Quick Suggestion Chips -->
+              <div class="flex flex-wrap gap-2 mt-2">
+                <button type="button" onclick="appendInstruction('Congratulate on recent win < 30 days.')" class="pill pill-orange text-[10px] cursor-pointer hover:opacity-80">
+                  + Congratulate win &lt;30d
+                </button>
+                <button type="button" onclick="appendInstruction('Tailor angle: Technical debt for CTOs, pipeline for VP Growth.')" class="pill pill-blue text-[10px] cursor-pointer hover:opacity-80">
+                  + Role-tailored angles
+                </button>
+                <button type="button" onclick="appendInstruction('Strict zero-slop: Keep email under 90 words with low-friction CTA.')" class="pill pill-purple text-[10px] cursor-pointer hover:opacity-80">
+                  + Zero-slop &lt;90 words
+                </button>
+              </div>
+            </div>
+
+            <!-- Compact Collapsible Advanced Deliverability Options -->
+            <details class="apple-card p-4 bg-[#141416] border border-white/[0.06] text-xs">
+              <summary class="font-semibold text-white cursor-pointer flex items-center justify-between select-none">
+                <span class="flex items-center space-x-2">
+                  <i class="fa-solid fa-sliders text-[#2997ff]" aria-hidden="true"></i>
+                  <span>Advanced Deliverability & Anti-Spam Pacing Options</span>
+                </span>
+                <span class="text-[11px] text-[#2997ff]">Expand &darr;</span>
+              </summary>
+              <div class="pt-4 grid grid-cols-2 gap-4 mt-2 border-t border-white/[0.06]">
+                <div>
+                  <label for="campaign-sender" class="block text-[11px] font-semibold text-[#86868b] mb-1">Sender Signature Name</label>
+                  <input type="text" id="campaign-sender" class="apple-input w-full" value="Alex Rivera">
+                </div>
+                <div>
+                  <label for="campaign-target-sends" class="block text-[11px] font-semibold text-[#86868b] mb-1">Daily Target Sends</label>
+                  <input type="number" id="campaign-target-sends" class="apple-input w-full font-mono" value="500">
+                </div>
+                <div>
+                  <span class="block text-[11px] font-semibold text-[#86868b] mb-1">Active Sending Window</span>
+                  <div class="apple-input w-full text-[11px] font-mono text-white">09:00 – 18:00 (Business hours)</div>
+                </div>
+                <div>
+                  <span class="block text-[11px] font-semibold text-[#86868b] mb-1">Company Stagger Interval</span>
+                  <div class="apple-input w-full text-[11px] font-mono text-emerald-400">24 Hours Separation</div>
+                </div>
+              </div>
+            </details>
+
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: 2. COMPANIES & LEADS -->
+    <!-- ======================================================== -->
+    <section id="tab-companies" class="tab-pane hidden space-y-6" aria-labelledby="heading-companies">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="pill pill-blue mb-1">Step 2 of 5</span>
+          <h2 id="heading-companies" class="text-xl font-bold text-white tracking-tight">Company Clustered Prospects</h2>
+          <p class="text-xs text-[#86868b]">Contacts grouped by company domain with 24-hour stagger scheduling and live research tags</p>
+        </div>
+
+        <!-- Semantic Search & Action Controls -->
+        <div class="flex items-center space-x-3">
+          <search class="relative">
+            <input type="search" id="leads-search-input" oninput="filterCompaniesAndLeads(this.value)" placeholder="Search company, contact, or role..." class="apple-input pl-8 pr-3 py-1.5 text-xs w-64">
+            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-[#86868b] text-[11px]" aria-hidden="true"></i>
+          </search>
+          <button onclick="triggerAllResearch()" class="btn-apple-secondary text-xs py-1.5 px-3">
+            <i class="fa-solid fa-magnifying-glass mr-1.5 text-[#2997ff]" aria-hidden="true"></i>
+            <span>Research All</span>
+          </button>
+          <button onclick="triggerAllDrafts()" class="btn-apple-primary text-xs py-1.5 px-3">
+            <i class="fa-solid fa-pen-nib mr-1.5" aria-hidden="true"></i>
+            <span>Draft All</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Clustered Company Cards Container -->
+      <div id="company-lead-container" class="space-y-4">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: 3. AI REVIEW STUDIO -->
+    <!-- ======================================================== -->
+    <section id="tab-studio" class="tab-pane hidden space-y-6" aria-labelledby="heading-studio">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="pill pill-blue mb-1">Step 3 of 5</span>
+          <h2 id="heading-studio" class="text-xl font-bold text-white tracking-tight">AI Personalization Studio</h2>
+          <p class="text-xs text-[#86868b]">Side-by-side inspection: Live Web News (&lt;30d) & Reddit Pain Points vs. Anti-Slop Email Draft</p>
+        </div>
+        <button onclick="approveAllDrafts()" class="btn-apple-success text-xs py-2 px-4">
+          <i class="fa-solid fa-check-double mr-1.5" aria-hidden="true"></i>
+          <span>Approve All Verified Drafts</span>
+        </button>
+      </div>
+
+      <!-- Studio Split View -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[600px]">
+        <!-- Lead Selector (Left 4 cols) -->
+        <div class="lg:col-span-4 apple-card p-4 flex flex-col h-[650px]">
+          <div class="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-2 flex items-center justify-between">
+            <span>Prospects (<span id="studio-lead-count">0</span>)</span>
+            <span class="text-[11px] text-[#2997ff]">Click to inspect</span>
+          </div>
+          <search class="mb-3">
+            <input type="search" id="studio-search-input" oninput="filterStudioLeads(this.value)" placeholder="Filter leads..." class="apple-input w-full py-1.5 px-3 text-xs">
+          </search>
+          <div class="flex-1 overflow-y-auto space-y-2 pr-1" id="studio-lead-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Inspection & Email Editor (Right 8 cols) -->
+        <div class="lg:col-span-8 apple-card p-6 flex flex-col h-[650px] overflow-y-auto" id="studio-detail-panel">
+          <div class="text-center py-28 text-[#86868b] text-sm">
+            Select a prospect from the left list to view their live intelligence dossier and edit their draft.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 5: 4. SENDER GMAIL INBOXES (FLEET POOL) -->
+    <!-- ======================================================== -->
+    <section id="tab-inboxes" class="tab-pane hidden space-y-6" aria-labelledby="heading-inboxes">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="pill pill-blue mb-1">Step 4 of 5</span>
+          <h2 id="heading-inboxes" class="text-xl font-bold text-white tracking-tight">Multi-Inbox Deliverability Fleet</h2>
+          <p class="text-xs text-[#86868b]">Connect personal Gmails with safe daily limits (35/day) and hourly pacing (5/hr) to bypass spam filters</p>
+        </div>
+        <button onclick="openAddInboxModal()" class="btn-apple-primary text-xs py-2 px-4">
+          <i class="fa-solid fa-plus mr-1.5" aria-hidden="true"></i>
+          <span>Connect Personal Gmail</span>
+        </button>
+      </div>
+
+      <!-- Security & Handshake Explanation -->
+      <article class="apple-card p-5 bg-gradient-to-r from-[#18181b] to-[#141416] border border-white/[0.08]">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="flex items-start space-x-3">
+            <div class="w-8 h-8 rounded-xl bg-[#34c759]/10 text-[#34c759] flex items-center justify-center font-bold text-sm shrink-0">
+              <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-white">Authenticated & Encrypted</div>
+              <div class="text-[#86868b] text-[11px] mt-0.5">TLS Port 587 with Google App Password authentication.</div>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <div class="w-8 h-8 rounded-xl bg-[#2997ff]/10 text-[#2997ff] flex items-center justify-center font-bold text-sm shrink-0">
+              <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-white">Smart Fleet Rotation</div>
+              <div class="text-[#86868b] text-[11px] mt-0.5">Distributes 500 emails safely across 15 accounts (35/day each).</div>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <div class="w-8 h-8 rounded-xl bg-[#ff9f0a]/10 text-[#ff9f0a] flex items-center justify-center font-bold text-sm shrink-0">
+              <i class="fa-solid fa-shield-virus" aria-hidden="true"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-white">Reputation Quarantine</div>
+              <div class="text-[#86868b] text-[11px] mt-0.5">Auto-pauses any inbox on Google error to protect domain health.</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Inboxes Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="inbox-cards-grid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 6: 5. DISPATCH QUEUE -->
+    <!-- ======================================================== -->
+    <section id="tab-queue" class="tab-pane hidden space-y-6" aria-labelledby="heading-queue">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="pill pill-blue mb-1">Step 5 of 5</span>
+          <h2 id="heading-queue" class="text-xl font-bold text-white tracking-tight">Live Dispatch Queue & Delivery Timeline</h2>
+          <p class="text-xs text-[#86868b]">Every email is assigned a human delay jitter (90–240s), business-hour slot, and 24h company spacing</p>
+        </div>
+        <button onclick="fetchQueue()" class="btn-apple-secondary text-xs py-1.5 px-3">
+          <i class="fa-solid fa-arrows-rotate mr-1.5" aria-hidden="true"></i>
+          <span>Refresh Queue</span>
+        </button>
+      </div>
+
+      <div class="apple-card overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-[#18181b] border-b border-white/[0.08] text-[#86868b] font-semibold uppercase tracking-wider text-[11px]">
+              <tr>
+                <th class="py-3.5 px-5">Scheduled Slot</th>
+                <th class="py-3.5 px-5">Recipient Lead</th>
+                <th class="py-3.5 px-5">Sender Gmail</th>
+                <th class="py-3.5 px-5">Company Stagger</th>
+                <th class="py-3.5 px-5">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.06] font-mono text-[#f5f5f7]" id="queue-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Semantic Footer Landmark -->
+  <footer class="mt-auto border-t border-white/[0.06] bg-[#0c0c0e] py-6 px-6 text-xs text-[#86868b]">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-2">
+        <span class="font-semibold text-white">Outreach ENGINE 2.0</span>
+        <span>&middot;</span>
+        <span>Zero-Slop Cold Outreach</span>
+        <span>&middot;</span>
+        <span>FastMCP Enabled</span>
+      </div>
+      <div class="flex items-center space-x-4 font-mono text-[11px]">
+        <a href="/api/mcp" target="_blank" class="hover:text-white transition">MCP Protocol Endpoint</a>
+        <span>&middot;</span>
+        <a href="/health" target="_blank" class="hover:text-white transition">Health API</a>
+        <span>&middot;</span>
+        <span>Deliverability Standard: 35/day/inbox</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- NATIVE HTML5 DIALOG (Modal Compliance per modern-web-guidance) -->
+  <!-- ======================================================== -->
+  <dialog id="modal-inbox" closedby="any" aria-labelledby="modal-inbox-title">
+    <div class="dialog-content space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+        <div>
+          <h2 id="modal-inbox-title" class="text-base font-bold text-white">Connect Sender Gmail Account</h2>
+          <p class="text-xs text-[#86868b]">Authenticate using a 16-character Google App Password</p>
+        </div>
+        <button type="button" onclick="closeAddInboxModal()" class="text-[#86868b] hover:text-white text-lg">&times;</button>
+      </div>
+
+      <div class="bg-[#121214] border border-white/[0.08] p-3 rounded-xl text-xs text-[#86868b] space-y-1">
+        <div class="text-white font-medium flex items-center">
+          <i class="fa-solid fa-key text-[#ff9f0a] mr-1.5" aria-hidden="true"></i> How to get a Google App Password:
+        </div>
+        <div>1. Enable 2-Step Verification in your Google Account.</div>
+        <div>2. Go to <a href="https://myaccount.google.com/apppasswords" target="_blank" class="text-[#2997ff] underline">myaccount.google.com/apppasswords</a>.</div>
+        <div>3. Generate a password for "Mail" and paste the 16 characters below.</div>
+      </div>
+
+      <form method="dialog" onsubmit="event.preventDefault(); submitNewInbox();" class="space-y-3.5">
+        <div>
+          <label for="modal-email" class="block text-xs font-medium text-[#f5f5f7] mb-1">Gmail Address</label>
+          <input type="email" id="modal-email" required class="apple-input w-full" placeholder="your.name@gmail.com" autofocus>
+        </div>
+
+        <div>
+          <label for="modal-name" class="block text-xs font-medium text-[#f5f5f7] mb-1">Sender Display Name</label>
+          <input type="text" id="modal-name" required class="apple-input w-full" placeholder="e.g. Alex Rivera">
+        </div>
+
+        <div>
+          <label for="modal-password" class="block text-xs font-medium text-[#f5f5f7] mb-1">Google App Password (16 characters)</label>
+          <input type="password" id="modal-password" class="apple-input w-full" placeholder="xxxx xxxx xxxx xxxx">
+          <p class="text-[10px] text-[#86868b] mt-1">Leave empty to add as a safe simulation demo inbox.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="modal-daily" class="block text-xs font-medium text-[#f5f5f7] mb-1">Daily Cap</label>
+            <input type="number" id="modal-daily" class="apple-input w-full font-mono" value="35">
+            <span class="text-[10px] text-[#86868b]">Safe standard: 35/day</span>
+          </div>
+          <div>
+            <label for="modal-hourly" class="block text-xs font-medium text-[#f5f5f7] mb-1">Hourly Cap</label>
+            <input type="number" id="modal-hourly" class="apple-input w-full font-mono" value="5">
+            <span class="text-[10px] text-[#86868b]">Spaced through day</span>
+          </div>
+        </div>
+
+        <div class="pt-3 flex space-x-3">
+          <button type="button" onclick="closeAddInboxModal()" class="btn-apple-secondary w-1/2 py-2.5">Cancel</button>
+          <button type="submit" class="btn-apple-primary w-1/2 py-2.5">Authenticate & Add</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Apple Style Toast HUD Notification -->
+  <div id="apple-toast" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check text-[#34c759]" aria-hidden="true"></i>
+    <span id="apple-toast-text">Action completed successfully</span>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
