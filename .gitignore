@@ -4,27 +4,42 @@ venv/
 ENV/
 env/
 
-# Python Cache
+# Python Cache & Bytecode
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .pytest_cache/
 
-# Databases & Runtime State
-data/*.db
-data/*.sqlite
-data/*.sqlite3
+# Databases & Runtime State (NEVER COMMIT)
+data/
 *.db
 *.sqlite
+*.sqlite3
 
-# Environment & Credentials
+# Environment & Sensitive Credentials
 .env
-.env.local
+.env.*
+!.env.example
 *.pem
 *.key
+*.cert
+*.crt
+*.p12
+credentials*.json
+client_secret*.json
+token*.json
+*token*
+*secret*
+*password*
 
-# Operating System
+# User Prospect Lists & Personal CSVs (protect actual outreach lists)
+*.csv
+*.tsv
+*.xlsx
+!examples/sample_prospects.csv
+
+# Operating System & IDE
 .DS_Store
 .DS_Store?
 ._*
@@ -32,6 +47,8 @@ data/*.sqlite3
 .Trashes
 ehthumbs.db
 Thumbs.db
+.idea/
+.vscode/
 
 # Logs & Temporary files
 *.log

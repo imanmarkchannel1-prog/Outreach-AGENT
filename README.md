@@ -95,7 +95,8 @@ For every company and prospect:
 Open your terminal and run:
 
 ```bash
-cd "/Users/krishna/Documents/Outreach ENGINE"
+git clone https://github.com/imanmarkchannel1-prog/Outreach-AGENT.git
+cd Outreach-AGENT
 ./start.sh
 ```
 
