@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 from datetime import datetime, timedelta
-from typing import Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urlparse
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,6 +15,68 @@ PUBLIC_EMAIL_DOMAINS = {
     "gmail.com", "googlemail.com", "yahoo.com", "hotmail.com", "outlook.com",
     "icloud.com", "proton.me", "protonmail.com", "aol.com", "zoho.com",
 }
+
+# Fuzzy column pattern dictionaries for Agentic CSV Ingestion
+COLUMN_ALIASES = {
+    "email": [
+        "email", "emails", "e-mail", "work email", "email address",
+        "contact email", "primary email", "mail", "inbox"
+    ],
+    "full_name": [
+        "name", "full name", "contact name", "prospect name", "lead name",
+        "person", "founder name", "founder / exec"
+    ],
+    "first_name": [
+        "first name", "first", "fname", "given name"
+    ],
+    "last_name": [
+        "last name", "last", "lname", "surname", "family name"
+    ],
+    "company": [
+        "company", "brand", "dtc brand", "business", "company name",
+        "organization", "store", "store name", "brand name", "client"
+    ],
+    "role_title": [
+        "role", "title", "position", "post", "designation", "job title",
+        "headline", "occupation", "job role"
+    ],
+    "website": [
+        "website", "url", "company url", "store url", "site", "domain",
+        "link", "web", "shopify_url", "store_link"
+    ],
+    "location": [
+        "location", "city", "country", "state", "address", "hq", "headquarters"
+    ],
+    "linkedin": [
+        "linkedin", "linkedin url", "social", "profile", "linkedin profile"
+    ],
+}
+
+
+def agentic_map_columns(headers: List[str]) -> Dict[str, str]:
+    """Agentically maps messy or non-standard CSV headers to canonical fields."""
+    normalized_headers = {h.strip().lower(): h for h in headers if h}
+    mapping: Dict[str, str] = {}
+
+    for canonical, aliases in COLUMN_ALIASES.items():
+        matched_header = None
+        # 1. Exact match
+        for alias in aliases:
+            if alias in normalized_headers:
+                matched_header = normalized_headers[alias]
+                break
+
+        # 2. Substring match if no exact match
+        if not matched_header:
+            for h_norm, original in normalized_headers.items():
+                if any(alias in h_norm for alias in aliases):
+                    matched_header = original
+                    break
+
+        if matched_header:
+            mapping[canonical] = matched_header
+
+    return mapping
 
 
 def normalize_domain(input_str: Optional[str]) -> str:
@@ -43,70 +105,74 @@ def normalize_company_name(raw_name: Optional[str], domain: Optional[str] = None
     """Clean company name by removing legal suffixes and formatting."""
     if not raw_name:
         if domain and domain not in PUBLIC_EMAIL_DOMAINS:
-            # Fall back to root domain name
             root = domain.split(".")[0]
             return root.capitalize()
-        return "the team"
+        return "the brand"
     
     name = raw_name.strip()
-    # Strip common corporate suffixes
     name = re.sub(
         r",?\s+(inc\.?|llc\.?|ltd\.?|corp\.?|corporation|technologies|group|company|co\.?)$",
         "",
         name,
         flags=re.IGNORECASE,
     ).strip()
-    return name or "the team"
+    return name or "the brand"
 
 
-def classify_role(role_title: Optional[str]) -> Tuple[str, int]:
-    """Classify role category and seniority rank (1=C-suite/Founder to 4=IC).
+def classify_role(role_title: Optional[str], email: Optional[str] = None) -> Tuple[str, int, bool]:
+    """Agentically classifies role category, seniority rank, and founder status.
 
     Returns:
-        (category, seniority_rank)
-        Categories: "executive", "technical", "growth", "operations", "general"
-        Ranks: 1 (Founder/C-Suite), 2 (VP/Head/Director), 3 (Manager/Lead), 4 (Specialist/IC)
+        (category, seniority_rank, is_founder)
+        Categories: "executive", "growth", "technical", "operations", "general"
+        Ranks: 1 (Founder/CEO/C-Suite), 2 (VP/Head/Director), 3 (Lead/Manager), 4 (Specialist)
     """
-    if not role_title:
-        return "general", 3
-    
-    t = role_title.lower().strip()
-    
-    # Seniority
-    if any(k in t for k in ["founder", "ceo", "chief executive", "owner", "president", "managing director"]):
-        return "executive", 1
-    elif any(k in t for k in ["cto", "chief technology", "chief architect"]):
-        return "technical", 1
-    elif any(k in t for k in ["cmo", "chief marketing", "cro", "chief revenue"]):
-        return "growth", 1
-    elif any(k in t for k in ["coo", "chief operating", "cfo"]):
-        return "operations", 1
-    
+    t = (role_title or "").lower().strip()
+    e = (email or "").lower().strip()
+
+    # Founder / CEO detection
+    is_founder = False
+    if any(k in t for k in ["founder", "co-founder", "cofounder", "ceo", "chief executive", "owner", "president", "managing director"]):
+        is_founder = True
+        return "executive", 1, is_founder
+
+    if e.startswith("founder@") or e.startswith("ceo@"):
+        is_founder = True
+        return "executive", 1, is_founder
+
+    # Growth / Marketing leadership (CMO, Head of Growth, Paid Ads Director)
+    if any(k in t for k in ["cmo", "chief marketing", "cro", "chief revenue"]):
+        return "growth", 1, False
+
+    if any(k in t for k in ["cto", "chief technology"]):
+        return "technical", 1, False
+
+    if any(k in t for k in ["coo", "chief operating", "cfo"]):
+        return "operations", 1, False
+
     # Rank 2: VP / Head / Director
     if any(k in t for k in ["vp", "vice president", "head of", "director"]):
-        if any(k in t for k in ["tech", "eng", "software", "product", "dev", "data", "infrastructure"]):
-            return "technical", 2
-        elif any(k in t for k in ["growth", "sales", "marketing", "revenue", "partnerships", "success"]):
-            return "growth", 2
-        elif any(k in t for k in ["ops", "operations", "finance", "people", "talent"]):
-            return "operations", 2
-        return "executive", 2
-    
-    # Rank 3: Lead / Manager
-    if any(k in t for k in ["lead", "manager", "principal"]):
-        if any(k in t for k in ["tech", "eng", "software", "product", "dev", "data"]):
-            return "technical", 3
-        elif any(k in t for k in ["growth", "sales", "marketing"]):
-            return "growth", 3
-        return "general", 3
-    
-    # Rank 4: Specialist / Engineer / IC
-    if any(k in t for k in ["engineer", "developer", "specialist", "analyst", "designer", "consultant"]):
-        if any(k in t for k in ["engineer", "developer", "architect"]):
-            return "technical", 4
-        return "general", 4
+        if any(k in t for k in ["growth", "sales", "marketing", "paid", "creative", "media", "acquisition", "ads", "performance"]):
+            return "growth", 2, False
+        elif any(k in t for k in ["tech", "eng", "product", "software", "data"]):
+            return "technical", 2, False
+        elif any(k in t for k in ["ops", "operations", "finance"]):
+            return "operations", 2, False
+        return "executive", 2, False
 
-    return "general", 3
+    # Rank 3: Lead / Manager / Producer
+    if any(k in t for k in ["lead", "manager", "strategist", "producer", "coordinator"]):
+        if any(k in t for k in ["growth", "marketing", "creative", "media", "ads", "paid"]):
+            return "growth", 3, False
+        elif any(k in t for k in ["tech", "eng", "product", "software"]):
+            return "technical", 3, False
+        return "general", 3, False
+
+    # Default fallback
+    if any(k in t for k in ["marketing", "growth", "creative", "ads"]):
+        return "growth", 3, False
+
+    return "general", 3, False
 
 
 async def get_or_create_company(
@@ -152,12 +218,7 @@ async def calculate_company_stagger_offset(
     base_scheduled_at: datetime,
     stagger_hours: int = 24,
 ) -> datetime:
-    """Ensure contacts at the same company are staggered by stagger_hours.
-
-    Checks the latest scheduled or sent date for any contact from this company.
-    If a previous contact is scheduled on Day X, this contact moves to Day X + stagger_hours.
-    """
-    # Find latest scheduled time for any lead in this company
+    """Ensure contacts at the same company are staggered by stagger_hours."""
     stmt = (
         select(func.max(QueueSlot.scheduled_at))
         .join(Lead, QueueSlot.lead_id == Lead.id)
@@ -170,7 +231,6 @@ async def calculate_company_stagger_offset(
     latest_slot = result.scalar_one_or_none()
     
     if latest_slot and latest_slot >= base_scheduled_at:
-        # Move forward by stagger_hours
         return latest_slot + timedelta(hours=stagger_hours)
     
     return base_scheduled_at

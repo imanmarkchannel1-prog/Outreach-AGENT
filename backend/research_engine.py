@@ -35,7 +35,7 @@ class ResearchEngine:
             loop = asyncio.get_event_loop()
             raw_news = await loop.run_in_executor(
                 None,
-                lambda: list(DDGS().news(keywords=query, max_results=5)),
+                lambda: list(DDGS().news(query, max_results=5)),
             )
             for item in raw_news:
                 title = item.get("title", "")

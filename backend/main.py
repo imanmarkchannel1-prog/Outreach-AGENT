@@ -75,16 +75,23 @@ async def lifespan(app: FastAPI):
 
     # Create default demo campaign & default demo inboxes if empty
     async with AsyncSessionLocal() as db:
-        res = await db.execute(select(Campaign))
-        if not res.scalars().first():
+        res = await db.execute(select(Campaign).where(Campaign.id == 1))
+        camp = res.scalar_one_or_none()
+        if not camp:
             default_campaign = Campaign(
-                name="AI Automated Cold Outreach",
-                offer_pitch="We provide high-leverage AI autonomous workflows that handle data enrichment and custom outreach.",
-                sender_name="Outreach Engine",
-                custom_instructions="Congratulate on milestones < 30 days. Emphasize zero-slop peer-to-peer style.",
+                id=1,
+                name="DTC Performance Ads & Video Production",
+                offer_pitch="We handle end-to-end DTC ad creative production & testing across Meta and TikTok (vertical UGC hooks, AI product video showcases, and rapid hook testing) to eliminate ad fatigue and scale ROAS.",
+                sender_name="Alex Rivera",
+                custom_instructions="Congratulate on recent brand milestones < 30 days. Emphasize zero-slop DTC tone, ad creative hook testing, and share showcase link (https://dtc-creatives.agency/showcase).",
                 target_daily_sends=500,
             )
             db.add(default_campaign)
+            await db.commit()
+        else:
+            camp.name = "DTC Performance Ads & Video Production"
+            camp.offer_pitch = "We handle end-to-end DTC ad creative production & testing across Meta and TikTok (vertical UGC hooks, AI product video showcases, and rapid hook testing) to eliminate ad fatigue and scale ROAS."
+            camp.custom_instructions = "Congratulate on recent brand milestones < 30 days. Emphasize zero-slop DTC tone, ad creative hook testing, and share showcase link (https://dtc-creatives.agency/showcase)."
             await db.commit()
 
         # Seed sample inboxes for personal Gmail rotation pool
@@ -325,6 +332,16 @@ async def list_leads_api(
     res = await db.execute(stmt)
     leads = res.scalars().all()
     return [LeadOut.model_validate(l) for l in leads]
+
+
+@app.post("/api/leads/parse-preview")
+async def parse_preview_endpoint(
+    file: UploadFile = File(...),
+):
+    """Agentic pre-flight inspection of uploaded CSV with column discovery and founder identification."""
+    content = await file.read()
+    csv_text = content.decode("utf-8", errors="ignore")
+    return pipeline_coordinator.preview_csv(csv_text)
 
 
 @app.post("/api/leads/upload-csv")

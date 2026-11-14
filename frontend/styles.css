@@ -1,52 +1,53 @@
 /* ==========================================================================
-   OUTREACH // OS — Nothing Design System (Inspired by Nothing Tech & ElevenLabs)
-   Palette: Iconic Nothing Red-Orange (#ff3b00), Pitch Black (#000000), 
-            Industrial Grays (#888888, #161618), Stark White (#ffffff)
-   Architecture: ElevenLabs-style Left Rail Sidebar + Right High-Density Workstation
+   OUTREACH // DTC AD ENGINE — Friendly Modern Dark System
+   Inspired by Discord, Slack & Linear (Warm, Approachable, High-Contrast)
+   Typography: Plus Jakarta Sans & Inter (Human, Friendly, Highly Readable)
+   Palette: Monochromatic Black/Charcoal, Crisp White, Subtle Emerald (#10b981),
+            Soft Warm Amber (#f59e0b used sparingly)
+   Radii: 8px–10px on Buttons, 12px on Cards, Pill Badges (Friendly & Approachable)
    ========================================================================== */
 
 :root {
-  /* ── Nothing Tech Monochromatic Canvas ───────────────────────────────── */
-  --nt-bg: #000000;
-  --nt-surface: #0a0a0c;
-  --nt-card: #111114;
-  --nt-card-hover: #16161a;
-  --nt-elevated: #1a1a1e;
-  --nt-inset: #070709;
+  /* ── Canvas & Surfaces (Discord/Slack Charcoal Tones) ─────────────────── */
+  --bg-base: #0b0c10;
+  --bg-sidebar: #0f1015;
+  --bg-card: #14151d;
+  --bg-card-hover: #191b26;
+  --bg-elevated: #1e202e;
+  --bg-inset: #0a0a0e;
   
-  /* ── Industrial Hairline Strokes ─────────────────────────────────────── */
-  --nt-border: rgba(255, 255, 255, 0.08);
-  --nt-border-strong: rgba(255, 255, 255, 0.16);
-  --nt-border-subtle: rgba(255, 255, 255, 0.04);
-  --nt-grid-line: rgba(255, 255, 255, 0.03);
+  /* ── Hairline Borders & Dividers ─────────────────────────────────────── */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-card: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-focus: rgba(255, 255, 255, 0.35);
 
   /* ── Typography Shades ───────────────────────────────────────────────── */
-  --nt-text-primary: #ffffff;
-  --nt-text-secondary: #8c8c92;
-  --nt-text-muted: #52525b;
+  --text-primary: #ffffff;
+  --text-secondary: #9da3af;
+  --text-muted: #646a78;
 
-  /* ── Iconic Nothing Red-Orange Accent ────────────────────────────────── */
-  --nt-orange: #ff3b00;
-  --nt-orange-hover: #ff521a;
-  --nt-orange-bg: rgba(255, 59, 0, 0.09);
-  --nt-orange-border: rgba(255, 59, 0, 0.30);
-  --nt-orange-glow: rgba(255, 59, 0, 0.45);
+  /* ── Subtle Emerald Accent (Discord Online Green / High Trust) ───────── */
+  --emerald: #10b981;
+  --emerald-hover: #059669;
+  --emerald-glow: rgba(16, 185, 129, 0.25);
+  --emerald-bg: rgba(16, 185, 129, 0.10);
+  --emerald-border: rgba(16, 185, 129, 0.30);
 
-  /* ── Monochromatic Functional Accents ────────────────────────────────── */
-  --nt-blue: #3b82f6;
-  --nt-blue-bg: rgba(59, 130, 246, 0.08);
-  --nt-blue-border: rgba(59, 130, 246, 0.25);
+  /* ── Subtle Warm Amber (For Warm Prospect Replies Only) ──────────────── */
+  --amber: #f59e0b;
+  --amber-bg: rgba(245, 158, 11, 0.10);
+  --amber-border: rgba(245, 158, 11, 0.30);
 
-  /* ── Subtle Radii (Clean, Mechanical, Nothing OS Spec) ────────────────── */
-  --radius-card: 6px;
-  --radius-button: 4px;
-  --radius-input: 4px;
-  --radius-badge: 3px;
-  --radius-avatar: 50%;
+  /* ── Friendly Radii (Slack/Discord Rounded Specs) ─────────────────────── */
+  --radius-button: 8px;
+  --radius-card: 12px;
+  --radius-input: 8px;
+  --radius-pill: 9999px;
 
-  /* ── Modernist Typography ────────────────────────────────────────────── */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Geist", -system-ui, sans-serif;
-  --font-mono: "SF Mono", "Space Mono", Monaco, Menlo, Consolas, monospace;
+  /* ── Human, Friendly Typography ──────────────────────────────────────── */
+  --font-sans: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
 }
 
 *, *::before, *::after {
@@ -55,22 +56,23 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--nt-bg);
-  color: var(--nt-text-primary);
-  font-size: 12.5px;
-  line-height: 1.45;
-  letter-spacing: -0.01em;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: -0.012em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-bottom: env(safe-area-inset-bottom, 0px);
   overflow-x: hidden;
 }
 
-/* ── Typography & Nothing Dot-Matrix Style ───────────────────────────────── */
+/* ── Typography & Friendly Headings ──────────────────────────────────────── */
 
 h1, h2, h3, h4, h5, h6 {
-  letter-spacing: -0.025em;
-  color: var(--nt-text-primary);
+  font-family: var(--font-sans);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -79,48 +81,71 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
-.nt-dot-label {
-  font-family: var(--font-mono);
+.text-friendly-label {
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 9.5px;
-  color: var(--nt-text-secondary);
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
 }
 
-.nt-brand-wordmark {
-  font-family: var(--font-mono);
-  letter-spacing: 0.22em;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-/* ── Nothing OS Card & Surface Material ──────────────────────────────────── */
+/* ── Friendly Rounded Cards (Slack & Discord Surface) ─────────────────────── */
 
 .nt-card {
-  background: var(--nt-card);
-  border: 1px solid var(--nt-border);
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-card);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-  transition: border-color 0.15s ease, background 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: all 0.15s ease;
 }
 
 .nt-card:hover {
-  border-color: var(--nt-border-strong);
+  border-color: var(--border-strong);
 }
 
 .nt-card-glow:hover {
-  border-color: var(--nt-orange-border);
-  box-shadow: 0 0 12px var(--nt-orange-bg);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* ── Nothing Buttons (Mechanical 4px Radii) ─────────────────────────────── */
+/* ── Button Hierarchy (Senior Developer Design System) ───────────────────── */
 
-.nt-btn-orange {
-  background: var(--nt-orange);
+/* Primary Button: Highest Visual Importance (Friendly White on Dark or Emerald Glow) */
+.nt-btn-primary, .nt-btn-orange {
+  background: #ffffff;
+  color: #0b0c10;
+  border-radius: var(--radius-button);
+  padding: 7px 15px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  letter-spacing: -0.01em;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.12);
+}
+
+.nt-btn-primary:hover, .nt-btn-orange:hover {
+  background: #f4f4f6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.20);
+}
+
+.nt-btn-primary:active, .nt-btn-orange:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* Green Highlight Action Button (e.g. Run Pipeline / Active) */
+.nt-btn-emerald {
+  background: var(--emerald);
   color: #ffffff;
   border-radius: var(--radius-button);
-  padding: 6px 13px;
-  font-size: 11.5px;
+  padding: 7px 15px;
+  font-size: 12px;
   font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.2);
   display: inline-flex;
@@ -128,28 +153,26 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   cursor: pointer;
   user-select: none;
-  font-family: var(--font-mono);
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
   transition: all 0.15s ease;
+  box-shadow: 0 2px 10px var(--emerald-glow);
 }
 
-.nt-btn-orange:hover {
-  background: var(--nt-orange-hover);
-  box-shadow: 0 0 12px var(--nt-orange-glow);
+.nt-btn-emerald:hover {
+  background: var(--emerald-hover);
+  box-shadow: 0 4px 16px var(--emerald-glow);
+  transform: translateY(-1px);
 }
 
-.nt-btn-orange:active {
-  transform: scale(0.98);
-}
-
+/* Secondary Button: Subtle, Quiet, Elegant */
 .nt-btn-secondary {
   background: rgba(255, 255, 255, 0.05);
-  color: var(--nt-text-primary);
+  color: var(--text-primary);
   border-radius: var(--radius-button);
-  padding: 6px 12px;
-  font-size: 11.5px;
+  padding: 6px 13px;
+  font-size: 12px;
   font-weight: 500;
-  border: 1px solid var(--nt-border);
+  border: 1px solid var(--border-card);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -159,36 +182,38 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nt-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.10);
-  border-color: var(--nt-border-strong);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--border-strong);
+  color: #ffffff;
 }
 
 .nt-btn-secondary:active {
   transform: scale(0.98);
 }
 
-/* ── Nothing Form Inputs ─────────────────────────────────────────────────── */
+/* ── Modern Form Inputs (Friendly 8px Radii) ─────────────────────────────── */
 
 .nt-input {
-  background: var(--nt-inset);
-  border: 1px solid var(--nt-border);
-  color: var(--nt-text-primary);
+  background: var(--bg-inset);
+  border: 1px solid var(--border-card);
+  color: var(--text-primary);
   border-radius: var(--radius-input);
-  padding: 7px 10px;
-  font-size: 12px;
+  padding: 8px 12px;
+  font-size: 12.5px;
   font-family: var(--font-sans);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  line-height: 1.45;
+  transition: all 0.15s ease;
 }
 
 .nt-input:focus {
   outline: none;
-  border-color: var(--nt-orange);
-  box-shadow: 0 0 0 1px var(--nt-orange-border);
-  background: #0d0d10;
+  border-color: var(--border-focus);
+  background: #0f1015;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
 }
 
 .nt-input::placeholder {
-  color: var(--nt-text-muted);
+  color: var(--text-muted);
 }
 
 @media screen and (max-width: 640px) {
@@ -197,64 +222,47 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* ── Minimalist Badges & Pills ───────────────────────────────────────────── */
+/* ── Friendly Badges & Pills (Pill 9999px Radii) ─────────────────────────── */
 
 .nt-pill {
   display: inline-flex;
   align-items: center;
-  font-size: 9.5px;
-  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 600;
-  padding: 2px 6px;
-  border-radius: var(--radius-badge);
-  letter-spacing: 0.02em;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.01em;
   white-space: nowrap;
 }
 
-.nt-pill-orange {
-  background: var(--nt-orange-bg);
-  color: var(--nt-orange);
-  border: 1px solid var(--nt-orange-border);
+.nt-pill-emerald, .nt-pill-green {
+  background: var(--emerald-bg);
+  color: var(--emerald);
+  border: 1px solid var(--emerald-border);
+}
+
+.nt-pill-amber, .nt-pill-orange, .nt-pill-yellow {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border: 1px solid var(--amber-border);
 }
 
 .nt-pill-gray {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--nt-text-secondary);
-  border: 1px solid var(--nt-border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-card);
 }
 
 .nt-pill-white {
   background: rgba(255, 255, 255, 0.12);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 .nt-pill-blue {
-  background: var(--nt-blue-bg);
-  color: var(--nt-blue);
-  border: 1px solid var(--nt-blue-border);
-}
-
-/* Compatibility aliases */
-.pill-orange, .pill-yellow {
-  background: var(--nt-orange-bg);
-  color: var(--nt-orange);
-  border: 1px solid var(--nt-orange-border);
-}
-.pill-blue, .pill-purple {
-  background: var(--nt-blue-bg);
-  color: var(--nt-blue);
-  border: 1px solid var(--nt-blue-border);
-}
-.pill-green {
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-  border: 1px solid var(--nt-border);
-}
-.pill-gray {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--nt-text-secondary);
-  border: 1px solid var(--nt-border);
+  background: rgba(59, 130, 246, 0.10);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.25);
 }
 
 /* ── Streamlined Circular Account Avatar Stack ───────────────────────────── */
@@ -263,8 +271,8 @@ h1, h2, h3, h4, h5, h6 {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #141416;
-  border: 1px solid var(--nt-border);
+  background: #171822;
+  border: 1px solid var(--border-card);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -278,7 +286,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nt-avatar-circle:hover {
-  border-color: var(--nt-orange);
+  border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-1px);
 }
 
@@ -286,103 +294,96 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   top: -1px;
   right: -1px;
-  width: 7px;
-  height: 7px;
+  width: 7.5px;
+  height: 7.5px;
   border-radius: 50%;
-  background: var(--nt-orange);
-  border: 1.5px solid #000000;
+  background: var(--emerald);
+  border: 1.5px solid #0f1015;
 }
 
-/* ── ElevenLabs-Style Sidebar Navigation ─────────────────────────────────── */
+/* ── Discord / Slack Style Left Rail Sidebar ─────────────────────────────── */
 
 .nt-sidebar-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 8px 12px;
-  border-radius: 5px;
-  color: var(--nt-text-secondary);
-  font-size: 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
   font-weight: 500;
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.15s ease;
   user-select: none;
+  transition: all 0.15s ease;
 }
 
 .nt-sidebar-item:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
 }
 
 .nt-sidebar-item.active {
+  background: rgba(255, 255, 255, 0.10);
   color: #ffffff;
-  background: #161619;
   font-weight: 600;
-  border-left: 2px solid var(--nt-orange);
 }
 
-/* ── Modal Dialog (Nothing Spec: 8px Radii, Stark Dark) ─────────────────── */
+.nt-sidebar-item.active i {
+  color: var(--emerald);
+}
 
-dialog:modal {
-  background: transparent;
+/* ── Clean Dialog Modal (Discord Friendly Style) ─────────────────────────── */
+
+dialog {
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: #13141c;
+  color: var(--text-primary);
   padding: 0;
-  border: none;
   max-width: 480px;
-  width: calc(100% - 24px);
-  margin: auto;
-  overscroll-behavior: contain;
+  width: 92%;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
 }
 
 dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  overflow: hidden;
-  overscroll-behavior: contain;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
 }
 
 .dialog-content {
-  background: #0f0f12;
-  border: 1px solid var(--nt-border-strong);
-  border-radius: 8px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-  padding: 18px;
-  color: var(--nt-text-primary);
+  padding: 20px;
 }
 
-/* ── Nothing Toast HUD ───────────────────────────────────────────────────── */
+/* ── Toast HUD Notification (Friendly, Subtle Emerald) ───────────────────── */
 
 #apple-toast {
   position: fixed;
-  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-  left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: #141418;
-  border: 1px solid var(--nt-border-strong);
+  bottom: 24px;
+  right: 24px;
+  background: #181924;
   color: #ffffff;
-  padding: 7px 16px;
-  border-radius: 4px;
-  font-size: 11.5px;
-  font-family: var(--font-mono);
+  border: 1px solid var(--border-strong);
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-size: 12px;
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   opacity: 0;
+  transform: translateY(10px);
   pointer-events: none;
-  z-index: 9999;
-  max-width: 90vw;
-  text-align: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1000;
 }
 
 #apple-toast.visible {
-  transform: translateX(-50%) translateY(0);
   opacity: 1;
+  transform: translateY(0);
 }
 
-/* ── Scrollbars & Utilities ──────────────────────────────────────────────── */
+/* ── Scrollbars & Responsive Utilities ───────────────────────────────────── */
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -393,26 +394,16 @@ dialog::backdrop {
 }
 
 ::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.12);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.22);
-}
-
-details summary {
-  list-style: none;
-}
-details summary::-webkit-details-marker {
-  display: none;
-}
-details[open] summary {
-  margin-bottom: 6px;
 }

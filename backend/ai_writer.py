@@ -1,7 +1,7 @@
-"""AI Cold Outreach Copywriter.
+"""AI Cold Outreach Copywriter for DTC Ads Agency.
 
-Enforces strict anti-slop guidelines, congratulates on recent wins (<30 days),
-incorporates Reddit community insights, and adapts the pitch to the prospect's role.
+Specialized in End-to-End DTC Performance Ads, Meta & TikTok video creatives,
+AI product video showcases, creative hook testing, and ROAS scaling.
 """
 
 from __future__ import annotations
@@ -17,6 +17,8 @@ from backend.models import Campaign, Company, Lead
 
 logger = logging.getLogger("outreach_engine.ai_writer")
 
+DEFAULT_SHOWCASE_URL = "https://dtc-creatives.agency/showcase"
+
 
 class AIWriter:
     def __init__(self):
@@ -24,20 +26,25 @@ class AIWriter:
 
     def _build_system_prompt(self, custom_instructions: Optional[str] = None) -> str:
         prompt = (
-            "You are an elite B2B cold email strategist. You write concise, peer-to-peer, "
-            "authentic cold outreach that reads like it was written by an industry colleague.\n\n"
-            "STRICT RULES (Violating any will fail quality check):\n"
-            "1. NO generic pleasantries: NEVER use 'I hope this email finds you well', 'I came across', 'I noticed', 'dive into'.\n"
-            "2. NO buzzwords: NEVER use 'game changer', 'revolutionary', 'transform', 'synergy', 'leverage', 'innovative'.\n"
-            "3. TOTAL LENGTH: Under 110 words across 4 short paragraphs.\n"
-            "4. SUBJECT LINE: 2 to 4 lowercase or natural words. Zero sales hype.\n"
-            "5. P1 HOOK: If there is a recent win or announcement within the past 30 days, congratulate them in 1 authentic sentence.\n"
-            "6. P2 CONTEXT: Weave in the Reddit community observation or specific operational pain point for their role.\n"
-            "7. P3 OFFER: State exactly what we do and how it eliminates that friction.\n"
-            "8. P4 CTA: Soft, low-friction, zero-pressure question (e.g. 'Mind if I share a 2-minute walkthrough?').\n"
+            "You are an elite DTC Paid Ads Creative Director and cold outreach strategist.\n"
+            "We are a specialized DTC Ads Agency that handles END-TO-END DTC Ads for high-growth brands.\n"
+            "Our focus is strictly on the PAID ADS DEPARTMENT (Meta & TikTok direct response), NOT generic organic social media posting.\n\n"
+            "WHAT WE DELIVER FOR DTC BRANDS:\n"
+            "1. End-to-End Ad Creative Production: High-converting 9:16 vertical UGC hooks, 1:1 feed ads, dynamic product showcases, and AI-rendered video ads.\n"
+            "2. Creative Hook Testing Framework: Rapid iteration (3–5 new hook angles/week) to eliminate ad creative fatigue and unlock 2x–4x ROAS scale on Meta and TikTok.\n"
+            "3. Super High-Quality Deliverables: Scripting, creator sourcing, 3D motion, visual hook testing, and post-production tailored for direct customer acquisition.\n"
+            "4. Creative Showcase / Portfolio: We share a custom portfolio link (https://dtc-creatives.agency/showcase) with pre-rendered AI video ads and winning DTC case studies.\n\n"
+            "STRICT COPYWRITING RULES (Violating any will fail quality check):\n"
+            "1. ZERO SLOP: NEVER say 'I hope this email finds you well', 'I came across', 'I noticed', 'dive into', 'synergy', 'game changer'.\n"
+            "2. CONCISE: Under 100 words across 4 short, readable paragraphs.\n"
+            "3. SUBJECT: 2 to 4 natural, friendly lowercase words (e.g. 'quick thought: ridge ads', 'ad creative test for feastables').\n"
+            "4. P1 HOOK: Congratulate the founder or marketing lead on a recent milestone (<30 days) like a product drop, retail launch, or viral momentum.\n"
+            "5. P2 CONTEXT: Reference ad creative fatigue on Meta/TikTok or audience creative saturation.\n"
+            "6. P3 OFFER: Highlight our end-to-end DTC ad production (vertical UGC + AI product videos + rapid hook testing) to scale paid ROAS.\n"
+            "7. P4 CTA: Soft, low-pressure question offering a 2-minute video teardown + showcase link (e.g. 'Mind if I share the 3 AI ad concepts we modeled for your brand?').\n"
         )
         if custom_instructions:
-            prompt += f"\nADDITIONAL USER INSTRUCTIONS FROM CHAT:\n{custom_instructions}\n"
+            prompt += f"\nADDITIONAL CAMPAIGN INSTRUCTIONS:\n{custom_instructions}\n"
         return prompt
 
     def _build_user_prompt(
@@ -47,35 +54,34 @@ class AIWriter:
         campaign: Campaign,
         dossier: Dict[str, Any],
     ) -> str:
-        first_name = lead.first_name or lead.full_name.split()[0] if lead.full_name else "there"
+        first_name = lead.first_name or (lead.full_name.split()[0] if lead.full_name else "there")
         recent_achievement = dossier.get("recent_achievement", {})
         reddit_intel = dossier.get("reddit_insights", {})
         role_perspective = dossier.get("role_perspective", {})
 
         return f"""PROSPECT PROFILE:
 - Name: {lead.full_name or first_name} ({lead.role_title} at {company.name})
-- Role Category: {lead.role_category}
-- Strategic Focus: {role_perspective.get('strategic_focus', '')}
+- Decision-Maker Tier: {lead.role_category} (Rank {lead.seniority_rank})
+- Focus: {role_perspective.get('strategic_focus', 'DTC Growth & Customer Acquisition')}
 
-COMPANY INTEL:
-- Company: {company.name} ({company.domain})
-- Recent Milestone (<30 days): {recent_achievement.get('summary', 'Recent market growth')}
+BRAND INTEL:
+- DTC Brand: {company.name} ({company.domain})
+- Recent Milestone (<30 days): {recent_achievement.get('summary', 'Recent catalog expansion and customer growth')}
 - Congratulation Angle: {recent_achievement.get('congrats_hook', '')}
-- Reddit Community Observation: {reddit_intel.get('discussion_thread', '')} | Pain: {reddit_intel.get('pain_point', '')}
+- Customer / Reddit Observation: {reddit_intel.get('discussion_thread', '')} | Pain: {reddit_intel.get('pain_point', 'ad creative fatigue on Meta')}
 
-CAMPAIGN OFFER:
-- Sender Name: {campaign.sender_name}
-- What we offer / Value Prop: {campaign.offer_pitch}
+DTC AGENCY VALUE PROP:
+- Offer: End-to-end DTC video ads (9:16 vertical UGC + AI product showcases + rapid hook testing to scale Meta/TikTok ROAS).
+- Portfolio Showcase: {DEFAULT_SHOWCASE_URL}
 
 INSTRUCTIONS:
-Generate a personalized email following the 4-part structure.
-Return strictly valid JSON in this schema:
+Generate a tailored, friendly cold email under 100 words in this JSON format:
 {{
-  "subject": "2-4 words subject line",
-  "p1_hook": "1 sentence congratulating on recent achievement or sharp role hook",
-  "p2_context": "1-2 sentences referencing the Reddit / workflow pain point",
-  "p3_offer": "1-2 sentences tying our offer pitch directly to solving this",
-  "p4_cta": "1 low-friction soft closing question"
+  "subject": "2-4 lowercase friendly words",
+  "p1_hook": "1 sentence congratulating on recent milestone or brand momentum",
+  "p2_context": "1-2 sentences on paid ad creative fatigue or hook saturation",
+  "p3_offer": "1-2 sentences on our end-to-end DTC ad creative engine and multi-format testing",
+  "p4_cta": "1 friendly, low-friction question offering to send the 3 AI ad concepts"
 }}"""
 
     async def generate_draft(
@@ -86,7 +92,7 @@ Return strictly valid JSON in this schema:
         dossier: Dict[str, Any],
         custom_instructions: Optional[str] = None,
     ) -> Tuple[str, str, Dict[str, Any]]:
-        """Generate subject and email body using configured LLM or intelligent heuristic fallback."""
+        """Generate subject and email body using configured LLM or intelligent DTC heuristic fallback."""
         system_prompt = self._build_system_prompt(
             custom_instructions or campaign.custom_instructions
         )
@@ -122,7 +128,7 @@ Return strictly valid JSON in this schema:
             except Exception as e:
                 logger.warning(f"OpenAI API call failed, falling back: {e}")
 
-        # 4. Intelligent contextual synthesis (No API key needed — 100% reliable)
+        # 4. Contextual DTC Heuristic (100% reliable)
         result = self._generate_contextual_heuristic(lead, company, campaign, dossier)
         subject, body = self._format_email(lead, result)
         return subject, body, result
@@ -187,41 +193,37 @@ Return strictly valid JSON in this schema:
         campaign: Campaign,
         dossier: Dict[str, Any],
     ) -> Dict[str, Any]:
-        """High-converting, role-adapted anti-slop copy engine built on research dossier."""
-        first_name = lead.first_name or (lead.full_name.split()[0] if lead.full_name else "there")
-        company_name = company.name or "the team"
+        """High-converting DTC ad creative pitch tailored by role."""
+        company_name = company.name or "the brand"
         recent = dossier.get("recent_achievement", {})
         reddit = dossier.get("reddit_insights", {})
         role_cat = lead.role_category
 
-        # Hook / Congratulation
+        # P1: Congratulation on recent milestone or brand drop
         if recent.get("has_milestone") and recent.get("congrats_hook"):
             p1 = recent["congrats_hook"]
         else:
-            p1 = f"Saw {company_name}'s recent momentum and expansion — great progress."
+            p1 = f"Loved seeing {company_name}'s recent momentum and customer reception lately."
 
-        # Role-tailored observation & Reddit context
-        pain = reddit.get("pain_point") or "scaling operational bandwidth without burning engineering cycles"
-        if role_cat == "technical":
-            subject = f"{company_name.lower()} + tech stack question"
-            p2 = f"Noticed recent community discussions around how engineering teams at {company_name} navigate {pain}."
-            p3 = f"We built {campaign.offer_pitch} to give technical leaders direct leverage here without adding technical debt."
-            p4 = "Mind if I send a quick 90-second loom showing the architecture?"
+        # Role-tailored DTC Ad Offer
+        if role_cat == "executive":
+            # Founder / CEO angle: Scaling acquisition profitably, avoiding creative bottlenecks
+            subject = f"ad creative for {company_name.lower()}"
+            p2 = f"As {company_name} scales on Meta and TikTok, creative fatigue is usually the biggest bottleneck holding back ROAS."
+            p3 = f"We run end-to-end DTC ad production — delivering 3–5 net-new vertical UGC hooks and AI product video ads every week so your acquisition never hits a wall."
+            p4 = f"We modeled 3 AI video ad concepts for {company_name}. Mind if I send the showcase link over?"
         elif role_cat == "growth":
-            subject = f"question re: {company_name.lower()} pipeline"
-            p2 = f"Saw discussions on Reddit regarding customer friction and growth scaling for teams like {company_name}."
-            p3 = f"We help growth leaders solve this: {campaign.offer_pitch}."
-            p4 = "Worth a brief exchange next Tuesday?"
-        elif role_cat == "executive":
-            subject = f"congrats on {company_name.lower()} + brief idea"
-            p2 = f"As {company_name} scales, managing {pain} usually becomes a top bottleneck on executive bandwidth."
-            p3 = f"We partner with leadership to address this: {campaign.offer_pitch}."
-            p4 = "Open to checking out a 2-minute overview?"
+            # CMO / Head of Growth angle: Testing velocity, multiple formats, lowering blended CAC
+            subject = f"new ad hooks for {company_name.lower()}"
+            p2 = f"Saw your recent Meta campaigns and wanted to share a few fresh hook angles to test against audience creative fatigue."
+            p3 = f"We produce end-to-end performance ads for DTC brands (9:16 vertical video, AI product showcases, and rapid hook testing) built directly to unlock lower CAC."
+            p4 = f"Put together a quick 2-minute creative breakdown and 3 video concepts for your team. Open to taking a look?"
         else:
-            subject = f"quick thought: {company_name.lower()}"
-            p2 = f"Noticed teams in your space frequently running into friction with {pain}."
-            p3 = f"We specifically solve this: {campaign.offer_pitch}."
-            p4 = "Open to a quick look?"
+            # Creative / General angle
+            subject = f"quick idea for {company_name.lower()} ads"
+            p2 = f"Noticed how fast {company_name}'s catalog is growing and had an idea for refreshing your top-of-funnel video creatives."
+            p3 = f"We handle end-to-end DTC ad creation and multi-format testing across Meta and TikTok, delivering high-impact video ads ready for Ads Manager."
+            p4 = f"Open to checking out a quick preview of 3 video hooks we modeled for your brand?"
 
         return {
             "subject": subject,
@@ -233,9 +235,7 @@ Return strictly valid JSON in this schema:
 
     def _format_email(self, lead: Lead, data: Dict[str, Any]) -> Tuple[str, str]:
         first_name = lead.first_name or (lead.full_name.split()[0] if lead.full_name else "there")
-        subject = data.get("subject", "quick question").strip().strip('"')
-        
-        # Clean subject line: ensure 2-5 words, lowercase or clean
+        subject = data.get("subject", "quick thought on ads").strip().strip('"')
         subject = re.sub(r'^(subject:\s*)+', '', subject, flags=re.IGNORECASE).strip()
 
         p1 = data.get("p1_hook", "").strip()
@@ -243,15 +243,16 @@ Return strictly valid JSON in this schema:
         p3 = data.get("p3_offer", "").strip()
         p4 = data.get("p4_cta", "").strip()
 
-        # Build clean paragraph-separated body
         body = (
             f"Hey {first_name},\n\n"
             f"{p1}\n\n"
             f"{p2}\n\n"
             f"{p3}\n\n"
-            f"{p4}"
+            f"{p4}\n\n"
+            f"Best,\n"
+            f"Alex\n"
+            f"DTC Creative Lab &middot; {DEFAULT_SHOWCASE_URL}"
         )
-
         return subject, body
 
     def generate_follow_up(
@@ -260,56 +261,52 @@ Return strictly valid JSON in this schema:
         company: Company,
         campaign: Campaign,
         step: int = 1,
-    ) -> Tuple[str, str]:
-        """Generate high-converting, low-friction anti-slop follow-ups."""
+    ) -> Dict[str, Any]:
+        """Generate high-converting, friendly DTC follow-up bumps (<45 words)."""
         first_name = lead.first_name or (lead.full_name.split()[0] if lead.full_name else "there")
-        company_name = company.name or "the team"
-        sender_name = campaign.sender_name or "Alex"
-        dossier = lead.research_dossier or {}
-        reddit = dossier.get("reddit_insights", {})
-        pain = reddit.get("pain_point") or "scaling team bandwidth"
+        brand = company.name or "the brand"
 
         if step == 1:
-            subject = f"Re: quick thought: {company_name.lower()}"
+            subject = f"Re: ad creative for {brand.lower()}"
             body = (
                 f"Hey {first_name},\n\n"
-                f"Quick bump on this in case it got buried under {company_name}'s sprint priorities.\n\n"
-                f"Curious if tackling {pain} is something you're exploring this quarter?\n\n"
-                f"Best,\n{sender_name}"
+                f"Quick bump on this in case it got buried under {brand}'s sprint priorities.\n\n"
+                f"Uploaded the 3 AI video ad concepts to our showcase link ({DEFAULT_SHOWCASE_URL}). Mind if I send the 60-second preview?\n\n"
+                f"Best,\nAlex"
             )
         else:
-            subject = f"Re: {company_name.lower()} note"
+            subject = f"Re: {brand.lower()} ad hooks"
             body = (
                 f"Hey {first_name},\n\n"
-                f"Assuming this isn't top of mind for {company_name} right now, so I won't crowd your inbox.\n\n"
-                f"If you ever want to check out how we eliminate friction around {pain}, feel free to reach back out.\n\n"
-                f"Best,\n{sender_name}"
+                f"Guessing your creative pipeline is running full steam right now.\n\n"
+                f"If you ever hit ad fatigue on Meta or want a fresh round of UGC/AI hook tests to scale ROAS for {brand}, our door's open at {DEFAULT_SHOWCASE_URL}.\n\n"
+                f"Wishing you continued scale!\nAlex"
             )
-        return subject, body
+
+        return {"step": step, "subject": subject, "body": body}
 
     def generate_reply_back(
         self,
         lead: Lead,
         company: Company,
         campaign: Campaign,
-        incoming_snippet: str,
-        user_instruction: str = "",
-    ) -> Tuple[str, str]:
-        """Generate personalized AI response to an interested prospect's reply."""
+        incoming_message: str,
+        instruction: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Draft tailored response to warm prospect inquiring about DTC ads."""
         first_name = lead.first_name or (lead.full_name.split()[0] if lead.full_name else "there")
-        company_name = company.name or "your team"
-        sender_name = campaign.sender_name or "Alex"
+        brand = company.name or "your brand"
 
-        subject = f"Re: connecting on {company_name.lower()}"
+        subject = f"Re: {brand} ad creative"
         body = (
             f"Hey {first_name},\n\n"
-            f"Thanks for getting back to me! Glad this resonated.\n\n"
-            f"Based on what you mentioned, we can easily tailor this specifically for {company_name}. "
-            f"Would you be open to a quick 15-minute sync later this week to walk through the exact setup?\n\n"
-            f"Let me know if Thursday or Friday morning works on your calendar.\n\n"
-            f"Best,\n{sender_name}"
+            f"Thanks for getting back to me! Glad this caught your eye.\n\n"
+            f"For {brand}, we typically begin by analyzing your current top 3 Meta/TikTok ad hooks and building out 3 net-new creative angles (including AI-rendered product showcases and vertical UGC).\n\n"
+            f"You can explore some of our recent DTC video campaigns here: {DEFAULT_SHOWCASE_URL}\n\n"
+            f"Are you open to a quick 15-minute sync next Tuesday or Wednesday to review the concepts we prepared for {brand}?\n\n"
+            f"Best,\nAlex Rivera"
         )
-        return subject, body
+        return {"subject": subject, "body": body}
 
 
 ai_writer = AIWriter()

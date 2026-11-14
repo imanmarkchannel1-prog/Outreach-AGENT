@@ -1,8 +1,8 @@
 // ==========================================================================
-// OUTREACH // OS (1) — High-Density Workstation Controller
-// Inspired by Nothing Tech (Carl Pei) & ElevenLabs
+// OUTREACH // DTC AD ENGINE — Frontend Controller
+// Inspired by Discord, Slack & Linear (Warm, Approachable, High-Contrast)
 // Architecture: Left-Rail Sidebar + High-Density Right Workstation
-// Palette: Pitch Black (#000000), Nothing Red-Orange (#ff3b00), Industrial Grays
+// Specialization: End-to-End DTC Performance Ad Creatives
 // ==========================================================================
 
 let activeTab = 'dashboard';
@@ -15,14 +15,16 @@ let queueCache = [];
 let selectedLeadId = null;
 let leadFilterQuery = '';
 let studioFilterQuery = '';
-let mobileStudioMode = 'list';
+let stagedCsvFile = null;
+
+const DTC_SHOWCASE_URL = "https://dtc-creatives.agency/showcase";
 
 document.addEventListener('DOMContentLoaded', async () => {
   initDialogPolyfill();
   initKeyboardShortcuts();
   await refreshAll();
 
-  // Periodic polling for metrics, queue, and replies
+  // Periodic polling for deliverability metrics, queue, and prospect replies
   setInterval(() => {
     fetchMetrics();
     if (activeTab === 'replies' || activeTab === 'dashboard') fetchReplies();
@@ -57,7 +59,7 @@ function toggleMobileSidebar() {
   }
 }
 
-// ── Toast HUD Notification ─────────────────────────────────────────────────
+// ── Toast HUD Notification (Friendly, Subtle Emerald) ─────────────────────
 
 function showAppleToast(message, isError = false) {
   const toast = document.getElementById('apple-toast');
@@ -67,7 +69,8 @@ function showAppleToast(message, isError = false) {
   text.innerText = message;
   const dot = toast.querySelector('span');
   if (dot) {
-    dot.style.background = isError ? '#ff3b00' : '#ff3b00';
+    dot.style.background = isError ? '#f59e0b' : '#10b981';
+    dot.style.boxShadow = isError ? '0 0 8px rgba(245,158,11,0.5)' : '0 0 8px rgba(16,185,129,0.5)';
   }
 
   toast.classList.add('visible');
@@ -81,11 +84,11 @@ function showAppleToast(message, isError = false) {
 const TAB_TITLES = {
   dashboard: 'COMMAND CENTER',
   import: '1. IMPORT & SETUP',
-  companies: '2. CLUSTERED PROSPECTS',
-  studio: '3. AI REVIEW STUDIO',
-  inboxes: '4. FLEET ACCOUNTS',
+  companies: '2. DTC BRANDS',
+  studio: '3. AD CREATIVE STUDIO',
+  inboxes: '4. SENDER ACCOUNTS',
   queue: '5. DISPATCH QUEUE',
-  replies: '6. REPLIES & SEQUENCES',
+  replies: '6. RESPONSES & BUMPS',
 };
 
 function switchTab(tabId) {
@@ -130,7 +133,6 @@ async function fetchMetrics() {
     if (!res.ok) return;
     const m = await res.json();
 
-    // Command Center Cards
     const elTotal = document.getElementById('metric-total-inboxes');
     const elCap = document.getElementById('metric-capacity');
     const elHourly = document.getElementById('metric-hourly-rate');
@@ -195,12 +197,12 @@ function getInitials(name, email) {
 }
 
 function renderInboxList() {
-  // 1. Sidebar Streamlined Circular Avatar Stack (Nothing Tech Style)
+  // 1. Sidebar Streamlined Circular Avatar Stack
   const circlesContainer = document.getElementById('sidebar-inbox-circles');
   if (circlesContainer) {
     const circlesHtml = inboxesCache.map(ib => {
       const initials = getInitials(ib.display_name, ib.email);
-      const dotColor = ib.is_quarantined ? '#8c8c92' : '#ff3b00';
+      const dotColor = ib.is_quarantined ? '#646a78' : '#10b981';
       const tooltip = `${ib.display_name || ib.email} (${ib.email}) — ${ib.daily_limit}/day, ${ib.hourly_limit}/hr`;
 
       return `
@@ -212,7 +214,7 @@ function renderInboxList() {
     }).join('');
 
     const addBtnHtml = `
-      <button onclick="openAddInboxModal()" class="w-7 h-7 rounded-full border border-dashed border-white/20 hover:border-[#ff3b00] text-[#8c8c92] hover:text-[#ff3b00] flex items-center justify-center text-xs font-mono transition" title="Add another Gmail inbox">
+      <button onclick="openAddInboxModal()" class="w-7 h-7 rounded-full border border-dashed border-white/20 hover:border-white text-[#9da3af] hover:text-white flex items-center justify-center text-xs font-mono transition" title="Add another Gmail inbox">
         +
       </button>
     `;
@@ -226,10 +228,9 @@ function renderInboxList() {
     if (inboxesCache.length === 0) {
       grid.innerHTML = `
         <div class="col-span-full nt-card p-6 text-center space-y-2">
-          <div class="text-[#ff3b00] text-lg font-mono">[!]</div>
-          <h4 class="text-xs font-semibold text-white">No Sender Accounts Connected</h4>
-          <p class="text-[11px] text-[#8c8c92]">Add personal Gmail inboxes to scale cold email volume safely.</p>
-          <button onclick="openAddInboxModal()" class="nt-btn-orange text-xs py-1 px-3 mt-1">+ Add Gmail Account</button>
+          <h4 class="text-sm font-semibold text-white">No Sender Accounts Connected</h4>
+          <p class="text-xs text-[#9da3af]">Add personal Gmail inboxes to scale cold email volume safely.</p>
+          <button onclick="openAddInboxModal()" class="nt-btn-primary text-xs py-1.5 px-3.5 mt-1">+ Add Gmail Account</button>
         </div>
       `;
       return;
@@ -238,51 +239,51 @@ function renderInboxList() {
     grid.innerHTML = inboxesCache.map(ib => {
       const initials = getInitials(ib.display_name, ib.email);
       return `
-        <div class="nt-card p-3.5 space-y-3 nt-card-glow">
+        <div class="nt-card p-4 space-y-3 nt-card-glow">
           <div class="flex items-start justify-between">
             <div class="flex items-center space-x-2.5">
-              <div class="w-8 h-8 rounded-full bg-[#16161a] border border-white/10 flex items-center justify-center font-mono font-bold text-xs text-white">
+              <div class="w-9 h-9 rounded-full bg-[#1c1e2b] border border-white/10 flex items-center justify-center font-mono font-bold text-xs text-white">
                 ${initials}
               </div>
               <div>
-                <h4 class="text-xs font-semibold text-white tracking-tight">${ib.display_name || 'Sender Account'}</h4>
-                <div class="text-[10px] text-[#8c8c92] font-mono">${ib.email}</div>
+                <h4 class="text-xs sm:text-sm font-semibold text-white tracking-tight">${ib.display_name || 'Sender Account'}</h4>
+                <div class="text-[11px] text-[#9da3af] font-mono">${ib.email}</div>
               </div>
             </div>
-            <span class="nt-pill ${ib.is_quarantined ? 'nt-pill-gray' : 'nt-pill-orange'}">
+            <span class="nt-pill ${ib.is_quarantined ? 'nt-pill-gray' : 'nt-pill-emerald'}">
               ${ib.is_quarantined ? 'PAUSED' : 'READY &middot; 587'}
             </span>
           </div>
 
-          <div class="grid grid-cols-2 gap-1.5 bg-[#0a0a0c] p-2 rounded border border-white/[0.04] text-xs">
+          <div class="grid grid-cols-2 gap-2 bg-[#0c0d12] p-2.5 rounded-lg border border-white/[0.04] text-xs">
             <div>
-              <div class="text-[9px] text-[#8c8c92] uppercase font-mono">Daily Cap</div>
-              <div class="text-xs font-bold text-white font-mono">${ib.daily_limit} <span class="text-[9px] text-[#8c8c92] font-normal">/day</span></div>
+              <div class="text-[10px] text-[#9da3af] uppercase font-semibold">Daily Send Cap</div>
+              <div class="text-xs font-bold text-white font-mono">${ib.daily_limit} <span class="text-[10px] text-[#9da3af] font-normal">/day</span></div>
             </div>
             <div>
-              <div class="text-[9px] text-[#8c8c92] uppercase font-mono">Hourly Pacing</div>
-              <div class="text-xs font-bold text-white font-mono">${ib.hourly_limit} <span class="text-[9px] text-[#8c8c92] font-normal">/hr</span></div>
+              <div class="text-[10px] text-[#9da3af] uppercase font-semibold">Hourly Pacing</div>
+              <div class="text-xs font-bold text-white font-mono">${ib.hourly_limit} <span class="text-[10px] text-[#9da3af] font-normal">/hr</span></div>
             </div>
             <div>
-              <div class="text-[9px] text-[#8c8c92] uppercase font-mono">Typing Delay</div>
-              <div class="text-xs font-bold text-[#ff3b00] font-mono">${ib.min_delay_seconds}–${ib.max_delay_seconds}s</div>
+              <div class="text-[10px] text-[#9da3af] uppercase font-semibold">Typing Delay</div>
+              <div class="text-xs font-bold text-[#10b981] font-mono">${ib.min_delay_seconds}–${ib.max_delay_seconds}s</div>
             </div>
             <div>
-              <div class="text-[9px] text-[#8c8c92] uppercase font-mono">Sent Today</div>
+              <div class="text-[10px] text-[#9da3af] uppercase font-semibold">Sent Today</div>
               <div class="text-xs font-bold text-white font-mono">${ib.sent_today_count}</div>
             </div>
           </div>
 
           <div class="pt-1.5 border-t border-white/[0.05] flex items-center justify-between text-xs">
-            <div class="flex items-center space-x-2">
-              <button onclick="testInboxConnection(${ib.id})" class="text-[#ff3b00] hover:underline font-mono text-[10.5px]">
+            <div class="flex items-center space-x-2.5">
+              <button onclick="testInboxConnection(${ib.id})" class="text-[#10b981] hover:underline font-medium text-xs">
                 Verify Handshake
               </button>
-              <button onclick="openEditInboxModal(${ib.id})" class="text-[#8c8c92] hover:text-white font-mono text-[10.5px]">
+              <button onclick="openEditInboxModal(${ib.id})" class="text-[#9da3af] hover:text-white text-xs">
                 Edit Limits
               </button>
             </div>
-            <button onclick="deleteInbox(${ib.id})" class="text-[#8c8c92] hover:text-white font-mono text-[10.5px]">
+            <button onclick="deleteInbox(${ib.id})" class="text-[#9da3af] hover:text-[#f59e0b] text-xs">
               Remove
             </button>
           </div>
@@ -456,16 +457,9 @@ async function fetchCompaniesAndLeads() {
     companiesCache = await cRes.json();
     leadsCache = await lRes.json();
 
-    // Render Command Center workstation (Page 1)
     renderCommandCenterDirectory();
-
-    // Render Clustered Leads tab (Step 2)
     renderCompanyClusterView();
-
-    // Render Studio tab (Step 3)
     renderStudioLeadList();
-
-    // Populate selects
     populateFollowUpSelect();
   } catch (e) {
     console.error('Failed to fetch leads:', e);
@@ -482,14 +476,14 @@ function getStatusPill(status) {
   switch (status) {
     case 'replied':
     case 'interested':
-      return `<span class="nt-pill nt-pill-orange">${status.toUpperCase()}</span>`;
+      return `<span class="nt-pill nt-pill-amber">${status.toUpperCase()}</span>`;
     case 'approved':
     case 'scheduled':
     case 'sent':
-      return `<span class="nt-pill nt-pill-white">${status.toUpperCase()}</span>`;
+      return `<span class="nt-pill nt-pill-emerald">${status.toUpperCase()}</span>`;
     case 'drafted':
     case 'researched':
-      return `<span class="nt-pill nt-pill-gray">${status.toUpperCase()}</span>`;
+      return `<span class="nt-pill nt-pill-white">${status.toUpperCase()}</span>`;
     default:
       return `<span class="nt-pill nt-pill-gray">${status.toUpperCase()}</span>`;
   }
@@ -517,32 +511,34 @@ function renderCommandCenterDirectory() {
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <div class="p-6 text-center text-[#8c8c92] text-xs font-mono">
-        ${leadFilterQuery ? 'No prospects match "' + leadFilterQuery + '"' : 'No prospects imported. Click "Demo Data" above.'}
+      <div class="p-6 text-center text-[#9da3af] text-xs">
+        ${leadFilterQuery ? 'No DTC prospects match "' + leadFilterQuery + '"' : 'No DTC brands imported. Click "Demo DTC Data" above.'}
       </div>
     `;
     return;
   }
 
-  // Default selection if none selected
   if (!selectedLeadId && filtered.length > 0) {
     selectedLeadId = filtered[0].id;
   }
 
   container.innerHTML = filtered.map(l => {
     const isSelected = selectedLeadId === l.id;
+    const isFounder = (l.seniority_rank === 1 || (l.role_title || '').toLowerCase().includes('founder') || (l.role_title || '').toLowerCase().includes('ceo'));
+
     return `
-      <div onclick="selectLead(${l.id})" class="p-2.5 rounded border transition cursor-pointer ${isSelected ? 'bg-[#18181c] border-[#ff3b00]' : 'bg-[#0f0f11] border-white/[0.04] hover:border-white/[0.1]'}">
+      <div onclick="selectLead(${l.id})" class="p-3 rounded-xl border transition cursor-pointer ${isSelected ? 'bg-[#181a26] border-white/30' : 'bg-[#12131b] border-white/[0.05] hover:border-white/[0.12]'}">
         <div class="flex items-center justify-between mb-1">
-          <div class="flex items-center space-x-1.5 truncate">
-            <span class="w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#ff3b00]' : 'bg-white/20'}"></span>
-            <h4 class="text-xs font-semibold text-white truncate">${l.full_name}</h4>
+          <div class="flex items-center space-x-2 truncate">
+            <span class="w-2 h-2 rounded-full ${isSelected ? 'bg-[#10b981]' : 'bg-white/20'}"></span>
+            <h4 class="text-xs sm:text-sm font-semibold text-white truncate">${l.full_name}</h4>
+            ${isFounder ? '<span class="nt-pill nt-pill-amber text-[9px]"><i class="fa-solid fa-crown mr-1 text-[8px]"></i>FOUNDER</span>' : ''}
           </div>
           ${getStatusPill(l.status)}
         </div>
-        <div class="text-[10px] text-[#8c8c92] flex items-center justify-between font-mono">
-          <span class="truncate">${l.role_title} @ <strong class="text-white">${l.company?.name || 'Company'}</strong></span>
-          <span class="text-[9px] text-[#ff3b00]">${l.seniority_rank ? 'Rank ' + l.seniority_rank : ''}</span>
+        <div class="text-[11px] text-[#9da3af] flex items-center justify-between mt-1">
+          <span class="truncate">${l.role_title} @ <strong class="text-white">${l.company?.name || 'Brand'}</strong></span>
+          <span class="text-[10px] text-[#9da3af] font-mono">${l.company?.domain || ''}</span>
         </div>
       </div>
     `;
@@ -565,8 +561,8 @@ function renderCommandCenterStudio() {
   const lead = leadsCache.find(l => l.id === selectedLeadId);
   if (!lead) {
     panel.innerHTML = `
-      <div class="text-center py-24 text-[#8c8c92] text-xs font-mono">
-        Select a prospect from the left directory to inspect intelligence and edit copy.
+      <div class="text-center py-24 text-[#9da3af] text-xs">
+        Select a prospect from the left directory to inspect intelligence and edit ad copy.
       </div>
     `;
     return;
@@ -578,88 +574,89 @@ function renderCommandCenterStudio() {
   const draft = lead.draft;
   const bodyText = draft?.body || '';
   const wordCount = bodyText.trim() ? bodyText.trim().split(/\s+/).length : 0;
+  const isFounder = (lead.seniority_rank === 1 || (lead.role_title || '').toLowerCase().includes('founder'));
 
   panel.innerHTML = `
-    <div class="space-y-3">
+    <div class="space-y-3.5">
       <!-- Header Bar -->
-      <div class="flex flex-col sm:flex-row sm:items-start justify-between pb-2 border-b border-white/[0.06] gap-2">
+      <div class="flex flex-col sm:flex-row sm:items-start justify-between pb-3 border-b border-white/[0.06] gap-2">
         <div>
           <div class="flex items-center space-x-2">
-            <h3 class="text-sm font-bold text-white tracking-tight">${lead.full_name}</h3>
-            <span class="nt-pill nt-pill-gray text-[9px]">${(lead.role_category || 'LEAD').toUpperCase()}</span>
+            <h3 class="text-sm sm:text-base font-bold text-white tracking-tight">${lead.full_name}</h3>
+            ${isFounder ? '<span class="nt-pill nt-pill-amber text-[9.5px]"><i class="fa-solid fa-crown mr-1"></i>FOUNDER / CEO</span>' : ''}
+            <span class="nt-pill nt-pill-gray text-[9.5px]">${(lead.role_category || 'GROWTH').toUpperCase()}</span>
             ${getStatusPill(lead.status)}
           </div>
-          <div class="text-[10px] text-[#8c8c92] font-mono mt-0.5">
-            ${lead.role_title} &middot; <strong class="text-white">${lead.company?.name || 'Company'}</strong> (${lead.email})
+          <div class="text-xs text-[#9da3af] mt-0.5">
+            ${lead.role_title} at <strong class="text-white">${lead.company?.name || 'Brand'}</strong> &middot; <span class="font-mono">${lead.email}</span>
           </div>
         </div>
 
-        <div class="flex items-center space-x-1.5">
-          <button onclick="reResearchLead(${lead.id})" class="nt-btn-secondary text-[10.5px] py-1 px-2 font-mono">
-            <i class="fa-solid fa-rotate mr-1 text-[9px]" aria-hidden="true"></i> Re-Research
+        <div class="flex items-center space-x-2">
+          <button onclick="reResearchLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5">
+            <i class="fa-solid fa-rotate mr-1 text-[10px]" aria-hidden="true"></i> Re-Research
           </button>
-          <button onclick="reDraftLead(${lead.id})" class="nt-btn-secondary text-[10.5px] py-1 px-2 font-mono">
-            <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#ff3b00] text-[9px]" aria-hidden="true"></i> Redraft
+          <button onclick="reDraftLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5">
+            <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#10b981] text-[10px]" aria-hidden="true"></i> Redraft
           </button>
         </div>
       </div>
 
-      <!-- Live Intelligence Badges & Findings -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+      <!-- DTC Creative Intelligence Findings -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs">
         <!-- Milestone < 30 days -->
-        <div class="bg-[#09090b] border border-white/[0.05] p-2.5 rounded space-y-1">
-          <div class="text-[10px] font-mono font-semibold text-[#ff3b00] flex items-center">
-            <i class="fa-solid fa-trophy mr-1 text-[9px]" aria-hidden="true"></i> RECENT WIN (&lt;30 DAYS)
+        <div class="bg-[#0e0f14] border border-white/[0.06] p-3 rounded-xl space-y-1">
+          <div class="text-xs font-semibold text-white flex items-center">
+            <i class="fa-solid fa-trophy mr-1.5 text-[#f59e0b] text-[10px]" aria-hidden="true"></i> Brand Milestone (&lt; 30 Days)
           </div>
-          <p class="text-[11px] text-[#f4f4f6] leading-relaxed">
-            ${recent.summary || 'Recent company growth milestone in the market.'}
+          <p class="text-xs text-[#f4f4f6] leading-relaxed">
+            ${recent.summary || 'Recent product collection launch and expanding DTC audience.'}
           </p>
           ${recent.congrats_hook ? `
-            <div class="text-[9.5px] text-[#8c8c92] font-mono italic">
+            <div class="text-[11px] text-[#9da3af] italic mt-0.5">
               Hook: "${recent.congrats_hook}"
             </div>
           ` : ''}
         </div>
 
-        <!-- Reddit Intel & Pain Point -->
-        <div class="bg-[#09090b] border border-white/[0.05] p-2.5 rounded space-y-1">
-          <div class="text-[10px] font-mono font-semibold text-[#8c8c92] flex items-center">
-            <i class="fa-brands fa-reddit mr-1 text-[9px] text-[#ff3b00]" aria-hidden="true"></i> REDDIT PAIN POINT INTEL
+        <!-- Ad Creative Fatigue & Customer Sentiment -->
+        <div class="bg-[#0e0f14] border border-white/[0.06] p-3 rounded-xl space-y-1">
+          <div class="text-xs font-semibold text-white flex items-center">
+            <i class="fa-solid fa-bullseye mr-1.5 text-[#10b981] text-[10px]" aria-hidden="true"></i> Ad Creative Angle & Fatigue Gap
           </div>
-          <p class="text-[11px] text-[#f4f4f6] leading-relaxed">
-            ${reddit.pain_point || 'Operational bottlenecks in scaling team bandwidth.'}
+          <p class="text-xs text-[#f4f4f6] leading-relaxed">
+            ${reddit.pain_point || 'Creative fatigue on Meta/TikTok ads; need continuous fresh vertical UGC hooks & AI video tests.'}
           </p>
-          ${reddit.discussion_thread ? `
-            <div class="text-[9.5px] text-[#8c8c92] font-mono truncate">
-              r/thread: ${reddit.discussion_thread}
-            </div>
-          ` : ''}
+          <div class="text-[11px] text-[#10b981] font-mono mt-0.5">
+            Showcase link: ${DTC_SHOWCASE_URL}
+          </div>
         </div>
       </div>
 
-      <!-- Anti-Slop Copy Editor -->
-      <div class="space-y-2">
+      <!-- Anti-Slop DTC Ad Copy Editor -->
+      <div class="space-y-2.5">
         <div>
-          <label for="command-draft-subject" class="block text-[10px] font-mono text-[#8c8c92] mb-0.5">SUBJECT LINE</label>
-          <input type="text" id="command-draft-subject" class="nt-input w-full font-mono text-xs" value="${draft?.subject || 'quick question: ' + (lead.company?.name || '').toLowerCase()}">
+          <label for="command-draft-subject" class="block text-xs font-semibold text-white mb-1">SUBJECT LINE</label>
+          <input type="text" id="command-draft-subject" class="nt-input w-full font-mono text-xs" value="${draft?.subject || 'ad creative test for ' + (lead.company?.name || '').toLowerCase()}">
         </div>
 
         <div>
-          <div class="flex items-center justify-between mb-0.5">
-            <label for="command-draft-body" class="block text-[10px] font-mono text-[#8c8c92]">EMAIL BODY</label>
-            <span id="command-draft-wordcount" class="text-[9.5px] text-[#8c8c92] font-mono">${wordCount} words (Target: &lt; 110)</span>
+          <div class="flex items-center justify-between mb-1">
+            <label for="command-draft-body" class="block text-xs font-semibold text-white">EMAIL BODY (UNDER 100 WORDS)</label>
+            <span id="command-draft-wordcount" class="text-xs text-[#9da3af] font-mono">${wordCount} words (Target: &lt; 100)</span>
           </div>
-          <textarea id="command-draft-body" rows="6" oninput="updateCommandWordCount(this.value)" class="nt-input w-full leading-relaxed text-xs">${draft?.body || 'Generating draft...'}</textarea>
+          <textarea id="command-draft-body" rows="6" oninput="updateCommandWordCount(this.value)" class="nt-input w-full leading-relaxed text-xs">${draft?.body || 'Generating DTC ad pitch...'}</textarea>
         </div>
 
         <div class="flex items-center justify-between pt-1">
-          <span class="text-[10px] text-[#8c8c92] font-mono flex items-center space-x-1.5">
-            <span class="w-1.5 h-1.5 rounded-full ${draft?.is_approved ? 'bg-white' : 'bg-[#ff3b00]'}"></span>
-            <span>${draft?.is_approved ? 'Status: Approved & Scheduled' : 'Status: Draft Pending'}</span>
+          <span class="text-xs text-[#9da3af] flex items-center space-x-1.5">
+            <span class="w-2 h-2 rounded-full ${draft?.is_approved ? 'bg-[#10b981]' : 'bg-[#f59e0b]'}"></span>
+            <span>${draft?.is_approved ? 'Status: Approved & Scheduled' : 'Status: Draft Pending Review'}</span>
           </span>
 
-          <button onclick="saveAndApproveCommandDraft(${lead.id})" class="nt-btn-orange text-xs py-1.5 px-3">
-            <i class="fa-solid fa-check mr-1" aria-hidden="true"></i> Save & Approve Draft
+          <!-- High Visual Importance Primary Button -->
+          <button onclick="saveAndApproveCommandDraft(${lead.id})" class="nt-btn-primary text-xs py-2 px-4">
+            <i class="fa-solid fa-check mr-1.5" aria-hidden="true"></i> Save & Approve Draft
           </button>
         </div>
       </div>
@@ -671,8 +668,8 @@ function updateCommandWordCount(text) {
   const countEl = document.getElementById('command-draft-wordcount');
   if (!countEl) return;
   const count = text.trim() ? text.trim().split(/\s+/).length : 0;
-  countEl.innerText = `${count} words (Target: < 110)`;
-  countEl.className = count > 115 ? 'text-[9.5px] text-[#ff3b00] font-mono' : 'text-[9.5px] text-[#8c8c92] font-mono';
+  countEl.innerText = `${count} words (Target: < 100)`;
+  countEl.className = count > 105 ? 'text-xs text-[#f59e0b] font-mono font-bold' : 'text-xs text-[#9da3af] font-mono';
 }
 
 async function saveAndApproveCommandDraft(leadId) {
@@ -696,7 +693,7 @@ async function saveAndApproveCommandDraft(leadId) {
   }
 }
 
-// ── Tab 2: Clustered Leads Table ──────────────────────────────────────────
+// ── Tab 2: Clustered DTC Brands Table ─────────────────────────────────────
 
 function renderCompanyClusterView() {
   const container = document.getElementById('company-lead-container');
@@ -705,9 +702,9 @@ function renderCompanyClusterView() {
   if (companiesCache.length === 0) {
     container.innerHTML = `
       <div class="nt-card p-6 text-center space-y-2">
-        <h3 class="text-xs font-semibold text-white">No Prospects Imported</h3>
-        <p class="text-[11px] text-[#8c8c92]">Import a CSV or click "Demo Data" to populate clustered prospects.</p>
-        <button onclick="loadSampleData()" class="nt-btn-orange text-xs py-1 px-3 mt-1">Load Demo Data</button>
+        <h3 class="text-sm font-semibold text-white">No DTC Brands Imported</h3>
+        <p class="text-xs text-[#9da3af]">Import a CSV or click "Demo DTC Data" to populate clustered prospects.</p>
+        <button onclick="loadSampleDtcData()" class="nt-btn-primary text-xs py-1.5 px-3.5 mt-1">Load Demo DTC Data</button>
       </div>
     `;
     return;
@@ -728,69 +725,72 @@ function renderCompanyClusterView() {
   container.innerHTML = filtered.map(comp => {
     const compLeads = leadsCache.filter(l => l.company_id === comp.id);
     const hasMilestone = comp.has_recent_milestone;
-    const redditPain = comp.reddit_intel?.pain_point;
 
     return `
       <article class="nt-card overflow-hidden">
-        <div class="p-3 border-b border-white/[0.05] bg-[#0c0c0e] flex flex-col md:flex-row md:items-center justify-between gap-2">
+        <div class="p-3.5 border-b border-white/[0.05] bg-[#12131b] flex flex-col md:flex-row md:items-center justify-between gap-2">
           <div>
             <div class="flex items-center space-x-2">
-              <h3 class="text-xs font-semibold text-white tracking-tight">${comp.name}</h3>
-              <a href="${comp.website || '#'}" target="_blank" class="text-[10px] text-[#ff3b00] hover:underline font-mono">${comp.domain}</a>
-              <span class="nt-pill nt-pill-gray text-[9px]">${compLeads.length} prospects</span>
+              <h3 class="text-sm font-semibold text-white tracking-tight">${comp.name}</h3>
+              <a href="${comp.website || '#'}" target="_blank" class="text-xs text-[#10b981] hover:underline font-mono">${comp.domain}</a>
+              <span class="nt-pill nt-pill-gray text-[9.5px]">${compLeads.length} contacts</span>
             </div>
-            <div class="text-[10px] text-[#8c8c92] font-mono mt-0.5">
+            <div class="text-xs text-[#9da3af] mt-0.5 flex items-center space-x-2">
               <span>Location: ${comp.location || 'Global'}</span> &middot; 
-              <span class="text-white">24h Separation Active</span>
+              <span class="text-white flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-[#10b981] mr-1"></span> 24h Brand Stagger Active</span>
             </div>
           </div>
 
           <div class="flex items-center gap-1.5 flex-wrap">
             ${hasMilestone ? `
-              <span class="nt-pill nt-pill-orange">
+              <span class="nt-pill nt-pill-amber">
                 <i class="fa-solid fa-trophy mr-1 text-[8.5px]" aria-hidden="true"></i> Win &lt;30d
               </span>
             ` : ''}
-            ${redditPain ? `
-              <span class="nt-pill nt-pill-gray">
-                <i class="fa-brands fa-reddit mr-1 text-[8.5px]" aria-hidden="true"></i> Reddit Intel
-              </span>
-            ` : ''}
+            <span class="nt-pill nt-pill-gray">
+              <i class="fa-solid fa-video mr-1 text-[8.5px] text-[#10b981]"></i> AI Video Showcase Ready
+            </span>
           </div>
         </div>
 
         <div class="overflow-x-auto no-scrollbar">
           <table class="w-full text-left text-xs min-w-[500px]">
-            <thead class="bg-[#08080a] text-[#8c8c92] font-mono uppercase tracking-wider text-[9px] border-b border-white/[0.04]">
+            <thead class="bg-[#0d0e14] text-[#9da3af] font-mono uppercase tracking-wider text-[9px] border-b border-white/[0.04]">
               <tr>
-                <th class="py-2 px-3.5">CONTACT</th>
-                <th class="py-2 px-3.5">ROLE / TITLE</th>
-                <th class="py-2 px-3.5">CATEGORY</th>
-                <th class="py-2 px-3.5">STATUS</th>
-                <th class="py-2 px-3.5 text-right">ACTION</th>
+                <th class="py-2.5 px-3.5">CONTACT</th>
+                <th class="py-2.5 px-3.5">ROLE / TITLE</th>
+                <th class="py-2.5 px-3.5">CATEGORY</th>
+                <th class="py-2.5 px-3.5">STATUS</th>
+                <th class="py-2.5 px-3.5 text-right">ACTION</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-white/[0.04] text-[#f4f4f6]">
-              ${compLeads.map(lead => `
-                <tr class="hover:bg-white/[0.02] transition">
-                  <td class="py-2 px-3.5">
-                    <div class="font-medium text-white text-xs">${lead.full_name}</div>
-                    <div class="text-[10px] text-[#8c8c92] font-mono">${lead.email}</div>
-                  </td>
-                  <td class="py-2 px-3.5 text-xs text-[#8c8c92]">${lead.role_title}</td>
-                  <td class="py-2 px-3.5">
-                    <span class="nt-pill nt-pill-gray text-[9px] font-mono">${lead.role_category.toUpperCase()}</span>
-                  </td>
-                  <td class="py-2 px-3.5">
-                    ${getStatusPill(lead.status)}
-                  </td>
-                  <td class="py-2 px-3.5 text-right">
-                    <button onclick="inspectLeadInStudio(${lead.id})" class="nt-btn-secondary text-[10px] py-0.5 px-2 font-mono">
-                      Review &rarr;
-                    </button>
-                  </td>
-                </tr>
-              `).join('')}
+              ${compLeads.map(lead => {
+                const isFounder = (lead.seniority_rank === 1 || (lead.role_title || '').toLowerCase().includes('founder') || (lead.role_title || '').toLowerCase().includes('ceo'));
+                return `
+                  <tr class="hover:bg-white/[0.02] transition">
+                    <td class="py-2.5 px-3.5">
+                      <div class="font-medium text-white text-xs flex items-center space-x-1.5">
+                        <span>${lead.full_name}</span>
+                        ${isFounder ? '<span class="nt-pill nt-pill-amber text-[8.5px]"><i class="fa-solid fa-crown mr-0.5"></i>FOUNDER</span>' : ''}
+                      </div>
+                      <div class="text-[11px] text-[#9da3af] font-mono">${lead.email}</div>
+                    </td>
+                    <td class="py-2.5 px-3.5 text-xs text-[#9da3af]">${lead.role_title}</td>
+                    <td class="py-2.5 px-3.5">
+                      <span class="nt-pill nt-pill-gray text-[9.5px] font-mono">${lead.role_category.toUpperCase()}</span>
+                    </td>
+                    <td class="py-2.5 px-3.5">
+                      ${getStatusPill(lead.status)}
+                    </td>
+                    <td class="py-2.5 px-3.5 text-right">
+                      <button onclick="inspectLeadInStudio(${lead.id})" class="nt-btn-secondary text-[11px] py-1 px-2.5">
+                        Review &rarr;
+                      </button>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
             </tbody>
           </table>
         </div>
@@ -799,7 +799,7 @@ function renderCompanyClusterView() {
   }).join('');
 }
 
-// ── Tab 3: Dedicated AI Review Studio ─────────────────────────────────────
+// ── Tab 3: Dedicated Ad Creative Studio ────────────────────────────────────
 
 function filterStudioLeads(query) {
   studioFilterQuery = (query || '').toLowerCase().trim();
@@ -822,19 +822,25 @@ function renderStudioLeadList() {
   if (countBadge) countBadge.innerText = filtered.length;
 
   if (filtered.length === 0) {
-    container.innerHTML = '<div class="text-center py-6 text-[#8c8c92] text-xs font-mono">No prospects</div>';
+    container.innerHTML = '<div class="text-center py-6 text-[#9da3af] text-xs">No prospects</div>';
     return;
   }
 
-  container.innerHTML = filtered.map(lead => `
-    <div onclick="selectStudioLead(${lead.id})" class="p-2 rounded border transition cursor-pointer ${selectedLeadId === lead.id ? 'bg-[#18181c] border-[#ff3b00]' : 'bg-[#0f0f11] border-white/[0.04] hover:border-white/[0.08]'}">
-      <div class="flex items-center justify-between mb-0.5">
-        <h4 class="text-xs font-semibold text-white truncate max-w-[150px]">${lead.full_name}</h4>
-        ${getStatusPill(lead.status)}
+  container.innerHTML = filtered.map(lead => {
+    const isFounder = (lead.seniority_rank === 1 || (lead.role_title || '').toLowerCase().includes('founder'));
+    return `
+      <div onclick="selectStudioLead(${lead.id})" class="p-2.5 rounded-xl border transition cursor-pointer ${selectedLeadId === lead.id ? 'bg-[#181a26] border-white/30' : 'bg-[#12131b] border-white/[0.04] hover:border-white/[0.08]'}">
+        <div class="flex items-center justify-between mb-0.5">
+          <div class="flex items-center space-x-1.5 truncate max-w-[150px]">
+            <h4 class="text-xs font-semibold text-white truncate">${lead.full_name}</h4>
+            ${isFounder ? '<span class="text-[9px] text-[#f59e0b]"><i class="fa-solid fa-crown"></i></span>' : ''}
+          </div>
+          ${getStatusPill(lead.status)}
+        </div>
+        <div class="text-[11px] text-[#9da3af] truncate">${lead.role_title} @ ${lead.company?.name || 'Brand'}</div>
       </div>
-      <div class="text-[10px] text-[#8c8c92] font-mono truncate">${lead.role_title} @ ${lead.company?.name || 'Company'}</div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function inspectLeadInStudio(leadId) {
@@ -854,7 +860,7 @@ function renderStudioDetail() {
 
   const lead = leadsCache.find(l => l.id === selectedLeadId);
   if (!lead) {
-    panel.innerHTML = '<div class="text-center py-20 text-[#8c8c92] text-xs font-mono">Select a prospect from the list.</div>';
+    panel.innerHTML = '<div class="text-center py-20 text-[#9da3af] text-xs">Select a prospect from the list.</div>';
     return;
   }
 
@@ -864,83 +870,83 @@ function renderStudioDetail() {
   const draft = lead.draft;
   const bodyText = draft?.body || '';
   const wordCount = bodyText.trim() ? bodyText.trim().split(/\s+/).length : 0;
+  const isFounder = (lead.seniority_rank === 1 || (lead.role_title || '').toLowerCase().includes('founder'));
 
   panel.innerHTML = `
-    <div class="space-y-3.5">
-      <div class="flex flex-col sm:flex-row sm:items-start justify-between pb-2.5 border-b border-white/[0.06] gap-2">
+    <div class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-start justify-between pb-3 border-b border-white/[0.06] gap-2">
         <div>
           <div class="flex items-center space-x-2">
-            <h3 class="text-sm font-bold text-white tracking-tight">${lead.full_name}</h3>
-            <span class="nt-pill nt-pill-gray text-[9px] font-mono">${(lead.role_category || 'LEAD').toUpperCase()}</span>
+            <h3 class="text-base font-bold text-white tracking-tight">${lead.full_name}</h3>
+            ${isFounder ? '<span class="nt-pill nt-pill-amber text-[9.5px]"><i class="fa-solid fa-crown mr-1"></i>FOUNDER / CEO</span>' : ''}
+            <span class="nt-pill nt-pill-gray text-[9.5px]">${(lead.role_category || 'GROWTH').toUpperCase()}</span>
             ${getStatusPill(lead.status)}
           </div>
-          <div class="text-[10.5px] text-[#8c8c92] font-mono mt-0.5">
-            ${lead.role_title} &middot; <strong class="text-white">${lead.company?.name || 'Company'}</strong> (${lead.email})
+          <div class="text-xs text-[#9da3af] mt-0.5">
+            ${lead.role_title} at <strong class="text-white">${lead.company?.name || 'Brand'}</strong> &middot; <span class="font-mono">${lead.email}</span>
           </div>
         </div>
 
-        <div class="flex items-center space-x-1.5">
-          <button onclick="reResearchLead(${lead.id})" class="nt-btn-secondary text-[10.5px] py-1 px-2 font-mono">
-            <i class="fa-solid fa-rotate mr-1 text-[9px]" aria-hidden="true"></i> Re-Research
+        <div class="flex items-center space-x-2">
+          <button onclick="reResearchLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5">
+            <i class="fa-solid fa-rotate mr-1 text-[10px]" aria-hidden="true"></i> Re-Research
           </button>
-          <button onclick="reDraftLead(${lead.id})" class="nt-btn-secondary text-[10.5px] py-1 px-2 font-mono">
-            <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#ff3b00] text-[9px]" aria-hidden="true"></i> Redraft
+          <button onclick="reDraftLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5">
+            <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#10b981] text-[10px]" aria-hidden="true"></i> Redraft
           </button>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-        <div class="bg-[#09090b] border border-white/[0.05] p-2.5 rounded space-y-1">
-          <div class="text-[10px] font-mono font-semibold text-[#ff3b00] flex items-center">
-            <i class="fa-solid fa-trophy mr-1 text-[9px]" aria-hidden="true"></i> RECENT WIN (&lt;30 DAYS)
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs">
+        <div class="bg-[#0e0f14] border border-white/[0.06] p-3 rounded-xl space-y-1">
+          <div class="text-xs font-semibold text-white flex items-center">
+            <i class="fa-solid fa-trophy mr-1.5 text-[#f59e0b] text-[10px]" aria-hidden="true"></i> Brand Milestone (&lt; 30 Days)
           </div>
-          <p class="text-[11px] text-[#f4f4f6] leading-relaxed">
-            ${recent.summary || 'Recent company growth milestone in the market.'}
+          <p class="text-xs text-[#f4f4f6] leading-relaxed">
+            ${recent.summary || 'Recent product drop and catalog expansion.'}
           </p>
           ${recent.congrats_hook ? `
-            <div class="text-[9.5px] text-[#8c8c92] font-mono italic">
+            <div class="text-[11px] text-[#9da3af] italic mt-0.5">
               Hook: "${recent.congrats_hook}"
             </div>
           ` : ''}
         </div>
 
-        <div class="bg-[#09090b] border border-white/[0.05] p-2.5 rounded space-y-1">
-          <div class="text-[10px] font-mono font-semibold text-[#8c8c92] flex items-center">
-            <i class="fa-brands fa-reddit mr-1 text-[9px] text-[#ff3b00]" aria-hidden="true"></i> REDDIT PAIN POINT INTEL
+        <div class="bg-[#0e0f14] border border-white/[0.06] p-3 rounded-xl space-y-1">
+          <div class="text-xs font-semibold text-white flex items-center">
+            <i class="fa-solid fa-bullseye mr-1.5 text-[#10b981] text-[10px]" aria-hidden="true"></i> Creative Angle & Ad Fatigue Gap
           </div>
-          <p class="text-[11px] text-[#f4f4f6] leading-relaxed">
-            ${reddit.pain_point || 'Operational bottlenecks in scaling team bandwidth.'}
+          <p class="text-xs text-[#f4f4f6] leading-relaxed">
+            ${reddit.pain_point || 'High creative fatigue on Meta/TikTok paid channels; need 3–5 fresh hooks/week.'}
           </p>
-          ${reddit.discussion_thread ? `
-            <div class="text-[9.5px] text-[#8c8c92] font-mono truncate">
-              r/thread: ${reddit.discussion_thread}
-            </div>
-          ` : ''}
+          <div class="text-[11px] text-[#10b981] font-mono mt-0.5">
+            Showcase: ${DTC_SHOWCASE_URL}
+          </div>
         </div>
       </div>
 
-      <div class="space-y-2">
+      <div class="space-y-3">
         <div>
-          <label for="draft-subject" class="block text-[10px] font-mono text-[#8c8c92] mb-0.5">SUBJECT LINE</label>
-          <input type="text" id="draft-subject" class="nt-input w-full font-mono text-xs" value="${draft?.subject || 'quick question: ' + (lead.company?.name || '').toLowerCase()}">
+          <label for="draft-subject" class="block text-xs font-semibold text-white mb-1">SUBJECT LINE</label>
+          <input type="text" id="draft-subject" class="nt-input w-full font-mono text-xs" value="${draft?.subject || 'ad creative for ' + (lead.company?.name || '').toLowerCase()}">
         </div>
 
         <div>
-          <div class="flex items-center justify-between mb-0.5">
-            <label for="draft-body" class="block text-[10px] font-mono text-[#8c8c92]">EMAIL BODY</label>
-            <span id="draft-word-count" class="text-[9.5px] text-[#8c8c92] font-mono">${wordCount} words (Target: &lt; 110)</span>
+          <div class="flex items-center justify-between mb-1">
+            <label for="draft-body" class="block text-xs font-semibold text-white">EMAIL BODY (UNDER 100 WORDS)</label>
+            <span id="draft-word-count" class="text-xs text-[#9da3af] font-mono">${wordCount} words (Target: &lt; 100)</span>
           </div>
-          <textarea id="draft-body" rows="6" oninput="updateWordCount(this.value)" class="nt-input w-full leading-relaxed text-xs">${draft?.body || 'Generating draft...'}</textarea>
+          <textarea id="draft-body" rows="6" oninput="updateWordCount(this.value)" class="nt-input w-full leading-relaxed text-xs">${draft?.body || 'Generating DTC ad pitch...'}</textarea>
         </div>
 
         <div class="flex items-center justify-between pt-1">
-          <span class="text-[10px] text-[#8c8c92] font-mono flex items-center space-x-1.5">
-            <span class="w-1.5 h-1.5 rounded-full ${draft?.is_approved ? 'bg-white' : 'bg-[#ff3b00]'}"></span>
+          <span class="text-xs text-[#9da3af] flex items-center space-x-1.5">
+            <span class="w-2 h-2 rounded-full ${draft?.is_approved ? 'bg-[#10b981]' : 'bg-[#f59e0b]'}"></span>
             <span>${draft?.is_approved ? 'Status: Approved' : 'Status: Draft Pending'}</span>
           </span>
 
-          <button onclick="saveAndApproveDraft(${lead.id})" class="nt-btn-orange text-xs py-1.5 px-3">
-            <i class="fa-solid fa-check mr-1" aria-hidden="true"></i> Save & Approve Draft
+          <button onclick="saveAndApproveDraft(${lead.id})" class="nt-btn-primary text-xs py-2 px-4">
+            <i class="fa-solid fa-check mr-1.5" aria-hidden="true"></i> Save & Approve Draft
           </button>
         </div>
       </div>
@@ -952,8 +958,8 @@ function updateWordCount(text) {
   const countEl = document.getElementById('draft-word-count');
   if (!countEl) return;
   const count = text.trim() ? text.trim().split(/\s+/).length : 0;
-  countEl.innerText = `${count} words (Target: < 110)`;
-  countEl.className = count > 115 ? 'text-[9.5px] text-[#ff3b00] font-mono' : 'text-[9.5px] text-[#8c8c92] font-mono';
+  countEl.innerText = `${count} words (Target: < 100)`;
+  countEl.className = count > 105 ? 'text-xs text-[#f59e0b] font-mono font-bold' : 'text-xs text-[#9da3af] font-mono';
 }
 
 async function saveAndApproveDraft(leadId) {
@@ -978,7 +984,7 @@ async function saveAndApproveDraft(leadId) {
 }
 
 async function reResearchLead(leadId) {
-  showAppleToast('Running live web & Reddit research...');
+  showAppleToast('Running live brand & Reddit research...');
   try {
     const res = await fetch(`/api/leads/${leadId}/research`, { method: 'POST' });
     if (res.ok) {
@@ -991,7 +997,7 @@ async function reResearchLead(leadId) {
 }
 
 async function reDraftLead(leadId) {
-  showAppleToast('Regenerating anti-slop copy...');
+  showAppleToast('Regenerating DTC ad pitch...');
   try {
     const res = await fetch(`/api/leads/${leadId}/draft`, { method: 'POST' });
     if (res.ok) {
@@ -1024,7 +1030,7 @@ async function triggerAllResearch() {
 }
 
 async function triggerAllDrafts() {
-  showAppleToast('Drafting emails for all leads...');
+  showAppleToast('Drafting DTC ad emails for all leads...');
   try {
     const res = await fetch('/api/pipeline/run-all', {
       method: 'POST',
@@ -1044,7 +1050,7 @@ async function triggerAllDrafts() {
 }
 
 async function approveAllDrafts() {
-  if (!confirm('Approve all drafted emails across all companies?')) return;
+  if (!confirm('Approve all drafted emails across all DTC brands?')) return;
   try {
     for (const lead of leadsCache) {
       if (lead.draft) {
@@ -1073,12 +1079,12 @@ async function runAutonomousPipeline() {
   const topbarBtn = document.getElementById('topbar-btn-run');
   if (topbarBtn) {
     topbarBtn.disabled = true;
-    topbarBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Running...';
+    topbarBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Running...';
   }
 
   try {
     if (leadsCache.length === 0) {
-      await loadSampleCSVDirectly();
+      await loadSampleDtcData();
     }
 
     const res = await fetch('/api/pipeline/run-all', {
@@ -1100,7 +1106,7 @@ async function runAutonomousPipeline() {
   } finally {
     if (topbarBtn) {
       topbarBtn.disabled = false;
-      topbarBtn.innerHTML = '<i class="fa-solid fa-play mr-1 text-[9px]"></i> Run Pipeline';
+      topbarBtn.innerHTML = '<i class="fa-solid fa-play mr-1.5 text-[9px]"></i> Run Pipeline';
     }
   }
 }
@@ -1117,7 +1123,7 @@ async function runSchedulingOnly() {
   });
 }
 
-// ── Queue Management ──────────────────────────────────────────────────────
+// ── Queue Management (Compact & Smaller Schedule Badges) ───────────────────
 
 async function fetchQueue() {
   try {
@@ -1139,21 +1145,21 @@ function renderMiniQueue(slots) {
   if (!container) return;
 
   if (slots.length === 0) {
-    container.innerHTML = '<div class="text-[11px] text-[#8c8c92] font-mono py-2">No active slots scheduled.</div>';
+    container.innerHTML = '<div class="text-xs text-[#9da3af] py-2">No active slots scheduled.</div>';
     return;
   }
 
   container.innerHTML = slots.slice(0, 4).map(s => {
     const timeFormatted = new Date(s.scheduled_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     return `
-      <div class="flex items-center justify-between p-2 rounded bg-[#0a0a0c] border border-white/[0.04] text-xs">
+      <div class="flex items-center justify-between p-2 rounded-lg bg-[#0e0f14] border border-white/[0.04] text-xs">
         <div class="flex items-center space-x-2 truncate">
-          <span class="text-[#ff3b00] font-mono text-[10.5px]">${timeFormatted}</span>
+          <span class="text-[#10b981] font-mono text-[10px] bg-[#10b981]/10 px-1.5 py-0.5 rounded">${timeFormatted}</span>
           <span class="text-white font-medium truncate">${s.lead_name || 'Prospect'}</span>
-          <span class="text-[#8c8c92] text-[10px] font-mono">(${s.company_domain})</span>
+          <span class="text-[#9da3af] text-[10.5px]">(${s.company_domain || 'Brand'})</span>
         </div>
         <div class="flex items-center space-x-1.5 shrink-0">
-          <span class="text-[9.5px] text-[#8c8c92] font-mono">+${s.jitter_seconds}s</span>
+          <span class="text-[10px] text-[#9da3af] font-mono">+${s.jitter_seconds}s</span>
           ${getStatusPill(s.status)}
         </div>
       </div>
@@ -1166,31 +1172,33 @@ function renderQueueTable(slots) {
   if (!tbody) return;
 
   if (slots.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-[#8c8c92] text-xs font-mono">No slots scheduled. Approve drafts to populate dispatch queue.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-[#9da3af] text-xs">No slots scheduled. Approve drafts to populate dispatch queue.</td></tr>';
     return;
   }
 
   tbody.innerHTML = slots.map(s => {
     const dateObj = new Date(s.scheduled_at);
     const timeFormatted = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const dateFormatted = dateObj.toLocaleDateString();
+    const dateFormatted = dateObj.toLocaleDateString([], { month: 'short', day: 'numeric' });
 
     return `
       <tr class="hover:bg-white/[0.02] transition">
-        <td class="py-2.5 px-3.5 text-[#ff3b00] font-mono text-[10.5px]">
-          ${dateFormatted} ${timeFormatted}
+        <td class="py-2.5 px-3.5">
+          <span class="text-[#10b981] font-mono text-[10.5px] bg-[#10b981]/10 px-2 py-0.5 rounded-full">
+            ${dateFormatted}, ${timeFormatted}
+          </span>
         </td>
         <td class="py-2.5 px-3.5">
           <div class="font-medium text-white">${s.lead_name || 'Prospect'}</div>
-          <div class="text-[10px] text-[#8c8c92] font-mono">${s.lead_email}</div>
+          <div class="text-[10px] text-[#9da3af] font-mono">${s.lead_email}</div>
         </td>
-        <td class="py-2.5 px-3.5 text-white font-mono text-xs">
-          ${s.company_domain || 'Company'}
+        <td class="py-2.5 px-3.5 text-white text-xs font-medium">
+          ${s.company_domain || 'DTC Brand'}
         </td>
-        <td class="py-2.5 px-3.5 text-[#8c8c92] font-mono text-[10.5px]">
+        <td class="py-2.5 px-3.5 text-[#9da3af] font-mono text-[10.5px]">
           ${s.inbox_email || 'Rotation Pool'}
         </td>
-        <td class="py-2.5 px-3.5 text-[#8c8c92] font-mono text-[10.5px]">
+        <td class="py-2.5 px-3.5 text-[#9da3af] font-mono text-[10.5px]">
           +${s.jitter_seconds || 120}s jitter
         </td>
         <td class="py-2.5 px-3.5 text-right">
@@ -1225,22 +1233,22 @@ function renderMiniReplies(replies) {
   if (!container) return;
 
   if (replies.length === 0) {
-    container.innerHTML = '<div class="text-[11px] text-[#8c8c92] font-mono py-2">No incoming replies yet. Click "Demo Data" or "Simulate Reply".</div>';
+    container.innerHTML = '<div class="text-xs text-[#9da3af] py-2">No incoming replies yet. Click "Simulate Reply".</div>';
     return;
   }
 
   container.innerHTML = replies.slice(0, 3).map(r => {
     return `
-      <div onclick="switchTab('replies')" class="p-2 rounded bg-[#0a0a0c] border border-white/[0.04] text-xs hover:border-[#ff3b00] cursor-pointer transition space-y-1">
+      <div onclick="switchTab('replies')" class="p-2.5 rounded-lg bg-[#0e0f14] border border-white/[0.04] text-xs hover:border-[#10b981] cursor-pointer transition space-y-1">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#ff3b00]"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-[#f59e0b]"></span>
             <span class="text-white font-semibold">${r.lead_name || r.sender_email}</span>
-            <span class="text-[10px] text-[#8c8c92]">(${r.company_name})</span>
+            <span class="text-[11px] text-[#9da3af]">(${r.company_name})</span>
           </div>
-          <span class="nt-pill ${r.intent === 'interested' ? 'nt-pill-orange' : 'nt-pill-gray'} text-[8.5px]">${r.intent.toUpperCase()}</span>
+          <span class="nt-pill ${r.intent === 'interested' ? 'nt-pill-amber' : 'nt-pill-gray'} text-[8.5px]">${r.intent.toUpperCase()}</span>
         </div>
-        <p class="text-[10.5px] text-[#8c8c92] truncate italic">"${r.body}"</p>
+        <p class="text-[11px] text-[#9da3af] truncate italic">"${r.body}"</p>
       </div>
     `;
   }).join('');
@@ -1256,9 +1264,9 @@ function renderRepliesView() {
   if (repliesCache.length === 0) {
     container.innerHTML = `
       <div class="nt-card p-6 text-center space-y-2">
-        <h4 class="text-xs font-semibold text-white">No Replies Logged Yet</h4>
-        <p class="text-[10.5px] text-[#8c8c92]">Click "Simulate Reply" above to test the AI response workflow.</p>
-        <button onclick="openSimulateReplyModal()" class="nt-btn-orange text-xs py-1 px-3 mt-1">
+        <h4 class="text-sm font-semibold text-white">No Replies Logged Yet</h4>
+        <p class="text-xs text-[#9da3af]">Click "Simulate Reply" above to test the AI response workflow.</p>
+        <button onclick="openSimulateReplyModal()" class="nt-btn-primary text-xs py-1.5 px-3.5 mt-1">
           + Simulate Prospect Reply
         </button>
       </div>
@@ -1271,37 +1279,37 @@ function renderRepliesView() {
     const isInterested = r.intent === 'interested';
 
     return `
-      <article class="nt-card p-3.5 space-y-2.5 transition border ${r.is_replied_to ? 'border-white/[0.05]' : 'border-[#ff3b00]/40 bg-[#0e0e11]'}">
+      <article class="nt-card p-4 space-y-3 transition border ${r.is_replied_to ? 'border-white/[0.05]' : 'border-[#10b981]/40 bg-[#12141e]'}">
         <div class="flex items-start justify-between">
           <div>
             <div class="flex items-center space-x-2">
-              <h4 class="text-xs font-bold text-white tracking-tight">${r.lead_name || r.sender_email}</h4>
-              <span class="nt-pill ${isInterested ? 'nt-pill-orange' : 'nt-pill-gray'} font-mono text-[9px]">
+              <h4 class="text-xs sm:text-sm font-bold text-white tracking-tight">${r.lead_name || r.sender_email}</h4>
+              <span class="nt-pill ${isInterested ? 'nt-pill-amber' : 'nt-pill-gray'} font-mono text-[9px]">
                 ${r.intent.toUpperCase()}
               </span>
-              ${r.is_replied_to ? '<span class="nt-pill nt-pill-gray text-[9px]">REPLIED</span>' : '<span class="nt-pill nt-pill-orange text-[9px]">NEEDS RESPONSE</span>'}
+              ${r.is_replied_to ? '<span class="nt-pill nt-pill-gray text-[9px]">REPLIED</span>' : '<span class="nt-pill nt-pill-emerald text-[9px]">NEEDS RESPONSE</span>'}
             </div>
-            <div class="text-[10.5px] text-[#8c8c92] font-mono mt-0.5">
-              ${r.role_title || 'Lead'} at <strong class="text-white">${r.company_name || 'Company'}</strong> &middot; ${r.sender_email}
+            <div class="text-xs text-[#9da3af] mt-0.5">
+              ${r.role_title || 'Lead'} at <strong class="text-white">${r.company_name || 'Brand'}</strong> &middot; ${r.sender_email}
             </div>
           </div>
-          <span class="text-[10px] text-[#8c8c92] font-mono">${dateFormatted}</span>
+          <span class="text-[10px] text-[#9da3af] font-mono">${dateFormatted}</span>
         </div>
 
-        <div class="bg-[#070709] p-2.5 rounded border border-white/[0.04] text-xs text-[#f4f4f6] leading-relaxed">
-          <div class="text-[9px] text-[#8c8c92] font-mono mb-1 font-semibold uppercase">Prospect Message:</div>
+        <div class="bg-[#0b0c10] p-3 rounded-lg border border-white/[0.04] text-xs text-[#f4f4f6] leading-relaxed">
+          <div class="text-[9.5px] text-[#9da3af] font-semibold uppercase mb-1">Prospect Message:</div>
           "${r.body}"
         </div>
 
         <div class="space-y-2" id="reply-composer-box-${r.id}">
           <div class="flex items-center justify-between pt-1">
-            <button onclick="toggleReplyComposer(${r.id})" class="text-[#ff3b00] hover:underline text-[11px] font-mono flex items-center space-x-1">
+            <button onclick="toggleReplyComposer(${r.id})" class="text-[#10b981] hover:underline text-xs font-medium flex items-center space-x-1">
               <i class="fa-solid fa-reply text-[9px]" aria-hidden="true"></i>
               <span>${r.is_replied_to ? 'View Sent Response' : 'Reply Back to Lead'}</span>
             </button>
             ${!r.is_replied_to ? `
-              <button onclick="draftAIReplyFor(${r.id})" class="nt-btn-secondary text-[10.5px] py-0.5 px-2 font-mono">
-                <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#ff3b00] text-[9px]" aria-hidden="true"></i>
+              <button onclick="draftAIReplyFor(${r.id})" class="nt-btn-secondary text-xs py-1 px-2.5">
+                <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#10b981] text-[9.5px]" aria-hidden="true"></i>
                 <span>Draft AI Response</span>
               </button>
             ` : ''}
@@ -1310,8 +1318,8 @@ function renderRepliesView() {
           <div id="reply-drawer-${r.id}" class="hidden space-y-2 pt-2 border-t border-white/[0.05]">
             <textarea id="reply-text-${r.id}" rows="4" class="nt-input w-full text-xs" placeholder="Type your response or click 'Draft AI Response' above...">${r.reply_back_body || ''}</textarea>
             <div class="flex items-center justify-end space-x-2">
-              <button type="button" onclick="toggleReplyComposer(${r.id})" class="nt-btn-secondary text-[11px] py-1 px-2.5">Close</button>
-              <button type="button" onclick="sendReplyBack(${r.id})" class="nt-btn-orange text-[11px] py-1 px-3">
+              <button type="button" onclick="toggleReplyComposer(${r.id})" class="nt-btn-secondary text-xs py-1.5 px-3">Close</button>
+              <button type="button" onclick="sendReplyBack(${r.id})" class="nt-btn-primary text-xs py-1.5 px-3.5">
                 <i class="fa-solid fa-paper-plane mr-1 text-[9px]" aria-hidden="true"></i>
                 <span>Send Response</span>
               </button>
@@ -1330,7 +1338,7 @@ function toggleReplyComposer(replyId) {
 }
 
 async function draftAIReplyFor(replyId) {
-  showAppleToast('Drafting tailored AI response...');
+  showAppleToast('Drafting tailored DTC AI response...');
   try {
     const res = await fetch(`/api/replies/${replyId}/generate-response`, { method: 'POST' });
     if (!res.ok) return;
@@ -1382,7 +1390,7 @@ function populateFollowUpSelect() {
   if (!select && !simSelect) return;
 
   const optionsHtml = leadsCache.map(l => `
-    <option value="${l.id}">${l.full_name} (${l.role_title} @ ${l.company?.name || 'Company'})</option>
+    <option value="${l.id}">${l.full_name} (${l.role_title} @ ${l.company?.name || 'Brand'})</option>
   `).join('');
 
   if (select) select.innerHTML = optionsHtml;
@@ -1394,7 +1402,7 @@ async function generateFollowUpStep(step) {
   if (!select || !select.value) return;
   const leadId = select.value;
 
-  showAppleToast(`Generating Follow-up #${step} bump...`);
+  showAppleToast(`Generating DTC Follow-up #${step} bump...`);
   try {
     const res = await fetch(`/api/leads/${leadId}/generate-follow-up`, {
       method: 'POST',
@@ -1481,7 +1489,7 @@ async function submitSimulatedReply() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         lead_id: leadId,
-        subject: "Re: discussion",
+        subject: "Re: DTC ad creative",
         body,
         intent,
       }),
@@ -1499,25 +1507,103 @@ async function submitSimulatedReply() {
   }
 }
 
-// ── CSV File Selection & Upload ───────────────────────────────────────────
+// ── Agentic CSV Pre-Flight Inspection & Upload ────────────────────────────
 
-function handleCsvFileSelected(event) {
+async function handleCsvFileSelected(event) {
   const file = event.target.files[0];
   if (!file) return;
 
+  stagedCsvFile = file;
   const displayEl = document.getElementById('csv-filename-display');
   if (displayEl) {
     displayEl.innerText = `${file.name} (${Math.round(file.size / 1024)} KB)`;
   }
 
-  uploadCsvFile(file);
+  // Pre-flight Agentic Audit
+  await runAgenticPreflightAudit(file);
 }
 
-async function uploadCsvFile(file) {
+async function runAgenticPreflightAudit(file) {
+  showAppleToast('Running agentic schema discovery & founder detection...');
   const formData = new FormData();
   formData.append('file', file);
 
-  showAppleToast('Uploading & clustering CSV leads...');
+  try {
+    const res = await fetch('/api/leads/parse-preview', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!res.ok) throw new Error('Failed to analyze CSV');
+    const audit = await res.json();
+
+    renderAgenticAuditCard(audit);
+  } catch (e) {
+    showAppleToast('Agentic audit error: ' + e, true);
+  }
+}
+
+function renderAgenticAuditCard(audit) {
+  const card = document.getElementById('agentic-audit-card');
+  const confEl = document.getElementById('audit-confidence');
+  const sumEl = document.getElementById('audit-summary-count');
+  const mapEl = document.getElementById('audit-column-mappings');
+  const fCountEl = document.getElementById('audit-founders-count');
+  const fListEl = document.getElementById('audit-founders-list');
+
+  if (!card) return;
+  card.classList.remove('hidden');
+
+  if (confEl) confEl.innerText = `${audit.confidence_score}% Agentic Confidence`;
+  if (sumEl) sumEl.innerText = `${audit.total_rows} contacts · ${audit.unique_brands_count} DTC brands`;
+
+  // Render mapped columns chips
+  if (mapEl) {
+    const mappings = audit.mapped_columns || {};
+    mapEl.innerHTML = Object.entries(mappings).map(([canonical, original]) => `
+      <span class="nt-pill nt-pill-gray text-[10px]">
+        <strong class="text-white">${canonical}</strong> &larr; "${original}"
+      </span>
+    `).join('');
+  }
+
+  // Render detected founders
+  if (fCountEl) fCountEl.innerText = `${audit.detected_founders?.length || 0} Identified`;
+  if (fListEl) {
+    const founders = audit.detected_founders || [];
+    if (founders.length === 0) {
+      fListEl.innerHTML = '<span class="text-xs text-[#9da3af]">No founders detected (General growth leads)</span>';
+    } else {
+      fListEl.innerHTML = founders.map(f => `
+        <span class="nt-pill nt-pill-amber text-[10px]">
+          <i class="fa-solid fa-crown mr-1"></i> ${f.name} &middot; <strong class="text-white">${f.role}</strong> (${f.brand})
+        </span>
+      `).join('');
+    }
+  }
+}
+
+function cancelCsvPreview() {
+  stagedCsvFile = null;
+  const card = document.getElementById('agentic-audit-card');
+  const displayEl = document.getElementById('csv-filename-display');
+  const fileInput = document.getElementById('csv-file-input');
+
+  if (card) card.classList.add('hidden');
+  if (displayEl) displayEl.innerText = 'No file chosen';
+  if (fileInput) fileInput.value = '';
+}
+
+async function confirmAgenticImport() {
+  if (!stagedCsvFile) {
+    showAppleToast('No CSV file staged', true);
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', stagedCsvFile);
+
+  showAppleToast('Importing & clustering DTC brand prospects...');
   try {
     const res = await fetch(`/api/leads/upload-csv?campaign_id=${currentCampaignId}`, {
       method: 'POST',
@@ -1525,7 +1611,8 @@ async function uploadCsvFile(file) {
     });
     if (res.ok) {
       const data = await res.json();
-      showAppleToast(`Imported ${data.imported_leads} leads across ${data.unique_companies} companies!`);
+      showAppleToast(`Imported ${data.imported_leads} prospects across ${data.unique_companies} DTC brands!`);
+      cancelCsvPreview();
       await refreshAll();
       switchTab('companies');
     }
@@ -1534,42 +1621,38 @@ async function uploadCsvFile(file) {
   }
 }
 
-async function loadSampleCSVDirectly() {
-  const sampleCSV = `first_name,last_name,email,company,role_title,website,location,linkedin
-Sarah,Connor,sarah.c@stripe.com,Stripe,VP of Engineering,https://stripe.com,San Francisco CA,https://linkedin.com/in/sarah-connor
-David,Miller,david.m@stripe.com,Stripe,Head of Product Marketing,https://stripe.com,San Francisco CA,https://linkedin.com/in/david-miller
-Elena,Rostova,elena.r@stripe.com,Stripe,Chief Technology Officer,https://stripe.com,San Francisco CA,https://linkedin.com/in/elena-rostova
-Marcus,Vance,marcus@linear.app,Linear,Head of Customer Success,https://linear.app,New York NY,https://linkedin.com/in/marcus-vance
-Karim,Zowail,karim@linear.app,Linear,VP Growth & Sales,https://linear.app,New York NY,https://linkedin.com/in/karim-zowail
-Maya,Patel,maya@anthropic.com,Anthropic,Director of Developer Relations,https://anthropic.com,San Francisco CA,https://linkedin.com/in/maya-patel
-Liam,Nguyen,liam@vercel.com,Vercel,VP Infrastructure,https://vercel.com,San Francisco CA,https://linkedin.com/in/liam-nguyen
-Chloe,Dubois,chloe@vercel.com,Vercel,Lead Growth Engineer,https://vercel.com,San Francisco CA,https://linkedin.com/in/chloe-dubois`;
+// ── DTC Brand Sample Data Loader ──────────────────────────────────────────
 
-  const blob = new Blob([sampleCSV], { type: 'text/csv' });
-  const file = new File([blob], 'sample_prospects.csv', { type: 'text/csv' });
-  await uploadCsvFile(file);
+const SAMPLE_DTC_CSV = `Brand,Founder / Exec,Work Email,Store URL,Designation,Location
+Ridge,Sean Frank,sean@ridge.com,https://ridge.com,Co-Founder & CEO,Carlsbad CA
+Ridge,Connor Macdonald,connor@ridge.com,https://ridge.com,VP of Performance Marketing,Carlsbad CA
+Feastables,Bob Bilbruck,bob@feastables.com,https://feastables.com,Head of Growth,Chicago IL
+Feastables,Sarah Jenkins,sarah.j@feastables.com,https://feastables.com,Director of Paid Media,Chicago IL
+HexClad,Daniel Winer,daniel@hexclad.com,https://hexclad.com,CEO & Co-Founder,Los Angeles CA
+Athletic Greens,Chris Asakawa,chris@drinkag1.com,https://drinkag1.com,Chief Marketing Officer,New York NY
+True Classic,Ryan Bartlett,ryan@trueclassic.com,https://trueclassictees.com,CEO & Founder,Calabasas CA
+Glossier,Kyle Leahy,kyle@glossier.com,https://glossier.com,Chief Executive Officer,New York NY`;
+
+async function loadSampleDtcData() {
+  const blob = new Blob([SAMPLE_DTC_CSV], { type: 'text/csv' });
+  const file = new File([blob], 'sample_dtc_brands.csv', { type: 'text/csv' });
+  stagedCsvFile = file;
+
+  const displayEl = document.getElementById('csv-filename-display');
+  if (displayEl) {
+    displayEl.innerText = 'sample_dtc_brands.csv (8 DTC Brands & Founders)';
+  }
+
+  // Pre-flight Audit
+  await runAgenticPreflightAudit(file);
 }
 
-async function loadSampleData() {
-  await loadSampleCSVDirectly();
-}
-
-function downloadSampleCsv() {
-  const sampleCSV = `first_name,last_name,email,company,role_title,website,location,linkedin
-Sarah,Connor,sarah.c@stripe.com,Stripe,VP of Engineering,https://stripe.com,San Francisco CA,https://linkedin.com/in/sarah-connor
-David,Miller,david.m@stripe.com,Stripe,Head of Product Marketing,https://stripe.com,San Francisco CA,https://linkedin.com/in/david-miller
-Elena,Rostova,elena.r@stripe.com,Stripe,Chief Technology Officer,https://stripe.com,San Francisco CA,https://linkedin.com/in/elena-rostova
-Marcus,Vance,marcus@linear.app,Linear,Head of Customer Success,https://linear.app,New York NY,https://linkedin.com/in/marcus-vance
-Karim,Zowail,karim@linear.app,Linear,VP Growth & Sales,https://linear.app,New York NY,https://linkedin.com/in/karim-zowail
-Maya,Patel,maya@anthropic.com,Anthropic,Director of Developer Relations,https://anthropic.com,San Francisco CA,https://linkedin.com/in/maya-patel
-Liam,Nguyen,liam@vercel.com,Vercel,VP Infrastructure,https://vercel.com,San Francisco CA,https://linkedin.com/in/liam-nguyen
-Chloe,Dubois,chloe@vercel.com,Vercel,Lead Growth Engineer,https://vercel.com,San Francisco CA,https://linkedin.com/in/chloe-dubois`;
-
-  const blob = new Blob([sampleCSV], { type: 'text/csv' });
+function downloadSampleDtcCsv() {
+  const blob = new Blob([SAMPLE_DTC_CSV], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'prospects_template.csv';
+  a.download = 'dtc_prospects_template.csv';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

@@ -5,49 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   
   <!-- Primary Meta Tags & SEO Optimization -->
-  <title>OUTREACH // OS (1) — Autonomous Deliverability & Cold Outreach Platform</title>
-  <meta name="title" content="OUTREACH // OS (1) — Autonomous Deliverability & Cold Outreach Platform">
-  <meta name="description" content="Nothing-inspired cold email operating system. Multi-inbox Gmail fleet, Reddit & news intelligence (<30d), reply tracking, and FastMCP integration.">
-  <meta name="theme-color" content="#000000">
+  <title>OUTREACH // DTC AD ENGINE — Autonomous Deliverability & DTC Ads Platform</title>
+  <meta name="title" content="OUTREACH // DTC AD ENGINE — Autonomous Deliverability & DTC Ads Platform">
+  <meta name="description" content="End-to-end autonomous cold outreach platform for DTC Performance Ad Creatives. Multi-inbox Gmail fleet, agentic CSV founder discovery, Reddit & brand intelligence, and AI video showcase integration.">
+  <meta name="theme-color" content="#0b0c10">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="http://localhost:8000/">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="http://localhost:8000/">
-  <meta property="og:title" content="OUTREACH // OS (1)">
-  <meta property="og:description" content="High-density autonomous cold outreach system with circular fleet scaling and reply analytics.">
+  <!-- Google Fonts: Plus Jakarta Sans & Inter (Friendly, Human, Approachable) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS & Font Awesome -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body class="bg-black text-[#f4f4f6] min-h-screen flex selection:bg-[#ff3b00] selection:text-white">
+<body class="bg-[#0b0c10] text-[#f4f4f6] min-h-screen flex selection:bg-white selection:text-black">
 
   <!-- ======================================================== -->
-  <!-- LEFT RAIL SIDEBAR (ElevenLabs & Nothing OS Architecture) -->
+  <!-- LEFT RAIL SIDEBAR (Discord / Slack Inspired Friendly Architecture) -->
   <!-- ======================================================== -->
-  <aside id="sidebar-rail" class="w-64 bg-[#09090b] border-r border-white/[0.08] flex flex-col shrink-0 min-h-screen fixed inset-y-0 left-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+  <aside id="sidebar-rail" class="w-64 bg-[#0f1015] border-r border-white/[0.07] flex flex-col shrink-0 min-h-screen fixed inset-y-0 left-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
     
-    <!-- Wordmark & Technical Brand (No Graphic Logo) -->
+    <!-- Wordmark & Agency Brand -->
     <div class="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
       <div>
         <div class="flex items-center space-x-2">
-          <span class="w-2 h-2 rounded-full bg-[#ff3b00] inline-block"></span>
-          <span class="nt-brand-wordmark text-xs text-white">OUTREACH // OS</span>
-          <span class="nt-pill nt-pill-gray text-[9px]">(1)</span>
+          <span class="w-2.5 h-2.5 rounded-full bg-[#10b981] inline-block shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+          <span class="font-bold text-sm tracking-tight text-white">DTC AD ENGINE</span>
+          <span class="nt-pill nt-pill-gray text-[9px]">OS (1)</span>
         </div>
-        <div class="nt-dot-label mt-1">Autonomous Cold Fleet</div>
+        <div class="text-[11px] text-[#9da3af] mt-0.5">End-to-End DTC Performance Ads</div>
       </div>
-      <button onclick="toggleMobileSidebar()" class="md:hidden text-[#8c8c92] hover:text-white text-base">&times;</button>
+      <button onclick="toggleMobileSidebar()" class="md:hidden text-[#9da3af] hover:text-white text-base">&times;</button>
     </div>
 
-    <!-- Streamlined Circular Linked Accounts (Nothing Style) -->
-    <div class="px-5 py-3.5 border-b border-white/[0.06] bg-[#0c0c0e]">
+    <!-- Streamlined Circular Linked Accounts (Discord Avatar Stack Style) -->
+    <div class="px-5 py-3.5 border-b border-white/[0.06] bg-[#12131b]">
       <div class="flex items-center justify-between mb-2">
-        <span class="nt-dot-label">CONNECTED FLEET (<span id="sidebar-inbox-count">4</span>)</span>
-        <button onclick="openAddInboxModal()" class="text-[#ff3b00] hover:underline text-[10.5px] font-mono">+ ADD</button>
+        <span class="text-friendly-label">CONNECTED SENDER FLEET (<span id="sidebar-inbox-count">4</span>)</span>
+        <button onclick="openAddInboxModal()" class="text-[#10b981] hover:underline text-xs font-semibold">+ Add</button>
       </div>
 
       <!-- Circular Avatar Stack -->
@@ -55,9 +54,9 @@
         <!-- Dynamically rendered circles e.g. [AR][SC][MV][+] -->
       </div>
 
-      <div class="text-[10px] text-[#8c8c92] font-mono mt-2 flex items-center justify-between">
-        <span>CAPACITY: <strong class="text-white" id="sidebar-fleet-cap">165</strong>/DAY</span>
-        <span>RATE: <strong class="text-white" id="sidebar-fleet-rate">23</strong>/HR</span>
+      <div class="text-[10.5px] text-[#9da3af] font-mono mt-2.5 flex items-center justify-between">
+        <span>CAPACITY: <strong class="text-white" id="sidebar-fleet-cap">165</strong>/day</span>
+        <span>PACING: <strong class="text-white" id="sidebar-fleet-rate">23</strong>/hr</span>
       </div>
     </div>
 
@@ -68,7 +67,7 @@
           <i class="fa-solid fa-gauge text-xs" aria-hidden="true"></i>
           <span>Command Center</span>
         </div>
-        <span class="nt-pill nt-pill-orange text-[9px]">LIVE</span>
+        <span class="nt-pill nt-pill-emerald text-[9px]">LIVE</span>
       </div>
 
       <div onclick="switchTab('import')" id="nav-import" class="nt-sidebar-item">
@@ -76,27 +75,28 @@
           <i class="fa-solid fa-file-csv text-xs" aria-hidden="true"></i>
           <span>1. Import & Setup</span>
         </div>
+        <span class="nt-pill nt-pill-gray text-[9px]">AGENTIC</span>
       </div>
 
       <div onclick="switchTab('companies')" id="nav-companies" class="nt-sidebar-item">
         <div class="flex items-center space-x-2.5">
-          <i class="fa-solid fa-building text-xs" aria-hidden="true"></i>
-          <span>2. Clustered Leads</span>
+          <i class="fa-solid fa-store text-xs" aria-hidden="true"></i>
+          <span>2. DTC Brands</span>
         </div>
         <span class="nt-pill nt-pill-gray text-[9px]" id="sidebar-lead-count">8</span>
       </div>
 
       <div onclick="switchTab('studio')" id="nav-studio" class="nt-sidebar-item">
         <div class="flex items-center space-x-2.5">
-          <i class="fa-solid fa-wand-magic-sparkles text-xs text-[#ff3b00]" aria-hidden="true"></i>
-          <span>3. AI Review Studio</span>
+          <i class="fa-solid fa-wand-magic-sparkles text-xs text-[#10b981]" aria-hidden="true"></i>
+          <span>3. Ad Creative Studio</span>
         </div>
       </div>
 
       <div onclick="switchTab('inboxes')" id="nav-inboxes" class="nt-sidebar-item">
         <div class="flex items-center space-x-2.5">
           <i class="fa-solid fa-envelope text-xs" aria-hidden="true"></i>
-          <span>4. Fleet Accounts</span>
+          <span>4. Sender Accounts</span>
         </div>
       </div>
 
@@ -110,22 +110,24 @@
 
       <div onclick="switchTab('replies')" id="nav-replies" class="nt-sidebar-item">
         <div class="flex items-center space-x-2.5">
-          <i class="fa-solid fa-reply text-xs text-[#ff3b00]" aria-hidden="true"></i>
-          <span>6. Replies & Follow-Ups</span>
+          <i class="fa-solid fa-reply text-xs text-[#f59e0b]" aria-hidden="true"></i>
+          <span>6. Responses & Bumps</span>
         </div>
-        <span class="nt-pill nt-pill-orange text-[9px]" id="sidebar-reply-count">2</span>
+        <span class="nt-pill nt-pill-amber text-[9px]" id="sidebar-reply-count">2</span>
       </div>
     </nav>
 
-    <!-- Bottom Protocol Status & Deliverability Indicator -->
-    <div class="p-3.5 border-t border-white/[0.06] bg-[#070709] space-y-2">
-      <div class="flex items-center justify-between text-[10px] font-mono text-[#8c8c92]">
-        <span>PROTOCOL // MCP</span>
-        <span class="text-[#ff3b00] font-semibold">ACTIVE &middot; 8000</span>
+    <!-- Bottom Protocol Status & Portfolio Showcase Indicator -->
+    <div class="p-3.5 border-t border-white/[0.06] bg-[#0c0d12] space-y-2">
+      <div class="flex items-center justify-between text-[10.5px] text-[#9da3af]">
+        <span>CREATIVE SHOWCASE</span>
+        <a href="https://dtc-creatives.agency/showcase" target="_blank" class="text-[#10b981] hover:underline font-medium">PREVIEW &rarr;</a>
       </div>
-      <div class="bg-[#121215] p-2 rounded border border-white/[0.05] text-[10px] font-mono text-[#8c8c92] flex items-center justify-between">
+      <div class="bg-[#151620] p-2 rounded-lg border border-white/[0.05] text-[10.5px] text-[#9da3af] flex items-center justify-between">
         <span>DELIVERABILITY</span>
-        <span class="text-white font-semibold">100% PRIMARY</span>
+        <span class="text-white font-semibold flex items-center">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] mr-1.5"></span> 100% Primary Inbox
+        </span>
       </div>
     </div>
   </aside>
@@ -139,16 +141,16 @@
   <div class="flex-1 flex flex-col md:pl-64 min-w-0">
 
     <!-- Top Workstation Header Bar -->
-    <header class="sticky top-0 z-30 bg-[#08080a]/90 backdrop-blur-md border-b border-white/[0.07] px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+    <header class="sticky top-0 z-30 bg-[#0b0c10]/95 backdrop-blur-md border-b border-white/[0.07] px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
       <div class="flex items-center space-x-3">
         <!-- Mobile Drawer Toggle -->
-        <button onclick="toggleMobileSidebar()" class="md:hidden text-[#8c8c92] hover:text-white text-base">
+        <button onclick="toggleMobileSidebar()" class="md:hidden text-[#9da3af] hover:text-white text-base">
           <i class="fa-solid fa-bars" aria-hidden="true"></i>
         </button>
 
         <div>
-          <div class="nt-dot-label text-[#8c8c92] flex items-center space-x-1.5">
-            <span>OUTREACH // OS</span>
+          <div class="text-xs text-[#9da3af] flex items-center space-x-1.5">
+            <span>DTC AD ENGINE</span>
             <span>/</span>
             <span class="text-white font-semibold" id="topbar-current-view">COMMAND CENTER</span>
           </div>
@@ -157,19 +159,22 @@
 
       <!-- Live Tickers & Action Buttons -->
       <div class="flex items-center space-x-2.5">
-        <span class="hidden lg:inline-flex nt-pill nt-pill-gray text-[9.5px]">
-          REPLY RATE: <strong class="text-[#ff3b00] ml-1" id="topbar-reply-rate">50.0%</strong>
+        <span class="hidden lg:inline-flex nt-pill nt-pill-gray text-[10px]">
+          REPLY RATE: <strong class="text-white ml-1" id="topbar-reply-rate">50.0%</strong>
         </span>
-        <span class="hidden sm:inline-flex nt-pill nt-pill-gray text-[9.5px]">
-          FLEET: <strong class="text-white ml-1" id="topbar-fleet-rate">23/hr</strong>
+        <span class="hidden sm:inline-flex nt-pill nt-pill-gray text-[10px]">
+          FLEET PACING: <strong class="text-white ml-1" id="topbar-fleet-rate">23/hr</strong>
         </span>
 
-        <button onclick="loadSampleData()" class="nt-btn-secondary text-[11px] py-1 px-2.5">
-          <i class="fa-solid fa-bolt mr-1 text-[#ff3b00]" aria-hidden="true"></i>
-          <span>Demo Data</span>
+        <!-- Secondary Button: Subtle -->
+        <button onclick="loadSampleDtcData()" class="nt-btn-secondary text-xs py-1.5 px-3">
+          <i class="fa-solid fa-store mr-1.5 text-[#10b981]" aria-hidden="true"></i>
+          <span>Demo DTC Data</span>
         </button>
-        <button onclick="runAutonomousPipeline()" id="topbar-btn-run" class="nt-btn-orange text-[11px] py-1 px-3">
-          <i class="fa-solid fa-play mr-1 text-[9px]" aria-hidden="true"></i>
+
+        <!-- Primary Button: Highest Visual Importance (Friendly Stark White or Emerald Glow) -->
+        <button onclick="runAutonomousPipeline()" id="topbar-btn-run" class="nt-btn-primary text-xs py-1.5 px-3.5">
+          <i class="fa-solid fa-play mr-1.5 text-[9px]" aria-hidden="true"></i>
           <span>Run Pipeline</span>
         </button>
       </div>
@@ -179,108 +184,108 @@
     <main class="flex-1 p-3.5 sm:p-6 space-y-4 sm:space-y-5 max-w-7xl w-full mx-auto">
 
       <!-- ======================================================== -->
-      <!-- TAB 1: COMMAND CENTER (Unified 1-Page Dashboard) -->
+      <!-- TAB 1: COMMAND CENTER (Unified 1-Page High-Density Workstation) -->
       <!-- ======================================================== -->
       <section id="tab-dashboard" class="tab-pane space-y-4" aria-labelledby="heading-command">
         
         <!-- 4 Core Metric Widgets Strip -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
-          <div class="nt-card p-3 sm:p-3.5 nt-card-glow">
-            <div class="flex items-center justify-between text-[10px] font-mono text-[#8c8c92] mb-1">
-              <span>FLEET CAPACITY</span>
-              <span class="w-1.5 h-1.5 rounded-full bg-[#ff3b00]"></span>
+          <div class="nt-card p-3.5 nt-card-glow">
+            <div class="flex items-center justify-between text-xs text-[#9da3af] mb-1">
+              <span class="font-medium">FLEET CAPACITY</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
             </div>
-            <div class="text-lg sm:text-2xl font-bold font-mono text-white">
-              <span id="metric-capacity">165</span> <span class="text-xs text-[#8c8c92] font-normal">sends/day</span>
+            <div class="text-xl sm:text-2xl font-bold font-mono text-white">
+              <span id="metric-capacity">165</span> <span class="text-xs text-[#9da3af] font-normal">sends/day</span>
             </div>
-            <div class="text-[10px] text-[#8c8c92] font-mono mt-0.5"><span id="metric-total-inboxes">4</span> inboxes pooled</div>
+            <div class="text-[11px] text-[#9da3af] mt-0.5"><span id="metric-total-inboxes">4</span> inboxes pooled</div>
           </div>
 
-          <div class="nt-card p-3 sm:p-3.5 nt-card-glow">
-            <div class="flex items-center justify-between text-[10px] font-mono text-[#8c8c92] mb-1">
-              <span>HOURLY PACING</span>
-              <i class="fa-solid fa-gauge-high text-xs text-[#8c8c92]" aria-hidden="true"></i>
+          <div class="nt-card p-3.5 nt-card-glow">
+            <div class="flex items-center justify-between text-xs text-[#9da3af] mb-1">
+              <span class="font-medium">HOURLY PACING</span>
+              <i class="fa-solid fa-gauge-high text-xs text-[#9da3af]" aria-hidden="true"></i>
             </div>
-            <div class="text-lg sm:text-2xl font-bold font-mono text-white">
-              <span id="metric-hourly-rate">23</span> <span class="text-xs text-[#8c8c92] font-normal">/hr</span>
+            <div class="text-xl sm:text-2xl font-bold font-mono text-white">
+              <span id="metric-hourly-rate">23</span> <span class="text-xs text-[#9da3af] font-normal">/hr</span>
             </div>
-            <div class="text-[10px] text-[#8c8c92] font-mono mt-0.5">Jitter: 90s–240s active</div>
+            <div class="text-[11px] text-[#9da3af] mt-0.5">Jitter: 90s–240s active</div>
           </div>
 
-          <div class="nt-card p-3 sm:p-3.5 nt-card-glow">
-            <div class="flex items-center justify-between text-[10px] font-mono text-[#8c8c92] mb-1">
-              <span>TOTAL DELIVERED</span>
-              <i class="fa-solid fa-paper-plane text-xs text-white" aria-hidden="true"></i>
+          <div class="nt-card p-3.5 nt-card-glow">
+            <div class="flex items-center justify-between text-xs text-[#9da3af] mb-1">
+              <span class="font-medium">DELIVERED TO PRIMARY</span>
+              <i class="fa-solid fa-paper-plane text-xs text-[#10b981]" aria-hidden="true"></i>
             </div>
-            <div class="text-lg sm:text-2xl font-bold font-mono text-white" id="metric-total-delivered">4</div>
-            <div class="text-[10px] text-[#8c8c92] font-mono mt-0.5">100% Primary Inbox</div>
+            <div class="text-xl sm:text-2xl font-bold font-mono text-white" id="metric-total-delivered">4</div>
+            <div class="text-[11px] text-[#9da3af] mt-0.5">100% Primary Inbox</div>
           </div>
 
-          <div class="nt-card p-3 sm:p-3.5 nt-card-glow cursor-pointer" onclick="switchTab('replies')">
-            <div class="flex items-center justify-between text-[10px] font-mono text-[#8c8c92] mb-1">
-              <span class="text-[#ff3b00] font-semibold">REPLY RATE</span>
-              <i class="fa-solid fa-reply text-xs text-[#ff3b00]" aria-hidden="true"></i>
+          <div class="nt-card p-3.5 nt-card-glow cursor-pointer" onclick="switchTab('replies')">
+            <div class="flex items-center justify-between text-xs text-[#9da3af] mb-1">
+              <span class="text-[#f59e0b] font-medium">REPLY RATE</span>
+              <i class="fa-solid fa-reply text-xs text-[#f59e0b]" aria-hidden="true"></i>
             </div>
-            <div class="text-lg sm:text-2xl font-bold font-mono text-[#ff3b00]" id="metric-reply-rate">50.0%</div>
-            <div class="text-[10px] text-[#8c8c92] font-mono mt-0.5"><span id="metric-replies-count">2</span> replies (<span id="metric-interested-count">1</span> warm)</div>
+            <div class="text-xl sm:text-2xl font-bold font-mono text-white" id="metric-reply-rate">50.0%</div>
+            <div class="text-[11px] text-[#9da3af] mt-0.5"><span id="metric-replies-count">2</span> replies (<span id="metric-interested-count">1</span> warm)</div>
           </div>
         </div>
 
-        <!-- High-Density Split Workstation: Left (Leads Clustered) vs Right (Embedded AI Studio) -->
+        <!-- High-Density Split Workstation: Left (DTC Prospects) vs Right (Embedded Ad Studio) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4 min-h-[580px]">
           
-          <!-- Left Column: Company Clustered Leads -->
-          <div class="lg:col-span-5 nt-card p-3.5 flex flex-col space-y-3">
+          <!-- Left Column: DTC Brand Prospects Directory -->
+          <div class="lg:col-span-5 nt-card p-3.5 sm:p-4 flex flex-col space-y-3">
             <div class="flex items-center justify-between">
               <div>
-                <span class="nt-dot-label">PROSPECT DIRECTORY</span>
-                <h3 class="text-xs sm:text-sm font-semibold text-white">Clustered Companies (<span id="command-lead-count">8</span>)</h3>
+                <span class="text-friendly-label">DTC BRAND DIRECTORY</span>
+                <h3 class="text-sm font-semibold text-white">Target Founders & CMOs (<span id="command-lead-count">8</span>)</h3>
               </div>
-              <button onclick="switchTab('companies')" class="text-[10.5px] text-[#ff3b00] hover:underline font-mono">View All &rarr;</button>
+              <button onclick="switchTab('companies')" class="text-xs text-[#10b981] hover:underline font-medium">View All &rarr;</button>
             </div>
 
             <search class="relative">
-              <input type="search" oninput="filterCompaniesAndLeads(this.value)" placeholder="Search company or lead..." class="nt-input w-full pl-7 pr-2.5 py-1 text-xs">
-              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-[#8c8c92] text-[10px]" aria-hidden="true"></i>
+              <input type="search" oninput="filterCompaniesAndLeads(this.value)" placeholder="Search DTC brand, founder, or role..." class="nt-input w-full pl-8 pr-3 py-1.5 text-xs">
+              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-[#9da3af] text-xs" aria-hidden="true"></i>
             </search>
 
             <div class="flex-1 overflow-y-auto space-y-2 pr-1 max-h-[520px]" id="command-lead-list">
-              <!-- Dynamically populated prospect cards -->
+              <!-- Dynamically populated DTC prospect cards -->
             </div>
           </div>
 
-          <!-- Right Column: Embedded Instant Studio (Live Dossier & Email Editor) -->
-          <div class="lg:col-span-7 nt-card p-3.5 sm:p-4.5 flex flex-col space-y-3" id="command-studio-panel">
-            <div class="text-center py-24 text-[#8c8c92] text-xs font-mono">
-              Select a prospect from the left directory to inspect live intelligence and edit their copy.
+          <!-- Right Column: Embedded Instant Studio (Live Dossier & DTC Ad Copy Editor) -->
+          <div class="lg:col-span-7 nt-card p-4 sm:p-5 flex flex-col space-y-3" id="command-studio-panel">
+            <div class="text-center py-24 text-[#9da3af] text-xs">
+              Select a DTC brand or founder from the left directory to inspect intelligence and edit ad copy.
             </div>
           </div>
         </div>
 
-        <!-- Bottom Quick-Access Section: Dispatch Queue & Recent Replies -->
+        <!-- Bottom Quick-Access Section: Dispatch Queue & Recent Responses -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
           <!-- Live Queue Strip -->
-          <div class="nt-card p-3.5 space-y-2.5">
+          <div class="nt-card p-3.5 sm:p-4 space-y-2.5">
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#ff3b00]"></span>
-                <span class="nt-dot-label">LIVE DISPATCH QUEUE</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+                <span class="text-friendly-label">LIVE DISPATCH QUEUE</span>
               </div>
-              <button onclick="switchTab('queue')" class="text-[10.5px] text-[#ff3b00] hover:underline font-mono">Manage Queue &rarr;</button>
+              <button onclick="switchTab('queue')" class="text-xs text-[#10b981] hover:underline font-medium">Manage Queue &rarr;</button>
             </div>
             <div class="space-y-1.5" id="command-queue-mini">
               <!-- Dynamically populated queue slots -->
             </div>
           </div>
 
-          <!-- Recent Replies Strip -->
-          <div class="nt-card p-3.5 space-y-2.5">
+          <!-- Recent Responses Strip -->
+          <div class="nt-card p-3.5 sm:p-4 space-y-2.5">
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-reply text-[10px] text-[#ff3b00]" aria-hidden="true"></i>
-                <span class="nt-dot-label">PROSPECT RESPONSES (<span id="command-replies-count">2</span>)</span>
+                <i class="fa-solid fa-reply text-xs text-[#f59e0b]" aria-hidden="true"></i>
+                <span class="text-friendly-label">PROSPECT RESPONSES (<span id="command-replies-count">2</span>)</span>
               </div>
-              <button onclick="switchTab('replies')" class="text-[10.5px] text-[#ff3b00] hover:underline font-mono">Open Inbox &rarr;</button>
+              <button onclick="switchTab('replies')" class="text-xs text-[#10b981] hover:underline font-medium">Open Inbox &rarr;</button>
             </div>
             <div class="space-y-1.5" id="command-replies-mini">
               <!-- Dynamically populated reply items -->
@@ -291,54 +296,94 @@
       </section>
 
       <!-- ======================================================== -->
-      <!-- TAB 2: 1. IMPORT & SETUP -->
+      <!-- TAB 2: 1. IMPORT & SETUP (Agentic Schema Resolution) -->
       <!-- ======================================================== -->
       <section id="tab-import" class="tab-pane hidden space-y-4" aria-labelledby="heading-import">
-        <article class="nt-card p-4 sm:p-5 space-y-4">
+        <article class="nt-card p-4 sm:p-6 space-y-5">
           <div>
-            <span class="nt-pill nt-pill-orange mb-1">STEP 01</span>
-            <h2 id="heading-import" class="text-sm sm:text-base font-semibold text-white tracking-tight">Import CSV & Configure Pitch</h2>
-            <p class="text-xs text-[#8c8c92]">Upload prospect list. Multiple colleagues from the same company will be automatically clustered with 24h separation.</p>
+            <span class="nt-pill nt-pill-emerald mb-1.5">STEP 01 &middot; AGENTIC INGESTION</span>
+            <h2 id="heading-import" class="text-base sm:text-lg font-semibold text-white tracking-tight">Import CSV & Configure DTC Creative Offer</h2>
+            <p class="text-xs sm:text-sm text-[#9da3af] mt-0.5">Upload any CSV list. Our agent automatically discovers columns, detects founders & CMOs, and structures multi-contact separation.</p>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <!-- Interactive Agentic Ingestion Audit Card (Appears on file selection) -->
+          <div id="agentic-audit-card" class="hidden bg-[#10121a] border border-[#10b981]/30 rounded-xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                <span class="font-bold text-xs text-white">Agentic CSV Audit & Founder Discovery</span>
+                <span class="nt-pill nt-pill-emerald text-[9.5px]" id="audit-confidence">99.4% Confidence</span>
+              </div>
+              <span class="text-xs text-[#9da3af]" id="audit-summary-count">8 rows &middot; 4 DTC brands</span>
+            </div>
+
+            <!-- Auto-Mapped Columns Pill Row -->
+            <div class="flex flex-wrap items-center gap-1.5" id="audit-column-mappings">
+              <!-- Dynamically injected mapping chips -->
+            </div>
+
+            <!-- Detected Founders Box -->
+            <div class="bg-[#161824] p-3 rounded-lg border border-white/[0.05] space-y-1.5">
+              <div class="text-[11px] font-semibold text-white flex items-center justify-between">
+                <span><i class="fa-solid fa-crown text-[#f59e0b] mr-1.5"></i> Detected Decision-Makers (Founders, CEOs & CMOs):</span>
+                <span class="text-[10px] text-[#9da3af]" id="audit-founders-count">4 Identified</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5" id="audit-founders-list">
+                <!-- Dynamically injected founder chips -->
+              </div>
+            </div>
+
+            <div class="pt-1 flex items-center justify-end space-x-2">
+              <button type="button" onclick="cancelCsvPreview()" class="nt-btn-secondary text-xs py-1.5 px-3">Choose Another File</button>
+              <button type="button" onclick="confirmAgenticImport()" class="nt-btn-primary text-xs py-1.5 px-4">
+                <i class="fa-solid fa-check mr-1.5 text-[10px]" aria-hidden="true"></i> Confirm & Run Agentic Clustering
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
             <!-- CSV Upload Zone -->
-            <div class="space-y-2.5">
-              <div class="border border-dashed border-white/[0.12] hover:border-[#ff3b00] bg-[#09090b] rounded p-6 text-center transition cursor-pointer" onclick="document.getElementById('csv-file-input').click()">
+            <div class="space-y-3">
+              <div class="border border-dashed border-white/[0.12] hover:border-white/[0.3] bg-[#0d0e14] rounded-xl p-6 text-center transition cursor-pointer" onclick="document.getElementById('csv-file-input').click()">
                 <input type="file" id="csv-file-input" accept=".csv" class="hidden" onchange="handleCsvFileSelected(event)">
-                <div class="w-8 h-8 rounded bg-[#ff3b00]/10 text-[#ff3b00] flex items-center justify-center text-sm mx-auto mb-2">
+                <div class="w-10 h-10 rounded-full bg-white/[0.06] text-white flex items-center justify-center text-base mx-auto mb-2">
                   <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
                 </div>
-                <h3 class="text-xs font-semibold text-white mb-0.5">Click or Drag & Drop CSV</h3>
-                <p class="text-[10px] text-[#8c8c92]">Columns: first_name, last_name, email, company, role_title, website, linkedin</p>
-                <div class="mt-2 text-[10px] font-mono text-[#ff3b00]" id="csv-filename-display">No file chosen</div>
+                <h3 class="text-xs sm:text-sm font-semibold text-white mb-0.5">Click or Drag & Drop Any CSV</h3>
+                <p class="text-xs text-[#9da3af]">Flexible headers supported: Brand, Founder / Exec, Work Email, Store URL, Designation</p>
+                <div class="mt-2 text-xs font-mono text-[#10b981]" id="csv-filename-display">No file chosen</div>
               </div>
 
               <div class="flex items-center justify-between text-xs">
-                <button type="button" onclick="loadSampleData()" class="text-[#ff3b00] hover:underline flex items-center space-x-1 text-[11px] font-mono">
-                  <i class="fa-solid fa-table-list mr-1" aria-hidden="true"></i> Load Sample 8-Lead CSV
+                <button type="button" onclick="loadSampleDtcData()" class="text-[#10b981] hover:underline flex items-center space-x-1 font-medium">
+                  <i class="fa-solid fa-store mr-1" aria-hidden="true"></i> Load Sample 8-Lead DTC Brand List
                 </button>
-                <button type="button" onclick="downloadSampleCsv()" class="text-[#8c8c92] hover:text-white flex items-center space-x-1 text-[11px]">
-                  <i class="fa-solid fa-download mr-1" aria-hidden="true"></i> Template
+                <button type="button" onclick="downloadSampleDtcCsv()" class="text-[#9da3af] hover:text-white flex items-center space-x-1">
+                  <i class="fa-solid fa-download mr-1" aria-hidden="true"></i> Template CSV
                 </button>
               </div>
             </div>
 
-            <!-- Campaign Pitch Settings -->
-            <div class="space-y-2.5">
+            <!-- DTC Campaign Pitch Settings -->
+            <div class="space-y-3 bg-[#11121a] p-4 rounded-xl border border-white/[0.05]">
               <div>
-                <label for="campaign-name" class="block text-[11px] font-mono text-[#8c8c92] mb-1">CAMPAIGN TITLE</label>
-                <input type="text" id="campaign-name" class="nt-input w-full" value="AI Cold Outreach & Deliverability Platform">
+                <label for="campaign-name" class="block text-xs font-semibold text-white mb-1">CAMPAIGN TITLE</label>
+                <input type="text" id="campaign-name" class="nt-input w-full" value="DTC Performance Ads & Video Production">
               </div>
 
               <div>
-                <label for="campaign-pitch" class="block text-[11px] font-mono text-[#8c8c92] mb-1">OFFER / SOLUTION PITCH</label>
-                <textarea id="campaign-pitch" rows="3" class="nt-input w-full text-xs">We help tech companies automate hyper-personalized cold outreach with deep web intelligence and multi-inbox deliverability protection.</textarea>
+                <label for="campaign-pitch" class="block text-xs font-semibold text-white mb-1">VALUE PROPOSITION (PAID ADS DEPARTMENT)</label>
+                <textarea id="campaign-pitch" rows="3" class="nt-input w-full text-xs">We produce end-to-end DTC ad creatives (9:16 vertical UGC hooks, AI product video showcases, and rapid hook testing) to eliminate ad creative fatigue and scale Meta & TikTok ROAS.</textarea>
               </div>
 
               <div>
-                <label for="campaign-instructions" class="block text-[11px] font-mono text-[#8c8c92] mb-1">COPYWRITING GUIDELINES</label>
-                <textarea id="campaign-instructions" rows="2" class="nt-input w-full text-xs">Congratulate them authentically on recent achievements within the last 30 days. Emphasize zero-slop peer-to-peer tone.</textarea>
+                <label for="campaign-portfolio" class="block text-xs font-semibold text-white mb-1">PORTFOLIO / SHOWCASE LINK</label>
+                <input type="url" id="campaign-portfolio" class="nt-input w-full font-mono text-xs" value="https://dtc-creatives.agency/showcase">
+              </div>
+
+              <div>
+                <label for="campaign-instructions" class="block text-xs font-semibold text-white mb-1">COPYWRITING GUIDELINES</label>
+                <textarea id="campaign-instructions" rows="2" class="nt-input w-full text-xs">Target DTC Founders & Growth Leads. Congratulate on recent brand milestones < 30 days. Emphasize multi-format testing and share showcase link.</textarea>
               </div>
             </div>
           </div>
@@ -346,26 +391,26 @@
       </section>
 
       <!-- ======================================================== -->
-      <!-- TAB 3: 2. CLUSTERED LEADS -->
+      <!-- TAB 3: 2. CLUSTERED DTC BRANDS -->
       <!-- ======================================================== -->
       <section id="tab-companies" class="tab-pane hidden space-y-4" aria-labelledby="heading-companies">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <span class="nt-pill nt-pill-orange mb-1">STEP 02</span>
-            <h2 id="heading-companies" class="text-sm sm:text-base font-semibold text-white tracking-tight">Company Clustered Prospects</h2>
-            <p class="text-xs text-[#8c8c92]">Grouped by domain with 24-hour stagger scheduling and live research tags</p>
+            <span class="nt-pill nt-pill-emerald mb-1.5">STEP 02</span>
+            <h2 id="heading-companies" class="text-base font-semibold text-white tracking-tight">DTC Brand Clustered Prospects</h2>
+            <p class="text-xs text-[#9da3af]">Grouped by brand domain with 24-hour stagger scheduling and detected founder tiers</p>
           </div>
 
           <div class="flex flex-wrap items-center gap-2">
             <search class="relative">
-              <input type="search" id="leads-search-input" oninput="filterCompaniesAndLeads(this.value)" placeholder="Search company or lead..." class="nt-input pl-7 pr-2.5 py-1 text-xs w-48">
-              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-[#8c8c92] text-[10px]" aria-hidden="true"></i>
+              <input type="search" id="leads-search-input" oninput="filterCompaniesAndLeads(this.value)" placeholder="Search brand or lead..." class="nt-input pl-8 pr-3 py-1.5 text-xs w-52">
+              <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-[#9da3af] text-xs" aria-hidden="true"></i>
             </search>
-            <button onclick="triggerAllResearch()" class="nt-btn-secondary text-xs py-1 px-2.5">
+            <button onclick="triggerAllResearch()" class="nt-btn-secondary text-xs py-1.5 px-3">
               <span>Research All</span>
             </button>
-            <button onclick="triggerAllDrafts()" class="nt-btn-orange text-xs py-1 px-2.5">
-              <span>Draft All</span>
+            <button onclick="triggerAllDrafts()" class="nt-btn-primary text-xs py-1.5 px-3.5">
+              <span>Draft All Emails</span>
             </button>
           </div>
         </div>
@@ -381,32 +426,32 @@
       <section id="tab-studio" class="tab-pane hidden space-y-4" aria-labelledby="heading-studio">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <div>
-            <span class="nt-pill nt-pill-orange mb-1">STEP 03</span>
-            <h2 id="heading-studio" class="text-sm sm:text-base font-semibold text-white tracking-tight">AI Personalization Studio</h2>
-            <p class="text-xs text-[#8c8c92]">Inspect news (&lt;30d) and Reddit pain points alongside role-adapted copy</p>
+            <span class="nt-pill nt-pill-emerald mb-1.5">STEP 03</span>
+            <h2 id="heading-studio" class="text-base font-semibold text-white tracking-tight">Ad Creative Personalization Studio</h2>
+            <p class="text-xs text-[#9da3af]">Review brand milestone hooks, Reddit consumer sentiment, and tailored DTC ad pitches</p>
           </div>
-          <button onclick="approveAllDrafts()" class="nt-btn-orange text-xs py-1.5 px-3">
+          <button onclick="approveAllDrafts()" class="nt-btn-primary text-xs py-1.5 px-3.5">
             <i class="fa-solid fa-check mr-1" aria-hidden="true"></i>
             <span>Approve All Verified Drafts</span>
           </button>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 min-h-[520px]">
-          <div id="studio-col-list" class="lg:col-span-4 nt-card p-3 flex flex-col h-auto lg:h-[620px]">
-            <div class="nt-dot-label mb-2 flex items-center justify-between">
+          <div id="studio-col-list" class="lg:col-span-4 nt-card p-3.5 flex flex-col h-auto lg:h-[620px]">
+            <div class="text-friendly-label mb-2 flex items-center justify-between">
               <span>PROSPECTS (<span id="studio-lead-count">0</span>)</span>
-              <span class="text-[#ff3b00]">SELECT TO REVIEW</span>
+              <span class="text-[#10b981]">SELECT TO REVIEW</span>
             </div>
             <search class="mb-2">
-              <input type="search" id="studio-search-input" oninput="filterStudioLeads(this.value)" placeholder="Filter leads..." class="nt-input w-full py-1 px-2 text-xs">
+              <input type="search" id="studio-search-input" oninput="filterStudioLeads(this.value)" placeholder="Filter prospects..." class="nt-input w-full py-1.5 px-3 text-xs">
             </search>
             <div class="flex-1 overflow-y-auto space-y-1.5 pr-1 max-h-[50vh] lg:max-h-none" id="studio-lead-list">
               <!-- Dynamically populated -->
             </div>
           </div>
 
-          <div id="studio-col-detail" class="hidden lg:flex lg:col-span-8 nt-card p-4 flex-col h-auto lg:h-[620px] overflow-y-auto">
-            <div class="text-center py-24 text-[#8c8c92] text-xs font-mono">
+          <div id="studio-col-detail" class="hidden lg:flex lg:col-span-8 nt-card p-4 sm:p-5 flex-col h-auto lg:h-[620px] overflow-y-auto">
+            <div class="text-center py-24 text-[#9da3af] text-xs">
               Select a prospect from the list.
             </div>
           </div>
@@ -419,11 +464,11 @@
       <section id="tab-inboxes" class="tab-pane hidden space-y-4" aria-labelledby="heading-inboxes">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <span class="nt-pill nt-pill-orange mb-1">STEP 04</span>
-            <h2 id="heading-inboxes" class="text-sm sm:text-base font-semibold text-white tracking-tight">Multi-Inbox Deliverability Fleet</h2>
-            <p class="text-xs text-[#8c8c92]">Connect personal Gmails. Daily caps and hourly pacing are fully configurable per inbox.</p>
+            <span class="nt-pill nt-pill-emerald mb-1.5">STEP 04</span>
+            <h2 id="heading-inboxes" class="text-base font-semibold text-white tracking-tight">Multi-Inbox Deliverability Fleet</h2>
+            <p class="text-xs text-[#9da3af]">Connect personal Gmails. Daily caps and hourly pacing are fully configurable per inbox.</p>
           </div>
-          <button onclick="openAddInboxModal()" class="nt-btn-orange text-xs py-1.5 px-3">
+          <button onclick="openAddInboxModal()" class="nt-btn-primary text-xs py-1.5 px-3.5">
             <i class="fa-solid fa-plus mr-1" aria-hidden="true"></i>
             <span>Add Gmail Account</span>
           </button>
@@ -440,9 +485,9 @@
       <section id="tab-queue" class="tab-pane hidden space-y-4" aria-labelledby="heading-queue">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <span class="nt-pill nt-pill-orange mb-1">STEP 05</span>
-            <h2 id="heading-queue" class="text-sm sm:text-base font-semibold text-white tracking-tight">Live Dispatch Queue & Delivery Timeline</h2>
-            <p class="text-xs text-[#8c8c92]">Jitter delays (90–240s), business-hour spacing, and 24h company separation</p>
+            <span class="nt-pill nt-pill-emerald mb-1.5">STEP 05</span>
+            <h2 id="heading-queue" class="text-base font-semibold text-white tracking-tight">Live Dispatch Queue & Delivery Timeline</h2>
+            <p class="text-xs text-[#9da3af]">Jitter delays (90–240s), business-hour spacing, and 24h brand separation</p>
           </div>
           <button onclick="fetchQueue()" class="nt-btn-secondary text-xs py-1 px-3">
             <i class="fa-solid fa-arrows-rotate mr-1" aria-hidden="true"></i>
@@ -453,13 +498,13 @@
         <div class="nt-card overflow-hidden">
           <div class="overflow-x-auto no-scrollbar">
             <table class="w-full text-left text-xs min-w-[580px]">
-              <thead class="bg-[#09090b] border-b border-white/[0.06] text-[#8c8c92] font-mono text-[9px] uppercase tracking-wider">
+              <thead class="bg-[#0f1016] border-b border-white/[0.06] text-[#9da3af] font-mono text-[9px] uppercase tracking-wider">
                 <tr>
                   <th class="py-2.5 px-3.5">SLOT TIME</th>
-                  <th class="py-2.5 px-3.5">RECIPIENT LEAD</th>
-                  <th class="py-2.5 px-3.5">COMPANY DOMAIN</th>
+                  <th class="py-2.5 px-3.5">RECIPIENT PROSPECT</th>
+                  <th class="py-2.5 px-3.5">DTC BRAND</th>
                   <th class="py-2.5 px-3.5">SENDER INBOX</th>
-                  <th class="py-2.5 px-3.5">DELAY</th>
+                  <th class="py-2.5 px-3.5">PACING</th>
                   <th class="py-2.5 px-3.5 text-right">STATUS</th>
                 </tr>
               </thead>
@@ -472,18 +517,18 @@
       </section>
 
       <!-- ======================================================== -->
-      <!-- TAB 7: 6. REPLIES & FOLLOW-UPS -->
+      <!-- TAB 7: 6. RESPONSES & FOLLOW-UPS -->
       <!-- ======================================================== -->
       <section id="tab-replies" class="tab-pane hidden space-y-4" aria-labelledby="heading-replies">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <span class="nt-pill nt-pill-orange mb-1">STEP 06 &middot; REPLY INTELLIGENCE</span>
-            <h2 id="heading-replies" class="text-sm sm:text-base font-semibold text-white tracking-tight">Prospect Responses & Automated Follow-Up Sequences</h2>
-            <p class="text-xs text-[#8c8c92]">Review incoming replies, trigger 1-click tailored responses, or generate multi-touch follow-up bumps</p>
+            <span class="nt-pill nt-pill-amber mb-1.5">STEP 06 &middot; REPLY INTELLIGENCE</span>
+            <h2 id="heading-replies" class="text-base font-semibold text-white tracking-tight">Prospect Responses & Automated Follow-Up Sequences</h2>
+            <p class="text-xs text-[#9da3af]">Review incoming replies, trigger 1-click tailored responses, or generate multi-touch follow-up bumps</p>
           </div>
           <div class="flex items-center space-x-2">
             <button onclick="openSimulateReplyModal()" class="nt-btn-secondary text-xs py-1 px-2.5">
-              <i class="fa-solid fa-plus mr-1 text-[#ff3b00]" aria-hidden="true"></i>
+              <i class="fa-solid fa-plus mr-1 text-[#f59e0b]" aria-hidden="true"></i>
               <span>Simulate Reply</span>
             </button>
             <button onclick="fetchReplies()" class="nt-btn-secondary text-xs py-1 px-2.5">
@@ -497,8 +542,8 @@
           <!-- Left: Incoming Prospect Responses List -->
           <div class="lg:col-span-7 space-y-3">
             <div class="flex items-center justify-between">
-              <span class="nt-dot-label">INCOMING REPLIES (<span id="replies-list-count">0</span>)</span>
-              <span class="text-[10px] text-[#ff3b00] font-mono">1-CLICK AI RESPONSE</span>
+              <span class="text-friendly-label">INCOMING REPLIES (<span id="replies-list-count">0</span>)</span>
+              <span class="text-xs text-[#10b981] font-medium">1-Click AI Response</span>
             </div>
             <div class="space-y-2.5" id="replies-cards-container">
               <!-- Dynamically populated -->
@@ -508,15 +553,15 @@
           <!-- Right: Follow-Up Bump Generator -->
           <div class="lg:col-span-5 space-y-3">
             <div class="flex items-center justify-between">
-              <span class="nt-dot-label">FOLLOW-UP BUMP ENGINE</span>
-              <span class="text-[10px] text-[#8c8c92] font-mono">NO-REPLY LEADS</span>
+              <span class="text-friendly-label">FOLLOW-UP BUMP ENGINE</span>
+              <span class="text-xs text-[#9da3af]">NO-REPLY LEADS</span>
             </div>
 
-            <div class="nt-card p-3.5 space-y-3 bg-[#0c0c0e]">
-              <p class="text-xs text-[#8c8c92]">Select a contacted prospect who hasn't replied to generate a 40-word bump:</p>
+            <div class="nt-card p-4 space-y-3 bg-[#11121a]">
+              <p class="text-xs text-[#9da3af]">Select a contacted prospect who hasn't replied to generate a 40-word bump:</p>
               
               <div>
-                <label for="followup-lead-select" class="block text-[10.5px] font-mono text-[#8c8c92] mb-1">SELECT LEAD</label>
+                <label for="followup-lead-select" class="block text-xs font-semibold text-white mb-1">SELECT LEAD</label>
                 <select id="followup-lead-select" class="nt-input w-full text-xs">
                   <!-- Dynamically populated -->
                 </select>
@@ -533,14 +578,14 @@
 
               <div id="followup-preview-container" class="space-y-2 pt-2 border-t border-white/[0.05] hidden">
                 <div>
-                  <label for="followup-subject" class="block text-[10px] font-mono text-[#8c8c92] mb-0.5">SUBJECT</label>
+                  <label for="followup-subject" class="block text-xs font-semibold text-white mb-0.5">SUBJECT</label>
                   <input type="text" id="followup-subject" class="nt-input w-full font-mono text-xs">
                 </div>
                 <div>
-                  <label for="followup-body" class="block text-[10px] font-mono text-[#8c8c92] mb-0.5">BODY (&lt; 45 words)</label>
+                  <label for="followup-body" class="block text-xs font-semibold text-white mb-0.5">BODY (&lt; 45 words)</label>
                   <textarea id="followup-body" rows="4" class="nt-input w-full text-xs leading-relaxed"></textarea>
                 </div>
-                <button onclick="scheduleGeneratedFollowUp()" class="nt-btn-orange w-full py-1.5 text-xs">
+                <button onclick="scheduleGeneratedFollowUp()" class="nt-btn-primary w-full py-1.5 text-xs">
                   <i class="fa-solid fa-calendar-plus mr-1" aria-hidden="true"></i>
                   <span>Queue Follow-Up</span>
                 </button>
@@ -557,55 +602,55 @@
   <!-- MODAL: ADD SENDER GMAIL ACCOUNT -->
   <!-- ======================================================== -->
   <dialog id="modal-inbox" closedby="any" aria-labelledby="modal-inbox-title">
-    <div class="dialog-content space-y-3">
+    <div class="dialog-content space-y-3.5">
       <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
         <div>
-          <h2 id="modal-inbox-title" class="text-xs sm:text-sm font-semibold text-white">Connect Sender Gmail Account</h2>
-          <p class="text-[10px] text-[#8c8c92]">Authenticate using a 16-character Google App Password</p>
+          <h2 id="modal-inbox-title" class="text-sm font-semibold text-white">Connect Sender Gmail Account</h2>
+          <p class="text-xs text-[#9da3af]">Authenticate using a 16-character Google App Password</p>
         </div>
-        <button type="button" onclick="closeAddInboxModal()" class="text-[#8c8c92] hover:text-white text-base">&times;</button>
+        <button type="button" onclick="closeAddInboxModal()" class="text-[#9da3af] hover:text-white text-base">&times;</button>
       </div>
 
-      <div class="bg-[#070709] border border-white/[0.05] p-2.5 rounded text-[10px] text-[#8c8c92] space-y-0.5">
-        <div class="text-white font-medium flex items-center font-mono">
-          <i class="fa-solid fa-key text-[#ff3b00] mr-1.5" aria-hidden="true"></i> Google App Password Setup:
+      <div class="bg-[#0b0c10] border border-white/[0.05] p-3 rounded-lg text-xs text-[#9da3af] space-y-1">
+        <div class="text-white font-medium flex items-center">
+          <i class="fa-solid fa-key text-[#10b981] mr-1.5" aria-hidden="true"></i> Google App Password Setup:
         </div>
         <div>1. Enable 2-Step Verification in Google Account.</div>
-        <div>2. Visit <a href="https://myaccount.google.com/apppasswords" target="_blank" class="text-[#ff3b00] underline">myaccount.google.com/apppasswords</a>.</div>
+        <div>2. Visit <a href="https://myaccount.google.com/apppasswords" target="_blank" class="text-[#10b981] underline">myaccount.google.com/apppasswords</a>.</div>
         <div>3. Generate password for "Mail" and paste below.</div>
       </div>
 
-      <form method="dialog" onsubmit="event.preventDefault(); submitNewInbox();" class="space-y-2.5">
+      <form method="dialog" onsubmit="event.preventDefault(); submitNewInbox();" class="space-y-3">
         <div>
-          <label for="modal-email" class="block text-[10px] font-mono text-[#8c8c92] mb-1">GMAIL ADDRESS</label>
+          <label for="modal-email" class="block text-xs font-semibold text-white mb-1">GMAIL ADDRESS</label>
           <input type="email" id="modal-email" required class="nt-input w-full text-xs" placeholder="your.name@gmail.com" autofocus>
         </div>
 
         <div>
-          <label for="modal-name" class="block text-[10px] font-mono text-[#8c8c92] mb-1">SENDER DISPLAY NAME</label>
+          <label for="modal-name" class="block text-xs font-semibold text-white mb-1">SENDER DISPLAY NAME</label>
           <input type="text" id="modal-name" required class="nt-input w-full text-xs" placeholder="e.g. Alex Rivera">
         </div>
 
         <div>
-          <label for="modal-password" class="block text-[10px] font-mono text-[#8c8c92] mb-1">GOOGLE APP PASSWORD</label>
+          <label for="modal-password" class="block text-xs font-semibold text-white mb-1">GOOGLE APP PASSWORD</label>
           <input type="password" id="modal-password" class="nt-input w-full text-xs" placeholder="xxxx xxxx xxxx xxxx">
-          <p class="text-[9px] text-[#8c8c92] mt-0.5">Leave empty to add as a safe simulation demo account.</p>
+          <p class="text-[10px] text-[#9da3af] mt-0.5">Leave empty to add as a safe simulation demo account.</p>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label for="modal-daily" class="block text-[10px] font-mono text-[#8c8c92] mb-1">DAILY SEND CAP</label>
+            <label for="modal-daily" class="block text-xs font-semibold text-white mb-1">DAILY SEND CAP</label>
             <input type="number" id="modal-daily" class="nt-input w-full font-mono text-xs" value="35" min="5" max="150">
           </div>
           <div>
-            <label for="modal-hourly" class="block text-[10px] font-mono text-[#8c8c92] mb-1">HOURLY RATE</label>
+            <label for="modal-hourly" class="block text-xs font-semibold text-white mb-1">HOURLY RATE</label>
             <input type="number" id="modal-hourly" class="nt-input w-full font-mono text-xs" value="5" min="1" max="25">
           </div>
         </div>
 
         <div class="pt-2 flex space-x-2">
-          <button type="button" onclick="closeAddInboxModal()" class="nt-btn-secondary w-1/2 py-1.5 text-xs">Cancel</button>
-          <button type="submit" class="nt-btn-orange w-1/2 py-1.5 text-xs">Connect & Verify</button>
+          <button type="button" onclick="closeAddInboxModal()" class="nt-btn-secondary w-1/2 py-2 text-xs">Cancel</button>
+          <button type="submit" class="nt-btn-primary w-1/2 py-2 text-xs">Connect & Verify</button>
         </div>
       </form>
     </div>
@@ -615,37 +660,37 @@
   <!-- MODAL: EDIT INBOX LIMITS -->
   <!-- ======================================================== -->
   <dialog id="modal-edit-inbox" closedby="any" aria-labelledby="modal-edit-title">
-    <div class="dialog-content space-y-3">
+    <div class="dialog-content space-y-3.5">
       <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
         <div>
-          <h2 id="modal-edit-title" class="text-xs sm:text-sm font-semibold text-white">Adjust Sender Inbox Limits</h2>
-          <p class="text-[10px] text-[#8c8c92] font-mono" id="modal-edit-email">account@gmail.com</p>
+          <h2 id="modal-edit-title" class="text-sm font-semibold text-white">Adjust Sender Inbox Limits</h2>
+          <p class="text-xs text-[#9da3af] font-mono" id="modal-edit-email">account@gmail.com</p>
         </div>
-        <button type="button" onclick="closeEditInboxModal()" class="text-[#8c8c92] hover:text-white text-base">&times;</button>
+        <button type="button" onclick="closeEditInboxModal()" class="text-[#9da3af] hover:text-white text-base">&times;</button>
       </div>
 
-      <form method="dialog" onsubmit="event.preventDefault(); submitEditInbox();" class="space-y-2.5">
+      <form method="dialog" onsubmit="event.preventDefault(); submitEditInbox();" class="space-y-3">
         <input type="hidden" id="edit-inbox-id">
 
         <div>
-          <label for="edit-inbox-name" class="block text-[10px] font-mono text-[#8c8c92] mb-1">DISPLAY NAME</label>
+          <label for="edit-inbox-name" class="block text-xs font-semibold text-white mb-1">DISPLAY NAME</label>
           <input type="text" id="edit-inbox-name" class="nt-input w-full text-xs">
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label for="edit-inbox-daily" class="block text-[10px] font-mono text-[#8c8c92] mb-1">DAILY CAP (SENDS/DAY)</label>
+            <label for="edit-inbox-daily" class="block text-xs font-semibold text-white mb-1">DAILY CAP (SENDS/DAY)</label>
             <input type="number" id="edit-inbox-daily" class="nt-input w-full font-mono text-xs" min="5" max="150">
           </div>
           <div>
-            <label for="edit-inbox-hourly" class="block text-[10px] font-mono text-[#8c8c92] mb-1">HOURLY RATE (SENDS/HR)</label>
+            <label for="edit-inbox-hourly" class="block text-xs font-semibold text-white mb-1">HOURLY RATE (SENDS/HR)</label>
             <input type="number" id="edit-inbox-hourly" class="nt-input w-full font-mono text-xs" min="1" max="25">
           </div>
         </div>
 
         <div class="pt-2 flex space-x-2">
-          <button type="button" onclick="closeEditInboxModal()" class="nt-btn-secondary w-1/2 py-1.5 text-xs">Cancel</button>
-          <button type="submit" class="nt-btn-orange w-1/2 py-1.5 text-xs">Save Limits</button>
+          <button type="button" onclick="closeEditInboxModal()" class="nt-btn-secondary w-1/2 py-2 text-xs">Cancel</button>
+          <button type="submit" class="nt-btn-primary w-1/2 py-2 text-xs">Save Limits</button>
         </div>
       </form>
     </div>
@@ -655,48 +700,48 @@
   <!-- MODAL: SIMULATE PROSPECT REPLY -->
   <!-- ======================================================== -->
   <dialog id="modal-simulate-reply" closedby="any" aria-labelledby="modal-sim-title">
-    <div class="dialog-content space-y-3">
+    <div class="dialog-content space-y-3.5">
       <div class="flex items-center justify-between pb-2 border-b border-white/[0.06]">
         <div>
-          <h2 id="modal-sim-title" class="text-xs sm:text-sm font-semibold text-white">Record Prospect Reply</h2>
-          <p class="text-[10px] text-[#8c8c92]">Simulate an incoming response from any lead</p>
+          <h2 id="modal-sim-title" class="text-sm font-semibold text-white">Record Prospect Reply</h2>
+          <p class="text-xs text-[#9da3af]">Simulate an incoming response from any DTC brand lead</p>
         </div>
-        <button type="button" onclick="closeSimulateReplyModal()" class="text-[#8c8c92] hover:text-white text-base">&times;</button>
+        <button type="button" onclick="closeSimulateReplyModal()" class="text-[#9da3af] hover:text-white text-base">&times;</button>
       </div>
 
-      <form method="dialog" onsubmit="event.preventDefault(); submitSimulatedReply();" class="space-y-2.5">
+      <form method="dialog" onsubmit="event.preventDefault(); submitSimulatedReply();" class="space-y-3">
         <div>
-          <label for="sim-lead-select" class="block text-[10px] font-mono text-[#8c8c92] mb-1">PROSPECT</label>
+          <label for="sim-lead-select" class="block text-xs font-semibold text-white mb-1">DTC PROSPECT</label>
           <select id="sim-lead-select" class="nt-input w-full text-xs">
             <!-- Dynamically populated -->
           </select>
         </div>
 
         <div>
-          <label for="sim-intent" class="block text-[10px] font-mono text-[#8c8c92] mb-1">INTENT</label>
+          <label for="sim-intent" class="block text-xs font-semibold text-white mb-1">INTENT</label>
           <select id="sim-intent" class="nt-input w-full text-xs">
             <option value="interested">Interested &middot; Warm Lead</option>
-            <option value="question">Question &middot; Wants Technical Walkthrough</option>
+            <option value="question">Question &middot; Wants Creative Teardown / Walkthrough</option>
             <option value="follow_up_requested">Follow-Up Requested</option>
           </select>
         </div>
 
         <div>
-          <label for="sim-body" class="block text-[10px] font-mono text-[#8c8c92] mb-1">REPLY BODY</label>
-          <textarea id="sim-body" rows="3" class="nt-input w-full text-xs" placeholder="e.g. Thanks for reaching out...">Thanks for reaching out! This looks relevant for our team. Are you free for a quick 15-minute sync next Tuesday?</textarea>
+          <label for="sim-body" class="block text-xs font-semibold text-white mb-1">REPLY BODY</label>
+          <textarea id="sim-body" rows="3" class="nt-input w-full text-xs" placeholder="e.g. Thanks for reaching out...">Thanks for reaching out! We are actually looking to test fresh TikTok UGC and AI video concepts for our upcoming product drop. Can you send over the showcase link?</textarea>
         </div>
 
         <div class="pt-2 flex space-x-2">
-          <button type="button" onclick="closeSimulateReplyModal()" class="nt-btn-secondary w-1/2 py-1.5 text-xs">Cancel</button>
-          <button type="submit" class="nt-btn-orange w-1/2 py-1.5 text-xs">Log Reply</button>
+          <button type="button" onclick="closeSimulateReplyModal()" class="nt-btn-secondary w-1/2 py-2 text-xs">Cancel</button>
+          <button type="submit" class="nt-btn-primary w-1/2 py-2 text-xs">Log Reply</button>
         </div>
       </form>
     </div>
   </dialog>
 
-  <!-- Nothing Style Toast HUD Notification -->
+  <!-- Discord / Slack Style Friendly Toast Notification -->
   <div id="apple-toast" role="status" aria-live="polite">
-    <span class="w-1.5 h-1.5 rounded-full bg-[#ff3b00] inline-block"></span>
+    <span class="w-2 h-2 rounded-full bg-[#10b981] inline-block shadow-[0_0_6px_rgba(16,185,129,0.5)]"></span>
     <span id="apple-toast-text">Action completed</span>
   </div>
 
