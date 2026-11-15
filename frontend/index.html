@@ -188,46 +188,42 @@
       <!-- ======================================================== -->
       <section id="tab-dashboard" class="tab-pane space-y-4" aria-labelledby="heading-command">
         
-        <!-- 4 Core Metric Widgets Strip -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
-          <div class="nt-card p-3.5 nt-card-glow">
-            <div class="flex items-center justify-between text-xs text-[#9da3af] mb-1">
-              <span class="font-medium">FLEET CAPACITY</span>
-              <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+        <!-- Compact Sleek Metric Bar (Quiet & De-Emphasized) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+          <div class="nt-card px-3.5 py-2.5 flex items-center justify-between">
+            <div>
+              <div class="text-[10px] font-semibold text-[#9da3af] uppercase tracking-wider">Fleet Capacity</div>
+              <div class="text-base sm:text-lg font-bold font-mono text-white">
+                <span id="metric-capacity">165</span> <span class="text-xs text-[#9da3af] font-normal font-sans">sends/day</span>
+              </div>
             </div>
-            <div class="text-xl sm:text-2xl font-bold font-mono text-white">
-              <span id="metric-capacity">165</span> <span class="text-xs text-[#9da3af] font-normal">sends/day</span>
-            </div>
-            <div class="text-[11px] text-[#9da3af] mt-0.5"><span id="metric-total-inboxes">4</span> inboxes pooled</div>
+            <span class="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_6px_rgba(16,185,129,0.5)]"></span>
           </div>
 
-          <div class="nt-card p-3.5 nt-card-glow">
-            <div class="flex items-center justify-between text-xs text-[#9da3af] mb-1">
-              <span class="font-medium">HOURLY PACING</span>
-              <i class="fa-solid fa-gauge-high text-xs text-[#9da3af]" aria-hidden="true"></i>
+          <div class="nt-card px-3.5 py-2.5 flex items-center justify-between">
+            <div>
+              <div class="text-[10px] font-semibold text-[#9da3af] uppercase tracking-wider">Hourly Pacing</div>
+              <div class="text-base sm:text-lg font-bold font-mono text-white">
+                <span id="metric-hourly-rate">23</span> <span class="text-xs text-[#9da3af] font-normal font-sans">/hr</span>
+              </div>
             </div>
-            <div class="text-xl sm:text-2xl font-bold font-mono text-white">
-              <span id="metric-hourly-rate">23</span> <span class="text-xs text-[#9da3af] font-normal">/hr</span>
-            </div>
-            <div class="text-[11px] text-[#9da3af] mt-0.5">Jitter: 90s–240s active</div>
+            <span class="text-[10px] text-[#9da3af] font-mono">90s–240s</span>
           </div>
 
-          <div class="nt-card p-3.5 nt-card-glow">
-            <div class="flex items-center justify-between text-xs text-[#9da3af] mb-1">
-              <span class="font-medium">DELIVERED TO PRIMARY</span>
-              <i class="fa-solid fa-paper-plane text-xs text-[#10b981]" aria-hidden="true"></i>
+          <div class="nt-card px-3.5 py-2.5 flex items-center justify-between">
+            <div>
+              <div class="text-[10px] font-semibold text-[#9da3af] uppercase tracking-wider">Delivered</div>
+              <div class="text-base sm:text-lg font-bold font-mono text-white" id="metric-total-delivered">4</div>
             </div>
-            <div class="text-xl sm:text-2xl font-bold font-mono text-white" id="metric-total-delivered">4</div>
-            <div class="text-[11px] text-[#9da3af] mt-0.5">100% Primary Inbox</div>
+            <span class="nt-pill nt-pill-emerald text-[9px]">100% Primary</span>
           </div>
 
-          <div class="nt-card p-3.5 nt-card-glow cursor-pointer" onclick="switchTab('replies')">
-            <div class="flex items-center justify-between text-xs text-[#9da3af] mb-1">
-              <span class="text-[#f59e0b] font-medium">REPLY RATE</span>
-              <i class="fa-solid fa-reply text-xs text-[#f59e0b]" aria-hidden="true"></i>
+          <div class="nt-card px-3.5 py-2.5 flex items-center justify-between cursor-pointer hover:border-white/20 transition" onclick="switchTab('replies')">
+            <div>
+              <div class="text-[10px] font-semibold text-[#f59e0b] uppercase tracking-wider">Reply Rate</div>
+              <div class="text-base sm:text-lg font-bold font-mono text-white" id="metric-reply-rate">50.0%</div>
             </div>
-            <div class="text-xl sm:text-2xl font-bold font-mono text-white" id="metric-reply-rate">50.0%</div>
-            <div class="text-[11px] text-[#9da3af] mt-0.5"><span id="metric-replies-count">2</span> replies (<span id="metric-interested-count">1</span> warm)</div>
+            <span class="nt-pill nt-pill-amber text-[9px]"><span id="metric-replies-count">2</span> Replies</span>
           </div>
         </div>
 

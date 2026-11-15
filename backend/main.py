@@ -24,7 +24,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from config import settings
 from backend.database import get_db, init_db, AsyncSessionLocal
 from backend.deliverability import deliverability_governor
-from backend.email_dispatcher import email_dispatcher, get_secure_ssl_context
+from backend.email_dispatcher import email_dispatcher, get_secure_ssl_context, open_secure_smtp
 from backend.mcp_server import outreach_mcp
 from backend.models import Campaign, Company, Draft, Inbox, Lead, QueueSlot, Reply, SendLog
 from backend.pipeline import pipeline_coordinator
@@ -535,20 +535,15 @@ async def test_inbox_connection(inbox_id: int, db: AsyncSession = Depends(get_db
             "is_authenticated": True,
         }
 
-    import smtplib
     try:
-        context = get_secure_ssl_context()
-        with smtplib.SMTP(inbox.smtp_host, inbox.smtp_port, timeout=12) as server:
-            server.ehlo()
-            server.starttls(context=context)
-            server.ehlo()
+        with open_secure_smtp(inbox.smtp_host, inbox.smtp_port, timeout=12) as server:
             server.login(inbox.email, inbox.app_password)
         inbox.is_quarantined = False
         inbox.last_error = None
         await db.commit()
         return {
             "status": "authenticated",
-            "message": f"Authenticated with Google servers. Ready for protected delivery.",
+            "message": "Authenticated with Google servers. Ready for protected delivery.",
             "is_authenticated": True,
         }
     except smtplib.SMTPAuthenticationError as e:

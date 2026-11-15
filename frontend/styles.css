@@ -1,24 +1,24 @@
 /* ==========================================================================
-   OUTREACH // DTC AD ENGINE — Friendly Modern Dark System
-   Inspired by Discord, Slack & Linear (Warm, Approachable, High-Contrast)
+   OUTREACH // DTC AD ENGINE — Friendly Modern System
+   Visual Hierarchy: Focused Stage, De-Emphasized Metadata, Crisp Contrast
+   Canvas: Charcoal/Slate Frame + High-Contrast White Paper Workstation
    Typography: Plus Jakarta Sans & Inter (Human, Friendly, Highly Readable)
-   Palette: Monochromatic Black/Charcoal, Crisp White, Subtle Emerald (#10b981),
-            Soft Warm Amber (#f59e0b used sparingly)
-   Radii: 8px–10px on Buttons, 12px on Cards, Pill Badges (Friendly & Approachable)
+   Palette: Pitch Black/Charcoal, Crisp White, Subtle Emerald (#10b981),
+            Soft Warm Amber (#f59e0b)
    ========================================================================== */
 
 :root {
-  /* ── Canvas & Surfaces (Discord/Slack Charcoal Tones) ─────────────────── */
-  --bg-base: #0b0c10;
-  --bg-sidebar: #0f1015;
-  --bg-card: #14151d;
-  --bg-card-hover: #191b26;
+  /* ── Canvas & Surfaces (Slack/Discord Dark Shell) ─────────────────────── */
+  --bg-base: #0a0b0e;
+  --bg-sidebar: #0f1016;
+  --bg-card: #13141d;
+  --bg-card-hover: #181925;
   --bg-elevated: #1e202e;
-  --bg-inset: #0a0a0e;
+  --bg-inset: #090a0d;
   
   /* ── Hairline Borders & Dividers ─────────────────────────────────────── */
   --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-card: rgba(255, 255, 255, 0.09);
+  --border-card: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.16);
   --border-focus: rgba(255, 255, 255, 0.35);
 
@@ -27,7 +27,15 @@
   --text-secondary: #9da3af;
   --text-muted: #646a78;
 
-  /* ── Subtle Emerald Accent (Discord Online Green / High Trust) ───────── */
+  /* ── High-Contrast Paper Workspace (White Sheet for Legibility) ──────── */
+  --paper-bg: #ffffff;
+  --paper-text: #0f172a;
+  --paper-text-muted: #475569;
+  --paper-border: #e2e8f0;
+  --paper-input-bg: #f8fafc;
+  --paper-input-border: #cbd5e1;
+
+  /* ── Subtle Emerald Accent (High Trust / Active Pacing) ──────────────── */
   --emerald: #10b981;
   --emerald-hover: #059669;
   --emerald-glow: rgba(16, 185, 129, 0.25);
@@ -39,7 +47,7 @@
   --amber-bg: rgba(245, 158, 11, 0.10);
   --amber-border: rgba(245, 158, 11, 0.30);
 
-  /* ── Friendly Radii (Slack/Discord Rounded Specs) ─────────────────────── */
+  /* ── Friendly Radii (8px–12px Rounded Specs) ─────────────────────────── */
   --radius-button: 8px;
   --radius-card: 12px;
   --radius-input: 8px;
@@ -82,14 +90,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .text-friendly-label {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);
 }
 
-/* ── Friendly Rounded Cards (Slack & Discord Surface) ─────────────────────── */
+/* ── Cards & Containers ─────────────────────────────────────────────────── */
 
 .nt-card {
   background: var(--bg-card);
@@ -103,17 +111,85 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--border-strong);
 }
 
-.nt-card-glow:hover {
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+/* ── HIGH-CONTRAST WHITE PAPER EMAIL STAGE (Eliminates Black-on-Black) ──── */
+
+.nt-paper-sheet {
+  background: var(--paper-bg);
+  color: var(--paper-text);
+  border: 1px solid var(--paper-border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
+  transition: all 0.15s ease;
+}
+
+.nt-white-intel-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #0f172a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.nt-white-input {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  transition: all 0.15s ease;
+}
+
+.nt-white-input:focus {
+  background: #ffffff;
+  border-color: #0f172a;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+}
+
+.nt-white-textarea {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  font-family: var(--font-sans);
+  transition: all 0.15s ease;
+  resize: vertical;
+}
+
+.nt-white-textarea:focus {
+  border-color: #0f172a;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+}
+
+/* ── Prospect Incoming Reply Message Card (Crisp White with Accent) ──────── */
+
+.nt-prospect-msg-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 3.5px solid #10b981;
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: #1e293b;
+  font-size: 12.5px;
+  line-height: 1.55;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 /* ── Button Hierarchy (Senior Developer Design System) ───────────────────── */
 
-/* Primary Button: Highest Visual Importance (Friendly White on Dark or Emerald Glow) */
+/* Primary Button: Highest Visual Importance (Deep Contrast Stark White or Solid Dark) */
 .nt-btn-primary, .nt-btn-orange {
   background: #ffffff;
-  color: #0b0c10;
+  color: #0a0b0e;
   border-radius: var(--radius-button);
   padding: 7px 15px;
   font-size: 12px;
@@ -132,22 +208,22 @@ h1, h2, h3, h4, h5, h6 {
 .nt-btn-primary:hover, .nt-btn-orange:hover {
   background: #f4f4f6;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.20);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.22);
 }
 
 .nt-btn-primary:active, .nt-btn-orange:active {
   transform: translateY(0px) scale(0.98);
 }
 
-/* Green Highlight Action Button (e.g. Run Pipeline / Active) */
-.nt-btn-emerald {
-  background: var(--emerald);
+/* Primary Action inside White Card (e.g. Approve & Queue Draft) */
+.nt-btn-paper-action {
+  background: #0f172a;
   color: #ffffff;
   border-radius: var(--radius-button);
-  padding: 7px 15px;
-  font-size: 12px;
+  padding: 8px 18px;
+  font-size: 12.5px;
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #0f172a;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -155,13 +231,17 @@ h1, h2, h3, h4, h5, h6 {
   user-select: none;
   letter-spacing: -0.01em;
   transition: all 0.15s ease;
-  box-shadow: 0 2px 10px var(--emerald-glow);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
 }
 
-.nt-btn-emerald:hover {
-  background: var(--emerald-hover);
-  box-shadow: 0 4px 16px var(--emerald-glow);
+.nt-btn-paper-action:hover {
+  background: #1e293b;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+}
+
+.nt-btn-paper-action:active {
+  transform: scale(0.98);
 }
 
 /* Secondary Button: Subtle, Quiet, Elegant */
@@ -191,14 +271,14 @@ h1, h2, h3, h4, h5, h6 {
   transform: scale(0.98);
 }
 
-/* ── Modern Form Inputs (Friendly 8px Radii) ─────────────────────────────── */
+/* ── Modern Form Inputs for Dark Shell ───────────────────────────────────── */
 
 .nt-input {
-  background: var(--bg-inset);
+  background: #11121b;
   border: 1px solid var(--border-card);
   color: var(--text-primary);
   border-radius: var(--radius-input);
-  padding: 8px 12px;
+  padding: 7px 11px;
   font-size: 12.5px;
   font-family: var(--font-sans);
   line-height: 1.45;
@@ -208,7 +288,7 @@ h1, h2, h3, h4, h5, h6 {
 .nt-input:focus {
   outline: none;
   border-color: var(--border-focus);
-  background: #0f1015;
+  background: #161724;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
 }
 
@@ -217,12 +297,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media screen and (max-width: 640px) {
-  .nt-input {
+  .nt-input, .nt-white-input, .nt-white-textarea {
     font-size: 16px;
   }
 }
 
-/* ── Friendly Badges & Pills (Pill 9999px Radii) ─────────────────────────── */
+/* ── Friendly Badges & Pills ─────────────────────────────────────────────── */
 
 .nt-pill {
   display: inline-flex;

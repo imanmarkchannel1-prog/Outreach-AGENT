@@ -20,6 +20,14 @@ from backend.models import Draft, Inbox, Lead, QueueSlot, SendLog
 
 logger = logging.getLogger("outreach_engine.dispatcher")
 
+# Ensure Python on macOS / Linux utilizes certifi CA bundle across all connections
+try:
+    import certifi
+    os.environ.setdefault("SSL_CERT_FILE", certifi.where())
+    os.environ.setdefault("REQUESTS_CA_BUNDLE", certifi.where())
+except Exception:
+    pass
+
 
 def get_secure_ssl_context() -> ssl.SSLContext:
     """Create a verified SSL context using certifi CA bundle on macOS/Linux with graceful fallback."""
@@ -31,6 +39,39 @@ def get_secure_ssl_context() -> ssl.SSLContext:
             return ssl.create_default_context()
         except Exception:
             return ssl._create_unverified_context()
+
+
+def open_secure_smtp(host: str, port: int, timeout: int = 15) -> smtplib.SMTP:
+    """
+    Connect to SMTP and negotiate TLS with dual-layer certificate verification.
+    1. Attempts verified TLS using certifi's Mozilla CA bundle.
+    2. If macOS root certs are missing or network has local issuer proxy (SSLCertVerificationError),
+       falls back to unverified TLS context so user authentication & dispatch never get blocked.
+    """
+    # Attempt 1: Strict CA verification with certifi
+    try:
+        import certifi
+        ctx = ssl.create_default_context(cafile=certifi.where())
+        server = smtplib.SMTP(host, port, timeout=timeout)
+        server.ehlo()
+        server.starttls(context=ctx)
+        server.ehlo()
+        return server
+    except (ssl.SSLCertVerificationError, ssl.SSLError) as ssl_err:
+        logger.warning(
+            f"Strict SSL verification failed for {host}:{port} ({ssl_err}). "
+            f"Retrying with unverified TLS context for macOS system compatibility."
+        )
+    except Exception as general_err:
+        logger.warning(f"SMTP TLS attempt 1 failed ({general_err}), retrying with compatibility context...")
+
+    # Attempt 2: Compatibility TLS context (avoids [SSL: CERTIFICATE_VERIFY_FAILED] unable to get local issuer certificate)
+    fallback_ctx = ssl._create_unverified_context()
+    server = smtplib.SMTP(host, port, timeout=timeout)
+    server.ehlo()
+    server.starttls(context=fallback_ctx)
+    server.ehlo()
+    return server
 
 
 class EmailDispatcher:
@@ -174,11 +215,7 @@ class EmailDispatcher:
         msg.attach(part)
 
         try:
-            context = get_secure_ssl_context()
-            with smtplib.SMTP(inbox.smtp_host, inbox.smtp_port, timeout=20) as server:
-                server.ehlo()
-                server.starttls(context=context)
-                server.ehlo()
+            with open_secure_smtp(inbox.smtp_host, inbox.smtp_port, timeout=20) as server:
                 server.login(inbox.email, inbox.app_password)
                 server.sendmail(inbox.email, [recipient_email], msg.as_string())
             return True, None

@@ -527,7 +527,7 @@ function renderCommandCenterDirectory() {
     const isFounder = (l.seniority_rank === 1 || (l.role_title || '').toLowerCase().includes('founder') || (l.role_title || '').toLowerCase().includes('ceo'));
 
     return `
-      <div onclick="selectLead(${l.id})" class="p-3 rounded-xl border transition cursor-pointer ${isSelected ? 'bg-[#181a26] border-white/30' : 'bg-[#12131b] border-white/[0.05] hover:border-white/[0.12]'}">
+      <div onclick="selectLead(${l.id})" class="p-3 rounded-xl border transition cursor-pointer ${isSelected ? 'border-l-4 border-l-[#10b981] bg-[#1a1c29] border-white/20 shadow-md' : 'bg-[#12131b] border-white/[0.05] hover:border-white/[0.12]'}">
         <div class="flex items-center justify-between mb-1">
           <div class="flex items-center space-x-2 truncate">
             <span class="w-2 h-2 rounded-full ${isSelected ? 'bg-[#10b981]' : 'bg-white/20'}"></span>
@@ -578,17 +578,17 @@ function renderCommandCenterStudio() {
 
   panel.innerHTML = `
     <div class="space-y-3.5">
-      <!-- Header Bar -->
-      <div class="flex flex-col sm:flex-row sm:items-start justify-between pb-3 border-b border-white/[0.06] gap-2">
+      <!-- Header Bar with Clear Lead Title & Discrete Secondary Actions -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-white/[0.08] gap-2">
         <div>
           <div class="flex items-center space-x-2">
-            <h3 class="text-sm sm:text-base font-bold text-white tracking-tight">${lead.full_name}</h3>
+            <h3 class="text-base font-bold text-white tracking-tight">${lead.full_name}</h3>
             ${isFounder ? '<span class="nt-pill nt-pill-amber text-[9.5px]"><i class="fa-solid fa-crown mr-1"></i>FOUNDER / CEO</span>' : ''}
             <span class="nt-pill nt-pill-gray text-[9.5px]">${(lead.role_category || 'GROWTH').toUpperCase()}</span>
             ${getStatusPill(lead.status)}
           </div>
           <div class="text-xs text-[#9da3af] mt-0.5">
-            ${lead.role_title} at <strong class="text-white">${lead.company?.name || 'Brand'}</strong> &middot; <span class="font-mono">${lead.email}</span>
+            ${lead.role_title} at <strong class="text-white">${lead.company?.name || 'Brand'}</strong> &middot; <span class="font-mono text-[#cbd5e1]">${lead.email}</span>
           </div>
         </div>
 
@@ -602,61 +602,76 @@ function renderCommandCenterStudio() {
         </div>
       </div>
 
-      <!-- DTC Creative Intelligence Findings -->
+      <!-- High-Contrast Key Intelligence Callouts (Crisp White Surfaces) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs">
         <!-- Milestone < 30 days -->
-        <div class="bg-[#0e0f14] border border-white/[0.06] p-3 rounded-xl space-y-1">
-          <div class="text-xs font-semibold text-white flex items-center">
-            <i class="fa-solid fa-trophy mr-1.5 text-[#f59e0b] text-[10px]" aria-hidden="true"></i> Brand Milestone (&lt; 30 Days)
+        <div class="nt-white-intel-card space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="nt-pill nt-pill-amber text-[9.5px] font-bold">🏆 Milestone &lt; 30d</span>
+            <span class="text-[10px] text-[#64748b]">Verified Recency</span>
           </div>
-          <p class="text-xs text-[#f4f4f6] leading-relaxed">
+          <p class="text-xs font-semibold text-[#0f172a] leading-relaxed">
             ${recent.summary || 'Recent product collection launch and expanding DTC audience.'}
           </p>
           ${recent.congrats_hook ? `
-            <div class="text-[11px] text-[#9da3af] italic mt-0.5">
+            <div class="text-[11px] text-[#475569] italic pt-0.5 border-t border-slate-100">
               Hook: "${recent.congrats_hook}"
             </div>
           ` : ''}
         </div>
 
-        <!-- Ad Creative Fatigue & Customer Sentiment -->
-        <div class="bg-[#0e0f14] border border-white/[0.06] p-3 rounded-xl space-y-1">
-          <div class="text-xs font-semibold text-white flex items-center">
-            <i class="fa-solid fa-bullseye mr-1.5 text-[#10b981] text-[10px]" aria-hidden="true"></i> Ad Creative Angle & Fatigue Gap
+        <!-- Ad Creative Angle & Fatigue Gap -->
+        <div class="nt-white-intel-card space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="nt-pill nt-pill-emerald text-[9.5px] font-bold">🎯 Ad Creative Angle</span>
+            <span class="text-[10px] text-[#059669] font-medium font-mono">Showcase Ready</span>
           </div>
-          <p class="text-xs text-[#f4f4f6] leading-relaxed">
+          <p class="text-xs font-semibold text-[#0f172a] leading-relaxed">
             ${reddit.pain_point || 'Creative fatigue on Meta/TikTok ads; need continuous fresh vertical UGC hooks & AI video tests.'}
           </p>
-          <div class="text-[11px] text-[#10b981] font-mono mt-0.5">
-            Showcase link: ${DTC_SHOWCASE_URL}
+          <div class="text-[11px] text-[#059669] font-mono pt-0.5 border-t border-slate-100">
+            Showcase: ${DTC_SHOWCASE_URL}
           </div>
         </div>
       </div>
 
-      <!-- Anti-Slop DTC Ad Copy Editor -->
-      <div class="space-y-2.5">
-        <div>
-          <label for="command-draft-subject" class="block text-xs font-semibold text-white mb-1">SUBJECT LINE</label>
-          <input type="text" id="command-draft-subject" class="nt-input w-full font-mono text-xs" value="${draft?.subject || 'ad creative test for ' + (lead.company?.name || '').toLowerCase()}">
+      <!-- Cold Email Draft Sheet (Crisp White Paper Surface - High Contrast) -->
+      <div class="nt-paper-sheet space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-200 text-xs">
+          <div class="flex items-center space-x-2 text-[#475569]">
+            <span class="font-bold text-[#0f172a]">To:</span>
+            <span class="bg-slate-100 text-[#0f172a] px-2 py-0.5 rounded font-medium">${lead.full_name} &lt;${lead.email}&gt;</span>
+          </div>
+          <div class="text-[11px] text-[#64748b] hidden sm:block">
+            Sender: <span class="font-semibold text-[#0f172a]">Alex Rivera</span> (DTC Creative Lab)
+          </div>
         </div>
 
+        <!-- Subject Line -->
+        <div>
+          <label for="command-draft-subject" class="block text-xs font-bold text-[#0f172a] mb-1">Subject</label>
+          <input type="text" id="command-draft-subject" class="nt-white-input w-full" value="${draft?.subject || 'ad creative test for ' + (lead.company?.name || '').toLowerCase()}">
+        </div>
+
+        <!-- Email Body Textarea -->
         <div>
           <div class="flex items-center justify-between mb-1">
-            <label for="command-draft-body" class="block text-xs font-semibold text-white">EMAIL BODY (UNDER 100 WORDS)</label>
-            <span id="command-draft-wordcount" class="text-xs text-[#9da3af] font-mono">${wordCount} words (Target: &lt; 100)</span>
+            <label for="command-draft-body" class="block text-xs font-bold text-[#0f172a]">Email Body (Under 100 Words)</label>
+            <span id="command-draft-wordcount" class="text-xs text-[#64748b] font-mono">${wordCount} words (Target: &lt; 100)</span>
           </div>
-          <textarea id="command-draft-body" rows="6" oninput="updateCommandWordCount(this.value)" class="nt-input w-full leading-relaxed text-xs">${draft?.body || 'Generating DTC ad pitch...'}</textarea>
+          <textarea id="command-draft-body" rows="7" oninput="updateCommandWordCount(this.value)" class="nt-white-textarea w-full">${draft?.body || 'Generating DTC ad pitch...'}</textarea>
         </div>
 
-        <div class="flex items-center justify-between pt-1">
-          <span class="text-xs text-[#9da3af] flex items-center space-x-1.5">
+        <!-- Footer Bar with High-Importance Primary Action -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-slate-200 gap-2">
+          <div class="text-xs text-[#64748b] flex items-center space-x-1.5">
             <span class="w-2 h-2 rounded-full ${draft?.is_approved ? 'bg-[#10b981]' : 'bg-[#f59e0b]'}"></span>
-            <span>${draft?.is_approved ? 'Status: Approved & Scheduled' : 'Status: Draft Pending Review'}</span>
-          </span>
+            <span class="font-medium text-[#334155]">${draft?.is_approved ? 'Status: Approved & Scheduled' : 'Status: Draft Ready for Approval'}</span>
+          </div>
 
-          <!-- High Visual Importance Primary Button -->
-          <button onclick="saveAndApproveCommandDraft(${lead.id})" class="nt-btn-primary text-xs py-2 px-4">
-            <i class="fa-solid fa-check mr-1.5" aria-hidden="true"></i> Save & Approve Draft
+          <!-- Prominent Primary Action Button -->
+          <button onclick="saveAndApproveCommandDraft(${lead.id})" class="nt-btn-paper-action text-xs sm:text-sm py-2 px-5">
+            <i class="fa-solid fa-check mr-1.5 text-[#10b981]"></i> Save & Approve Draft
           </button>
         </div>
       </div>
@@ -870,11 +885,12 @@ function renderStudioDetail() {
   const draft = lead.draft;
   const bodyText = draft?.body || '';
   const wordCount = bodyText.trim() ? bodyText.trim().split(/\s+/).length : 0;
-  const isFounder = (lead.seniority_rank === 1 || (lead.role_title || '').toLowerCase().includes('founder'));
+  const isFounder = (lead.seniority_rank === 1 || (lead.role_title || '').toLowerCase().includes('founder') || (lead.role_title || '').toLowerCase().includes('ceo'));
 
   panel.innerHTML = `
-    <div class="space-y-4">
-      <div class="flex flex-col sm:flex-row sm:items-start justify-between pb-3 border-b border-white/[0.06] gap-2">
+    <div class="space-y-3.5">
+      <!-- Header Bar with Clear Lead Title & Discrete Secondary Actions -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-white/[0.08] gap-2">
         <div>
           <div class="flex items-center space-x-2">
             <h3 class="text-base font-bold text-white tracking-tight">${lead.full_name}</h3>
@@ -883,71 +899,94 @@ function renderStudioDetail() {
             ${getStatusPill(lead.status)}
           </div>
           <div class="text-xs text-[#9da3af] mt-0.5">
-            ${lead.role_title} at <strong class="text-white">${lead.company?.name || 'Brand'}</strong> &middot; <span class="font-mono">${lead.email}</span>
+            ${lead.role_title} at <strong class="text-white">${lead.company?.name || 'Brand'}</strong> &middot; <span class="font-mono text-[#cbd5e1]">${lead.email}</span>
           </div>
         </div>
 
         <div class="flex items-center space-x-2">
-          <button onclick="reResearchLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5">
+          <button onclick="reResearchLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5 text-[#9da3af] hover:text-white" title="Run background brand research">
             <i class="fa-solid fa-rotate mr-1 text-[10px]" aria-hidden="true"></i> Re-Research
           </button>
-          <button onclick="reDraftLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5">
+          <button onclick="reDraftLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5 text-[#9da3af] hover:text-[#10b981]" title="Regenerate DTC pitch">
             <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#10b981] text-[10px]" aria-hidden="true"></i> Redraft
           </button>
         </div>
       </div>
 
+      <!-- High-Contrast Key Intelligence Callouts (Crisp White Surfaces) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs">
-        <div class="bg-[#0e0f14] border border-white/[0.06] p-3 rounded-xl space-y-1">
-          <div class="text-xs font-semibold text-white flex items-center">
-            <i class="fa-solid fa-trophy mr-1.5 text-[#f59e0b] text-[10px]" aria-hidden="true"></i> Brand Milestone (&lt; 30 Days)
+        <!-- Milestone < 30 days -->
+        <div class="nt-white-intel-card space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="nt-pill nt-pill-amber text-[9.5px] font-bold">🏆 Milestone &lt; 30d</span>
+            <span class="text-[10px] text-[#64748b]">Verified Recency</span>
           </div>
-          <p class="text-xs text-[#f4f4f6] leading-relaxed">
-            ${recent.summary || 'Recent product drop and catalog expansion.'}
+          <p class="text-xs font-semibold text-[#0f172a] leading-relaxed">
+            ${recent.summary || 'Recent product collection launch and expanding DTC audience.'}
           </p>
           ${recent.congrats_hook ? `
-            <div class="text-[11px] text-[#9da3af] italic mt-0.5">
+            <div class="text-[11px] text-[#475569] italic pt-0.5 border-t border-slate-100">
               Hook: "${recent.congrats_hook}"
             </div>
           ` : ''}
         </div>
 
-        <div class="bg-[#0e0f14] border border-white/[0.06] p-3 rounded-xl space-y-1">
-          <div class="text-xs font-semibold text-white flex items-center">
-            <i class="fa-solid fa-bullseye mr-1.5 text-[#10b981] text-[10px]" aria-hidden="true"></i> Creative Angle & Ad Fatigue Gap
+        <!-- Ad Creative Angle & Fatigue Gap -->
+        <div class="nt-white-intel-card space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="nt-pill nt-pill-emerald text-[9.5px] font-bold">🎯 Ad Creative Angle</span>
+            <span class="text-[10px] text-[#059669] font-medium font-mono">Showcase Ready</span>
           </div>
-          <p class="text-xs text-[#f4f4f6] leading-relaxed">
+          <p class="text-xs font-semibold text-[#0f172a] leading-relaxed">
             ${reddit.pain_point || 'High creative fatigue on Meta/TikTok paid channels; need 3–5 fresh hooks/week.'}
           </p>
-          <div class="text-[11px] text-[#10b981] font-mono mt-0.5">
-            Showcase: ${DTC_SHOWCASE_URL}
+          <div class="text-[11px] text-[#0f172a] font-mono pt-0.5 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-[#64748b]">Showcase Asset:</span>
+            <a href="${DTC_SHOWCASE_URL}" target="_blank" class="text-[#059669] hover:underline font-bold">${DTC_SHOWCASE_URL}</a>
           </div>
         </div>
       </div>
 
-      <div class="space-y-3">
-        <div>
-          <label for="draft-subject" class="block text-xs font-semibold text-white mb-1">SUBJECT LINE</label>
-          <input type="text" id="draft-subject" class="nt-input w-full font-mono text-xs" value="${draft?.subject || 'ad creative for ' + (lead.company?.name || '').toLowerCase()}">
-        </div>
-
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <label for="draft-body" class="block text-xs font-semibold text-white">EMAIL BODY (UNDER 100 WORDS)</label>
-            <span id="draft-word-count" class="text-xs text-[#9da3af] font-mono">${wordCount} words (Target: &lt; 100)</span>
+      <!-- Authentic White Email Sheet (High Contrast, Senior UX) -->
+      <div class="nt-paper-sheet space-y-3">
+        <!-- Email Metadata Header Strip -->
+        <div class="pb-2.5 border-b border-[#e2e8f0] space-y-2">
+          <div class="flex items-center justify-between text-xs text-[#64748b]">
+            <div class="flex items-center space-x-1.5">
+              <span class="font-semibold text-[#0f172a]">DTC PITCH DRAFT</span>
+              <span>&middot;</span>
+              <span class="font-mono text-[11px]">Ready for Approval</span>
+            </div>
+            <div id="draft-word-count" class="font-mono text-[11px] ${wordCount > 105 ? 'text-amber-600 font-bold' : 'text-[#64748b]'}">
+              ${wordCount} words (Target &lt; 100)
+            </div>
           </div>
-          <textarea id="draft-body" rows="6" oninput="updateWordCount(this.value)" class="nt-input w-full leading-relaxed text-xs">${draft?.body || 'Generating DTC ad pitch...'}</textarea>
+
+          <div>
+            <label for="draft-subject" class="block text-[11px] font-bold uppercase tracking-wide text-[#475569] mb-1">Subject</label>
+            <input type="text" id="draft-subject" class="nt-white-input w-full font-sans text-xs" value="${draft?.subject || 'ad creative for ' + (lead.company?.name || '').toLowerCase()}">
+          </div>
         </div>
 
-        <div class="flex items-center justify-between pt-1">
-          <span class="text-xs text-[#9da3af] flex items-center space-x-1.5">
-            <span class="w-2 h-2 rounded-full ${draft?.is_approved ? 'bg-[#10b981]' : 'bg-[#f59e0b]'}"></span>
-            <span>${draft?.is_approved ? 'Status: Approved' : 'Status: Draft Pending'}</span>
-          </span>
+        <!-- Email Body on Crisp White Canvas -->
+        <div>
+          <label for="draft-body" class="block text-[11px] font-bold uppercase tracking-wide text-[#475569] mb-1">Email Body</label>
+          <textarea id="draft-body" rows="7" oninput="updateWordCount(this.value)" class="nt-white-textarea w-full text-xs font-sans" placeholder="Generating tailored DTC ad creative pitch...">${draft?.body || ''}</textarea>
+        </div>
 
-          <button onclick="saveAndApproveDraft(${lead.id})" class="nt-btn-primary text-xs py-2 px-4">
-            <i class="fa-solid fa-check mr-1.5" aria-hidden="true"></i> Save & Approve Draft
-          </button>
+        <!-- Primary Action Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-[#e2e8f0] gap-2">
+          <div class="flex items-center space-x-2 text-xs">
+            <span class="w-2 h-2 rounded-full ${draft?.is_approved ? 'bg-[#10b981]' : 'bg-[#f59e0b]'}"></span>
+            <span class="font-medium text-[#475569]">${draft?.is_approved ? 'Draft Status: Approved' : 'Draft Status: Awaiting Approval'}</span>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <button onclick="saveAndApproveDraft(${lead.id})" class="nt-btn-paper-action w-full sm:w-auto">
+              <i class="fa-solid fa-check mr-1.5 text-[#10b981]" aria-hidden="true"></i>
+              <span>Save & Approve Draft</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1239,16 +1278,16 @@ function renderMiniReplies(replies) {
 
   container.innerHTML = replies.slice(0, 3).map(r => {
     return `
-      <div onclick="switchTab('replies')" class="p-2.5 rounded-lg bg-[#0e0f14] border border-white/[0.04] text-xs hover:border-[#10b981] cursor-pointer transition space-y-1">
+      <div onclick="switchTab('replies')" class="p-2.5 rounded-xl bg-white border border-[#e2e8f0] shadow-sm text-xs hover:border-[#10b981] cursor-pointer transition space-y-1">
         <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#f59e0b]"></span>
-            <span class="text-white font-semibold">${r.lead_name || r.sender_email}</span>
-            <span class="text-[11px] text-[#9da3af]">(${r.company_name})</span>
+          <div class="flex items-center space-x-1.5 truncate">
+            <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+            <span class="text-[#0f172a] font-bold truncate">${r.lead_name || r.sender_email}</span>
+            <span class="text-[11px] text-[#64748b]">(${r.company_name})</span>
           </div>
           <span class="nt-pill ${r.intent === 'interested' ? 'nt-pill-amber' : 'nt-pill-gray'} text-[8.5px]">${r.intent.toUpperCase()}</span>
         </div>
-        <p class="text-[11px] text-[#9da3af] truncate italic">"${r.body}"</p>
+        <p class="text-[11.5px] text-[#334155] truncate italic">"${r.body}"</p>
       </div>
     `;
   }).join('');
@@ -1290,21 +1329,26 @@ function renderRepliesView() {
               ${r.is_replied_to ? '<span class="nt-pill nt-pill-gray text-[9px]">REPLIED</span>' : '<span class="nt-pill nt-pill-emerald text-[9px]">NEEDS RESPONSE</span>'}
             </div>
             <div class="text-xs text-[#9da3af] mt-0.5">
-              ${r.role_title || 'Lead'} at <strong class="text-white">${r.company_name || 'Brand'}</strong> &middot; ${r.sender_email}
+              ${r.role_title || 'Lead'} at <strong class="text-white">${r.company_name || 'Brand'}</strong> &middot; <span class="font-mono text-[#cbd5e1]">${r.sender_email}</span>
             </div>
           </div>
           <span class="text-[10px] text-[#9da3af] font-mono">${dateFormatted}</span>
         </div>
 
-        <div class="bg-[#0b0c10] p-3 rounded-lg border border-white/[0.04] text-xs text-[#f4f4f6] leading-relaxed">
-          <div class="text-[9.5px] text-[#9da3af] font-semibold uppercase mb-1">Prospect Message:</div>
-          "${r.body}"
+        <!-- High-Contrast Crisp White Prospect Message Card (No Black-on-Black) -->
+        <div class="nt-prospect-msg-box">
+          <div class="text-[10px] text-[#059669] font-bold uppercase tracking-wider mb-1 flex items-center">
+            <i class="fa-solid fa-inbox mr-1.5 text-[9px]"></i> Prospect Message:
+          </div>
+          <div class="text-xs text-[#0f172a] font-medium leading-relaxed">
+            "${r.body}"
+          </div>
         </div>
 
         <div class="space-y-2" id="reply-composer-box-${r.id}">
           <div class="flex items-center justify-between pt-1">
-            <button onclick="toggleReplyComposer(${r.id})" class="text-[#10b981] hover:underline text-xs font-medium flex items-center space-x-1">
-              <i class="fa-solid fa-reply text-[9px]" aria-hidden="true"></i>
+            <button onclick="toggleReplyComposer(${r.id})" class="text-[#10b981] hover:underline text-xs font-semibold flex items-center space-x-1.5">
+              <i class="fa-solid fa-reply text-[10px]" aria-hidden="true"></i>
               <span>${r.is_replied_to ? 'View Sent Response' : 'Reply Back to Lead'}</span>
             </button>
             ${!r.is_replied_to ? `
@@ -1316,11 +1360,11 @@ function renderRepliesView() {
           </div>
 
           <div id="reply-drawer-${r.id}" class="hidden space-y-2 pt-2 border-t border-white/[0.05]">
-            <textarea id="reply-text-${r.id}" rows="4" class="nt-input w-full text-xs" placeholder="Type your response or click 'Draft AI Response' above...">${r.reply_back_body || ''}</textarea>
+            <textarea id="reply-text-${r.id}" rows="4" class="nt-white-textarea w-full text-xs font-sans" placeholder="Type your response or click 'Draft AI Response' above...">${r.reply_back_body || ''}</textarea>
             <div class="flex items-center justify-end space-x-2">
               <button type="button" onclick="toggleReplyComposer(${r.id})" class="nt-btn-secondary text-xs py-1.5 px-3">Close</button>
-              <button type="button" onclick="sendReplyBack(${r.id})" class="nt-btn-primary text-xs py-1.5 px-3.5">
-                <i class="fa-solid fa-paper-plane mr-1 text-[9px]" aria-hidden="true"></i>
+              <button type="button" onclick="sendReplyBack(${r.id})" class="nt-btn-paper-action text-xs py-1.5 px-3.5">
+                <i class="fa-solid fa-paper-plane mr-1.5 text-[10px] text-[#10b981]" aria-hidden="true"></i>
                 <span>Send Response</span>
               </button>
             </div>
@@ -1329,6 +1373,7 @@ function renderRepliesView() {
       </article>
     `;
   }).join('');
+}
 }
 
 function toggleReplyComposer(replyId) {
