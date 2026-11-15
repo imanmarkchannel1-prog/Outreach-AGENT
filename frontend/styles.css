@@ -3,29 +3,32 @@
    Visual Hierarchy: Focused Stage, De-Emphasized Metadata, Crisp Contrast
    Canvas: Charcoal/Slate Frame + High-Contrast White Paper Workstation
    Typography: Plus Jakarta Sans & Inter (Human, Friendly, Highly Readable)
-   Palette: Pitch Black/Charcoal, Crisp White, Subtle Emerald (#10b981),
+   Palette: Pitch Black/Charcoal, Crisp White, Subtle Blue (#3b82f6),
             Soft Warm Amber (#f59e0b)
    ========================================================================== */
 
 :root {
-  /* ── Canvas & Surfaces (Slack/Discord Dark Shell) ─────────────────────── */
+  color-scheme: dark light;
+
+  /* ── Canvas & Surfaces (Dark Mode Default) ────────────────────────────── */
   --bg-base: #0a0b0e;
   --bg-sidebar: #0f1016;
   --bg-card: #13141d;
   --bg-card-hover: #181925;
   --bg-elevated: #1e202e;
   --bg-inset: #090a0d;
+  --bg-topbar: rgba(10, 11, 14, 0.95);
   
   /* ── Hairline Borders & Dividers ─────────────────────────────────────── */
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-card: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-card: rgba(255, 255, 255, 0.09);
   --border-strong: rgba(255, 255, 255, 0.16);
-  --border-focus: rgba(255, 255, 255, 0.35);
+  --border-focus: #3b82f6;
 
   /* ── Typography Shades ───────────────────────────────────────────────── */
   --text-primary: #ffffff;
   --text-secondary: #9da3af;
-  --text-muted: #646a78;
+  --text-muted: #64748b;
 
   /* ── High-Contrast Paper Workspace (White Sheet for Legibility) ──────── */
   --paper-bg: #ffffff;
@@ -35,12 +38,19 @@
   --paper-input-bg: #f8fafc;
   --paper-input-border: #cbd5e1;
 
-  /* ── Subtle Emerald Accent (High Trust / Active Pacing) ──────────────── */
-  --emerald: #10b981;
-  --emerald-hover: #059669;
-  --emerald-glow: rgba(16, 185, 129, 0.25);
-  --emerald-bg: rgba(16, 185, 129, 0.10);
-  --emerald-border: rgba(16, 185, 129, 0.30);
+  /* ── Subtle Blue Accent (Replaces disliked Green with Clean Apple Blue) ─ */
+  --accent-blue: #3b82f6;
+  --accent-blue-hover: #2563eb;
+  --accent-blue-bg: rgba(59, 130, 246, 0.10);
+  --accent-blue-border: rgba(59, 130, 246, 0.28);
+  --accent-blue-glow: rgba(59, 130, 246, 0.20);
+
+  /* Aliased so legacy references render in clean subtle blue, not green */
+  --emerald: #3b82f6;
+  --emerald-hover: #2563eb;
+  --emerald-glow: rgba(59, 130, 246, 0.20);
+  --emerald-bg: rgba(59, 130, 246, 0.10);
+  --emerald-border: rgba(59, 130, 246, 0.28);
 
   /* ── Subtle Warm Amber (For Warm Prospect Replies Only) ──────────────── */
   --amber: #f59e0b;
@@ -56,6 +66,61 @@
   /* ── Human, Friendly Typography ──────────────────────────────────────── */
   --font-sans: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* ==========================================================================
+   WHITE MODE / LIGHT THEME (Clean, Crisp, Apple Mail / Superhuman Aesthetic)
+   ========================================================================== */
+
+[data-theme="light"],
+:root:has(> head > meta[name="color-scheme"][content="light"]) {
+  color-scheme: light;
+
+  /* ── Canvas & Surfaces (Crisp White / Slate) ─────────────────────────── */
+  --bg-base: #f8fafc;
+  --bg-sidebar: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-elevated: #ffffff;
+  --bg-inset: #f8fafc;
+  --bg-topbar: rgba(255, 255, 255, 0.96);
+
+  /* ── Hairline Borders & Dividers ─────────────────────────────────────── */
+  --border-subtle: #e2e8f0;
+  --border-card: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --border-focus: #2563eb;
+
+  /* ── Typography Shades ───────────────────────────────────────────────── */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  /* ── Paper Workspace in Light Mode ───────────────────────────────────── */
+  --paper-bg: #ffffff;
+  --paper-text: #0f172a;
+  --paper-text-muted: #475569;
+  --paper-border: #cbd5e1;
+  --paper-input-bg: #f8fafc;
+  --paper-input-border: #cbd5e1;
+
+  /* ── Subtle Blue Accent in Light Mode ────────────────────────────────── */
+  --accent-blue: #2563eb;
+  --accent-blue-hover: #1d4ed8;
+  --accent-blue-bg: #eff6ff;
+  --accent-blue-border: #bfdbfe;
+  --accent-blue-glow: rgba(37, 99, 235, 0.15);
+
+  --emerald: #2563eb;
+  --emerald-hover: #1d4ed8;
+  --emerald-glow: rgba(37, 99, 235, 0.15);
+  --emerald-bg: #eff6ff;
+  --emerald-border: #bfdbfe;
+
+  /* ── Amber in Light Mode ─────────────────────────────────────────────── */
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --amber-border: #fde68a;
 }
 
 *, *::before, *::after {
@@ -170,12 +235,12 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
 }
 
-/* ── Prospect Incoming Reply Message Card (Crisp White with Accent) ──────── */
+/* ── Prospect Incoming Reply Message Card (Crisp White with Subtle Blue Accent) ── */
 
 .nt-prospect-msg-box {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-left: 3.5px solid #10b981;
+  border-left: 3.5px solid var(--accent-blue);
   border-radius: 8px;
   padding: 12px 14px;
   color: #1e293b;
@@ -315,10 +380,10 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
 }
 
-.nt-pill-emerald, .nt-pill-green {
-  background: var(--emerald-bg);
-  color: var(--emerald);
-  border: 1px solid var(--emerald-border);
+.nt-pill-emerald, .nt-pill-green, .nt-pill-blue {
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-blue-border);
 }
 
 .nt-pill-amber, .nt-pill-orange, .nt-pill-yellow {
@@ -337,12 +402,6 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(255, 255, 255, 0.12);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.22);
-}
-
-.nt-pill-blue {
-  background: rgba(59, 130, 246, 0.10);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.25);
 }
 
 /* ── Streamlined Circular Account Avatar Stack ───────────────────────────── */
@@ -377,7 +436,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 7.5px;
   height: 7.5px;
   border-radius: 50%;
-  background: var(--emerald);
+  background: var(--accent-blue);
   border: 1.5px solid #0f1015;
 }
 
@@ -409,7 +468,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nt-sidebar-item.active i {
-  color: var(--emerald);
+  color: var(--accent-blue);
 }
 
 /* ── Clean Dialog Modal (Discord Friendly Style) ─────────────────────────── */
@@ -486,4 +545,172 @@ dialog::backdrop {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.22);
+}
+
+/* ==========================================================================
+   WHITE MODE OVERRIDES & COMPONENT ADAPTATIONS
+   ========================================================================== */
+
+[data-theme="light"] body {
+  background-color: var(--bg-base) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] aside#sidebar-rail {
+  background-color: #ffffff !important;
+  border-right-color: var(--border-subtle) !important;
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] header {
+  background-color: var(--bg-topbar) !important;
+  border-bottom-color: var(--border-subtle) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .nt-card {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .nt-btn-primary {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #0f172a !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15) !important;
+}
+
+[data-theme="light"] .nt-btn-primary:hover {
+  background: #1e293b !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.22) !important;
+}
+
+[data-theme="light"] .nt-btn-secondary {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .nt-btn-secondary:hover {
+  background: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .nt-input {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .nt-input:focus {
+  background: #ffffff !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12) !important;
+}
+
+[data-theme="light"] .nt-sidebar-item {
+  color: #475569;
+}
+
+[data-theme="light"] .nt-sidebar-item:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .nt-sidebar-item.active {
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+  font-weight: 600;
+}
+
+[data-theme="light"] .nt-sidebar-item.active i {
+  color: #2563eb !important;
+}
+
+[data-theme="light"] .nt-pill-gray {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .nt-pill-white {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] dialog {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] dialog::backdrop {
+  background: rgba(15, 23, 42, 0.45) !important;
+}
+
+[data-theme="light"] #apple-toast {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="light"] .nt-avatar-circle {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-white {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-\[\#f4f4f6\] {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-\[\#9da3af\] {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .text-\[\#cbd5e1\] {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .bg-\[\#12131b\],
+[data-theme="light"] .bg-\[\#0e0f14\],
+[data-theme="light"] .bg-\[\#181a26\],
+[data-theme="light"] .bg-\[\#1a1c29\],
+[data-theme="light"] .bg-\[\#10121a\],
+[data-theme="light"] .bg-\[\#11121b\],
+[data-theme="light"] .bg-\[\#0b0c10\],
+[data-theme="light"] .bg-\[\#13141d\],
+[data-theme="light"] .bg-\[\#151620\],
+[data-theme="light"] .bg-\[\#0f1015\],
+[data-theme="light"] .bg-\[\#0c0d12\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .border-white\/\[0\.04\],
+[data-theme="light"] .border-white\/\[0\.05\],
+[data-theme="light"] .border-white\/\[0\.06\],
+[data-theme="light"] .border-white\/\[0\.07\],
+[data-theme="light"] .border-white\/\[0\.08\],
+[data-theme="light"] .border-white\/\[0\.10\],
+[data-theme="light"] .border-white\/\[0\.12\],
+[data-theme="light"] .border-white\/\[0\.20\],
+[data-theme="light"] .border-white\/\[0\.30\] {
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
 }

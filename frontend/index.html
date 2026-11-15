@@ -9,6 +9,17 @@
   <meta name="title" content="OUTREACH // DTC AD ENGINE — Autonomous Deliverability & DTC Ads Platform">
   <meta name="description" content="End-to-end autonomous cold outreach platform for DTC Performance Ad Creatives. Multi-inbox Gmail fleet, agentic CSV founder discovery, Reddit & brand intelligence, and AI video showcase integration.">
   <meta name="theme-color" content="#0b0c10">
+  <meta name="color-scheme" content="dark light">
+  <script>
+    try {
+      const theme = localStorage.getItem("outreach_theme") || "dark";
+      document.documentElement.setAttribute("data-theme", theme);
+      const metaScheme = document.querySelector('meta[name="color-scheme"]');
+      if (metaScheme) metaScheme.content = theme === "light" ? "light" : "dark";
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) metaThemeColor.content = theme === "light" ? "#f8fafc" : "#0b0c10";
+    } catch(e) {}
+  </script>
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="http://localhost:8000/">
 
@@ -22,7 +33,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body class="bg-[#0b0c10] text-[#f4f4f6] min-h-screen flex selection:bg-white selection:text-black">
+<body class="min-h-screen flex selection:bg-blue-500 selection:text-white">
 
   <!-- ======================================================== -->
   <!-- LEFT RAIL SIDEBAR (Discord / Slack Inspired Friendly Architecture) -->
@@ -33,7 +44,7 @@
     <div class="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
       <div>
         <div class="flex items-center space-x-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-[#10b981] inline-block shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-[#3b82f6] inline-block shadow-[0_0_8px_rgba(59,130,246,0.5)]"></span>
           <span class="font-bold text-sm tracking-tight text-white">DTC AD ENGINE</span>
           <span class="nt-pill nt-pill-gray text-[9px]">OS (1)</span>
         </div>
@@ -46,7 +57,7 @@
     <div class="px-5 py-3.5 border-b border-white/[0.06] bg-[#12131b]">
       <div class="flex items-center justify-between mb-2">
         <span class="text-friendly-label">CONNECTED SENDER FLEET (<span id="sidebar-inbox-count">4</span>)</span>
-        <button onclick="openAddInboxModal()" class="text-[#10b981] hover:underline text-xs font-semibold">+ Add</button>
+        <button onclick="openAddInboxModal()" class="text-[#3b82f6] hover:underline text-xs font-semibold">+ Add</button>
       </div>
 
       <!-- Circular Avatar Stack -->
@@ -67,7 +78,7 @@
           <i class="fa-solid fa-gauge text-xs" aria-hidden="true"></i>
           <span>Command Center</span>
         </div>
-        <span class="nt-pill nt-pill-emerald text-[9px]">LIVE</span>
+        <span class="nt-pill nt-pill-blue text-[9px]">LIVE</span>
       </div>
 
       <div onclick="switchTab('import')" id="nav-import" class="nt-sidebar-item">
@@ -88,7 +99,7 @@
 
       <div onclick="switchTab('studio')" id="nav-studio" class="nt-sidebar-item">
         <div class="flex items-center space-x-2.5">
-          <i class="fa-solid fa-wand-magic-sparkles text-xs text-[#10b981]" aria-hidden="true"></i>
+          <i class="fa-solid fa-wand-magic-sparkles text-xs text-[#3b82f6]" aria-hidden="true"></i>
           <span>3. Ad Creative Studio</span>
         </div>
       </div>
@@ -119,14 +130,23 @@
 
     <!-- Bottom Protocol Status & Portfolio Showcase Indicator -->
     <div class="p-3.5 border-t border-white/[0.06] bg-[#0c0d12] space-y-2">
-      <div class="flex items-center justify-between text-[10.5px] text-[#9da3af]">
+      <!-- Theme Switcher Pill in Sidebar -->
+      <button onclick="toggleTheme()" class="w-full nt-btn-secondary text-xs py-1.5 px-2.5 flex items-center justify-between" title="Toggle between Dark and White mode">
+        <span class="flex items-center space-x-1.5">
+          <i class="theme-sidebar-icon fa-solid fa-sun text-amber-500 text-[11px]"></i>
+          <span class="text-[11px] font-medium">Appearance</span>
+        </span>
+        <span class="theme-current-badge nt-pill nt-pill-gray text-[9px]">DARK</span>
+      </button>
+
+      <div class="flex items-center justify-between text-[10.5px] text-[#9da3af] pt-1">
         <span>CREATIVE SHOWCASE</span>
-        <a href="https://dtc-creatives.agency/showcase" target="_blank" class="text-[#10b981] hover:underline font-medium">PREVIEW &rarr;</a>
+        <a href="https://dtc-creatives.agency/showcase" target="_blank" class="text-[#3b82f6] hover:underline font-medium">PREVIEW &rarr;</a>
       </div>
       <div class="bg-[#151620] p-2 rounded-lg border border-white/[0.05] text-[10.5px] text-[#9da3af] flex items-center justify-between">
         <span>DELIVERABILITY</span>
         <span class="text-white font-semibold flex items-center">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] mr-1.5"></span> 100% Primary Inbox
+          <span class="w-1.5 h-1.5 rounded-full bg-[#3b82f6] mr-1.5"></span> 100% Primary Inbox
         </span>
       </div>
     </div>
@@ -157,23 +177,30 @@
         </div>
       </div>
 
-      <!-- Live Tickers & Action Buttons -->
-      <div class="flex items-center space-x-2.5">
-        <span class="hidden lg:inline-flex nt-pill nt-pill-gray text-[10px]">
+      <!-- Live Tickers, Theme Switcher & Action Buttons -->
+      <div class="flex items-center space-x-2 sm:space-x-2.5">
+        <span class="hidden xl:inline-flex nt-pill nt-pill-gray text-[10px]">
           REPLY RATE: <strong class="text-white ml-1" id="topbar-reply-rate">50.0%</strong>
         </span>
         <span class="hidden sm:inline-flex nt-pill nt-pill-gray text-[10px]">
           FLEET PACING: <strong class="text-white ml-1" id="topbar-fleet-rate">23/hr</strong>
         </span>
 
-        <!-- Secondary Button: Subtle -->
-        <button onclick="loadSampleDtcData()" class="nt-btn-secondary text-xs py-1.5 px-3">
-          <i class="fa-solid fa-store mr-1.5 text-[#10b981]" aria-hidden="true"></i>
-          <span>Demo DTC Data</span>
+        <!-- Theme Switcher Toggle (White / Dark Mode) -->
+        <button onclick="toggleTheme()" id="theme-toggle-btn" class="nt-btn-secondary text-xs py-1.5 px-2.5 sm:px-3 flex items-center space-x-1.5 transition" title="Toggle between Dark and White mode">
+          <i id="theme-toggle-icon" class="fa-solid fa-sun text-amber-500"></i>
+          <span id="theme-toggle-label" class="font-medium hidden xs:inline sm:inline">White Mode</span>
         </button>
 
-        <!-- Primary Button: Highest Visual Importance (Friendly Stark White or Emerald Glow) -->
-        <button onclick="runAutonomousPipeline()" id="topbar-btn-run" class="nt-btn-primary text-xs py-1.5 px-3.5">
+        <!-- Secondary Button: Demo Data -->
+        <button onclick="loadSampleDtcData()" class="nt-btn-secondary text-xs py-1.5 px-2.5 sm:px-3">
+          <i class="fa-solid fa-store mr-1.5 text-blue-400" aria-hidden="true"></i>
+          <span class="hidden xs:inline">Demo DTC Data</span>
+          <span class="xs:hidden">Demo</span>
+        </button>
+
+        <!-- Primary Button: Highest Visual Importance -->
+        <button onclick="runAutonomousPipeline()" id="topbar-btn-run" class="nt-btn-primary text-xs py-1.5 px-3 sm:px-3.5">
           <i class="fa-solid fa-play mr-1.5 text-[9px]" aria-hidden="true"></i>
           <span>Run Pipeline</span>
         </button>
@@ -197,7 +224,7 @@
                 <span id="metric-capacity">165</span> <span class="text-xs text-[#9da3af] font-normal font-sans">sends/day</span>
               </div>
             </div>
-            <span class="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_6px_rgba(16,185,129,0.5)]"></span>
+            <span class="w-2 h-2 rounded-full bg-[#3b82f6] shadow-[0_0_6px_rgba(59,130,246,0.5)]"></span>
           </div>
 
           <div class="nt-card px-3.5 py-2.5 flex items-center justify-between">
@@ -215,7 +242,7 @@
               <div class="text-[10px] font-semibold text-[#9da3af] uppercase tracking-wider">Delivered</div>
               <div class="text-base sm:text-lg font-bold font-mono text-white" id="metric-total-delivered">4</div>
             </div>
-            <span class="nt-pill nt-pill-emerald text-[9px]">100% Primary</span>
+            <span class="nt-pill nt-pill-blue text-[9px]">100% Primary</span>
           </div>
 
           <div class="nt-card px-3.5 py-2.5 flex items-center justify-between cursor-pointer hover:border-white/20 transition" onclick="switchTab('replies')">
@@ -237,7 +264,7 @@
                 <span class="text-friendly-label">DTC BRAND DIRECTORY</span>
                 <h3 class="text-sm font-semibold text-white">Target Founders & CMOs (<span id="command-lead-count">8</span>)</h3>
               </div>
-              <button onclick="switchTab('companies')" class="text-xs text-[#10b981] hover:underline font-medium">View All &rarr;</button>
+              <button onclick="switchTab('companies')" class="text-xs text-[#3b82f6] hover:underline font-medium">View All &rarr;</button>
             </div>
 
             <search class="relative">
@@ -264,10 +291,10 @@
           <div class="nt-card p-3.5 sm:p-4 space-y-2.5">
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#3b82f6]"></span>
                 <span class="text-friendly-label">LIVE DISPATCH QUEUE</span>
               </div>
-              <button onclick="switchTab('queue')" class="text-xs text-[#10b981] hover:underline font-medium">Manage Queue &rarr;</button>
+              <button onclick="switchTab('queue')" class="text-xs text-[#3b82f6] hover:underline font-medium">Manage Queue &rarr;</button>
             </div>
             <div class="space-y-1.5" id="command-queue-mini">
               <!-- Dynamically populated queue slots -->
@@ -281,7 +308,7 @@
                 <i class="fa-solid fa-reply text-xs text-[#f59e0b]" aria-hidden="true"></i>
                 <span class="text-friendly-label">PROSPECT RESPONSES (<span id="command-replies-count">2</span>)</span>
               </div>
-              <button onclick="switchTab('replies')" class="text-xs text-[#10b981] hover:underline font-medium">Open Inbox &rarr;</button>
+              <button onclick="switchTab('replies')" class="text-xs text-[#3b82f6] hover:underline font-medium">Open Inbox &rarr;</button>
             </div>
             <div class="space-y-1.5" id="command-replies-mini">
               <!-- Dynamically populated reply items -->
@@ -297,18 +324,18 @@
       <section id="tab-import" class="tab-pane hidden space-y-4" aria-labelledby="heading-import">
         <article class="nt-card p-4 sm:p-6 space-y-5">
           <div>
-            <span class="nt-pill nt-pill-emerald mb-1.5">STEP 01 &middot; AGENTIC INGESTION</span>
+            <span class="nt-pill nt-pill-blue mb-1.5">STEP 01 &middot; AGENTIC INGESTION</span>
             <h2 id="heading-import" class="text-base sm:text-lg font-semibold text-white tracking-tight">Import CSV & Configure DTC Creative Offer</h2>
             <p class="text-xs sm:text-sm text-[#9da3af] mt-0.5">Upload any CSV list. Our agent automatically discovers columns, detects founders & CMOs, and structures multi-contact separation.</p>
           </div>
 
           <!-- Interactive Agentic Ingestion Audit Card (Appears on file selection) -->
-          <div id="agentic-audit-card" class="hidden bg-[#10121a] border border-[#10b981]/30 rounded-xl p-4 space-y-3">
+          <div id="agentic-audit-card" class="hidden bg-[#10121a] border border-[#3b82f6]/30 rounded-xl p-4 space-y-3">
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-2">
-                <span class="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                <span class="w-2 h-2 rounded-full bg-[#3b82f6] shadow-[0_0_8px_rgba(59,130,246,0.5)]"></span>
                 <span class="font-bold text-xs text-white">Agentic CSV Audit & Founder Discovery</span>
-                <span class="nt-pill nt-pill-emerald text-[9.5px]" id="audit-confidence">99.4% Confidence</span>
+                <span class="nt-pill nt-pill-blue text-[9.5px]" id="audit-confidence">99.4% Confidence</span>
               </div>
               <span class="text-xs text-[#9da3af]" id="audit-summary-count">8 rows &middot; 4 DTC brands</span>
             </div>
@@ -347,11 +374,11 @@
                 </div>
                 <h3 class="text-xs sm:text-sm font-semibold text-white mb-0.5">Click or Drag & Drop Any CSV</h3>
                 <p class="text-xs text-[#9da3af]">Flexible headers supported: Brand, Founder / Exec, Work Email, Store URL, Designation</p>
-                <div class="mt-2 text-xs font-mono text-[#10b981]" id="csv-filename-display">No file chosen</div>
+                <div class="mt-2 text-xs font-mono text-[#3b82f6]" id="csv-filename-display">No file chosen</div>
               </div>
 
               <div class="flex items-center justify-between text-xs">
-                <button type="button" onclick="loadSampleDtcData()" class="text-[#10b981] hover:underline flex items-center space-x-1 font-medium">
+                <button type="button" onclick="loadSampleDtcData()" class="text-[#3b82f6] hover:underline flex items-center space-x-1 font-medium">
                   <i class="fa-solid fa-store mr-1" aria-hidden="true"></i> Load Sample 8-Lead DTC Brand List
                 </button>
                 <button type="button" onclick="downloadSampleDtcCsv()" class="text-[#9da3af] hover:text-white flex items-center space-x-1">
@@ -436,7 +463,7 @@
           <div id="studio-col-list" class="lg:col-span-4 nt-card p-3.5 flex flex-col h-auto lg:h-[620px]">
             <div class="text-friendly-label mb-2 flex items-center justify-between">
               <span>PROSPECTS (<span id="studio-lead-count">0</span>)</span>
-              <span class="text-[#10b981]">SELECT TO REVIEW</span>
+              <span class="text-[#3b82f6]">SELECT TO REVIEW</span>
             </div>
             <search class="mb-2">
               <input type="search" id="studio-search-input" oninput="filterStudioLeads(this.value)" placeholder="Filter prospects..." class="nt-input w-full py-1.5 px-3 text-xs">
@@ -539,7 +566,7 @@
           <div class="lg:col-span-7 space-y-3">
             <div class="flex items-center justify-between">
               <span class="text-friendly-label">INCOMING REPLIES (<span id="replies-list-count">0</span>)</span>
-              <span class="text-xs text-[#10b981] font-medium">1-Click AI Response</span>
+              <span class="text-xs text-[#3b82f6] font-medium">1-Click AI Response</span>
             </div>
             <div class="space-y-2.5" id="replies-cards-container">
               <!-- Dynamically populated -->
@@ -609,10 +636,10 @@
 
       <div class="bg-[#0b0c10] border border-white/[0.05] p-3 rounded-lg text-xs text-[#9da3af] space-y-1">
         <div class="text-white font-medium flex items-center">
-          <i class="fa-solid fa-key text-[#10b981] mr-1.5" aria-hidden="true"></i> Google App Password Setup:
+          <i class="fa-solid fa-key text-blue-400 mr-1.5" aria-hidden="true"></i> Google App Password Setup:
         </div>
         <div>1. Enable 2-Step Verification in Google Account.</div>
-        <div>2. Visit <a href="https://myaccount.google.com/apppasswords" target="_blank" class="text-[#10b981] underline">myaccount.google.com/apppasswords</a>.</div>
+        <div>2. Visit <a href="https://myaccount.google.com/apppasswords" target="_blank" class="text-[#3b82f6] underline">myaccount.google.com/apppasswords</a>.</div>
         <div>3. Generate password for "Mail" and paste below.</div>
       </div>
 
@@ -737,7 +764,7 @@
 
   <!-- Discord / Slack Style Friendly Toast Notification -->
   <div id="apple-toast" role="status" aria-live="polite">
-    <span class="w-2 h-2 rounded-full bg-[#10b981] inline-block shadow-[0_0_6px_rgba(16,185,129,0.5)]"></span>
+    <span class="w-2 h-2 rounded-full bg-[#3b82f6] inline-block shadow-[0_0_6px_rgba(59,130,246,0.5)]"></span>
     <span id="apple-toast-text">Action completed</span>
   </div>
 

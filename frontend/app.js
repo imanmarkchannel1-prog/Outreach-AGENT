@@ -19,7 +19,53 @@ let stagedCsvFile = null;
 
 const DTC_SHOWCASE_URL = "https://dtc-creatives.agency/showcase";
 
+// ── Theme Manager (Black Dark Mode vs White Mode) ─────────────────────────
+
+function initTheme() {
+  const saved = localStorage.getItem('outreach_theme') || 'dark';
+  applyTheme(saved);
+}
+
+function applyTheme(theme) {
+  const isLight = theme === 'light';
+  document.documentElement.setAttribute('data-theme', isLight ? 'light' : 'dark');
+
+  const metaScheme = document.querySelector('meta[name="color-scheme"]');
+  if (metaScheme) metaScheme.content = isLight ? 'light' : 'dark';
+
+  const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+  if (metaThemeColor) metaThemeColor.content = isLight ? '#f8fafc' : '#0b0c10';
+
+  // Update topbar toggle button
+  const icon = document.getElementById('theme-toggle-icon');
+  const label = document.getElementById('theme-toggle-label');
+  if (icon) {
+    icon.className = isLight ? 'fa-solid fa-moon text-blue-500' : 'fa-solid fa-sun text-amber-500';
+  }
+  if (label) {
+    label.innerText = isLight ? 'Dark Mode' : 'White Mode';
+  }
+
+  // Update sidebar indicators if present
+  document.querySelectorAll('.theme-sidebar-icon').forEach(el => {
+    el.className = isLight ? 'theme-sidebar-icon fa-solid fa-moon text-blue-500 text-[11px]' : 'theme-sidebar-icon fa-solid fa-sun text-amber-500 text-[11px]';
+  });
+  document.querySelectorAll('.theme-current-badge').forEach(el => {
+    el.innerText = isLight ? 'WHITE' : 'DARK';
+  });
+
+  localStorage.setItem('outreach_theme', isLight ? 'light' : 'dark');
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  showAppleToast(next === 'light' ? 'Switched to White Mode' : 'Switched to Dark Mode');
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+  initTheme();
   initDialogPolyfill();
   initKeyboardShortcuts();
   await refreshAll();
@@ -59,7 +105,7 @@ function toggleMobileSidebar() {
   }
 }
 
-// ── Toast HUD Notification (Friendly, Subtle Emerald) ─────────────────────
+// ── Toast HUD Notification (Friendly, Subtle Blue & Warm Amber) ───────────
 
 function showAppleToast(message, isError = false) {
   const toast = document.getElementById('apple-toast');
@@ -69,8 +115,8 @@ function showAppleToast(message, isError = false) {
   text.innerText = message;
   const dot = toast.querySelector('span');
   if (dot) {
-    dot.style.background = isError ? '#f59e0b' : '#10b981';
-    dot.style.boxShadow = isError ? '0 0 8px rgba(245,158,11,0.5)' : '0 0 8px rgba(16,185,129,0.5)';
+    dot.style.background = isError ? '#f59e0b' : '#3b82f6';
+    dot.style.boxShadow = isError ? '0 0 8px rgba(245,158,11,0.5)' : '0 0 8px rgba(59,130,246,0.5)';
   }
 
   toast.classList.add('visible');
@@ -202,7 +248,7 @@ function renderInboxList() {
   if (circlesContainer) {
     const circlesHtml = inboxesCache.map(ib => {
       const initials = getInitials(ib.display_name, ib.email);
-      const dotColor = ib.is_quarantined ? '#646a78' : '#10b981';
+      const dotColor = ib.is_quarantined ? '#646a78' : '#3b82f6';
       const tooltip = `${ib.display_name || ib.email} (${ib.email}) — ${ib.daily_limit}/day, ${ib.hourly_limit}/hr`;
 
       return `
@@ -250,7 +296,7 @@ function renderInboxList() {
                 <div class="text-[11px] text-[#9da3af] font-mono">${ib.email}</div>
               </div>
             </div>
-            <span class="nt-pill ${ib.is_quarantined ? 'nt-pill-gray' : 'nt-pill-emerald'}">
+            <span class="nt-pill ${ib.is_quarantined ? 'nt-pill-gray' : 'nt-pill-blue'}">
               ${ib.is_quarantined ? 'PAUSED' : 'READY &middot; 587'}
             </span>
           </div>
@@ -266,7 +312,7 @@ function renderInboxList() {
             </div>
             <div>
               <div class="text-[10px] text-[#9da3af] uppercase font-semibold">Typing Delay</div>
-              <div class="text-xs font-bold text-[#10b981] font-mono">${ib.min_delay_seconds}–${ib.max_delay_seconds}s</div>
+              <div class="text-xs font-bold text-[#3b82f6] font-mono">${ib.min_delay_seconds}–${ib.max_delay_seconds}s</div>
             </div>
             <div>
               <div class="text-[10px] text-[#9da3af] uppercase font-semibold">Sent Today</div>
@@ -276,7 +322,7 @@ function renderInboxList() {
 
           <div class="pt-1.5 border-t border-white/[0.05] flex items-center justify-between text-xs">
             <div class="flex items-center space-x-2.5">
-              <button onclick="testInboxConnection(${ib.id})" class="text-[#10b981] hover:underline font-medium text-xs">
+              <button onclick="testInboxConnection(${ib.id})" class="text-[#3b82f6] hover:underline font-medium text-xs">
                 Verify Handshake
               </button>
               <button onclick="openEditInboxModal(${ib.id})" class="text-[#9da3af] hover:text-white text-xs">
@@ -480,7 +526,7 @@ function getStatusPill(status) {
     case 'approved':
     case 'scheduled':
     case 'sent':
-      return `<span class="nt-pill nt-pill-emerald">${status.toUpperCase()}</span>`;
+      return `<span class="nt-pill nt-pill-blue">${status.toUpperCase()}</span>`;
     case 'drafted':
     case 'researched':
       return `<span class="nt-pill nt-pill-white">${status.toUpperCase()}</span>`;
@@ -527,10 +573,10 @@ function renderCommandCenterDirectory() {
     const isFounder = (l.seniority_rank === 1 || (l.role_title || '').toLowerCase().includes('founder') || (l.role_title || '').toLowerCase().includes('ceo'));
 
     return `
-      <div onclick="selectLead(${l.id})" class="p-3 rounded-xl border transition cursor-pointer ${isSelected ? 'border-l-4 border-l-[#10b981] bg-[#1a1c29] border-white/20 shadow-md' : 'bg-[#12131b] border-white/[0.05] hover:border-white/[0.12]'}">
+      <div onclick="selectLead(${l.id})" class="p-3 rounded-xl border transition cursor-pointer ${isSelected ? 'border-l-4 border-l-[#3b82f6] bg-[#1a1c29] border-white/20 shadow-md' : 'bg-[#12131b] border-white/[0.05] hover:border-white/[0.12]'}">
         <div class="flex items-center justify-between mb-1">
           <div class="flex items-center space-x-2 truncate">
-            <span class="w-2 h-2 rounded-full ${isSelected ? 'bg-[#10b981]' : 'bg-white/20'}"></span>
+            <span class="w-2 h-2 rounded-full ${isSelected ? 'bg-[#3b82f6]' : 'bg-white/20'}"></span>
             <h4 class="text-xs sm:text-sm font-semibold text-white truncate">${l.full_name}</h4>
             ${isFounder ? '<span class="nt-pill nt-pill-amber text-[9px]"><i class="fa-solid fa-crown mr-1 text-[8px]"></i>FOUNDER</span>' : ''}
           </div>
@@ -597,7 +643,7 @@ function renderCommandCenterStudio() {
             <i class="fa-solid fa-rotate mr-1 text-[10px]" aria-hidden="true"></i> Re-Research
           </button>
           <button onclick="reDraftLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5">
-            <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#10b981] text-[10px]" aria-hidden="true"></i> Redraft
+            <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#3b82f6] text-[10px]" aria-hidden="true"></i> Redraft
           </button>
         </div>
       </div>
@@ -623,14 +669,15 @@ function renderCommandCenterStudio() {
         <!-- Ad Creative Angle & Fatigue Gap -->
         <div class="nt-white-intel-card space-y-1">
           <div class="flex items-center justify-between">
-            <span class="nt-pill nt-pill-emerald text-[9.5px] font-bold">🎯 Ad Creative Angle</span>
-            <span class="text-[10px] text-[#059669] font-medium font-mono">Showcase Ready</span>
+            <span class="nt-pill nt-pill-blue text-[9.5px] font-bold">🎯 Ad Creative Angle</span>
+            <span class="text-[10px] text-[#2563eb] font-medium font-mono">Showcase Ready</span>
           </div>
           <p class="text-xs font-semibold text-[#0f172a] leading-relaxed">
             ${reddit.pain_point || 'Creative fatigue on Meta/TikTok ads; need continuous fresh vertical UGC hooks & AI video tests.'}
           </p>
-          <div class="text-[11px] text-[#059669] font-mono pt-0.5 border-t border-slate-100">
-            Showcase: ${DTC_SHOWCASE_URL}
+          <div class="text-[11px] text-[#2563eb] font-mono pt-0.5 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-[#64748b]">Showcase Asset:</span>
+            <a href="${DTC_SHOWCASE_URL}" target="_blank" class="text-[#2563eb] hover:underline font-bold">${DTC_SHOWCASE_URL}</a>
           </div>
         </div>
       </div>
@@ -665,13 +712,14 @@ function renderCommandCenterStudio() {
         <!-- Footer Bar with High-Importance Primary Action -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-slate-200 gap-2">
           <div class="text-xs text-[#64748b] flex items-center space-x-1.5">
-            <span class="w-2 h-2 rounded-full ${draft?.is_approved ? 'bg-[#10b981]' : 'bg-[#f59e0b]'}"></span>
+            <span class="w-2 h-2 rounded-full ${draft?.is_approved ? 'bg-[#3b82f6]' : 'bg-[#f59e0b]'}"></span>
             <span class="font-medium text-[#334155]">${draft?.is_approved ? 'Status: Approved & Scheduled' : 'Status: Draft Ready for Approval'}</span>
           </div>
 
           <!-- Prominent Primary Action Button -->
           <button onclick="saveAndApproveCommandDraft(${lead.id})" class="nt-btn-paper-action text-xs sm:text-sm py-2 px-5">
-            <i class="fa-solid fa-check mr-1.5 text-[#10b981]"></i> Save & Approve Draft
+            <i class="fa-solid fa-check mr-1.5 text-blue-400"></i> Save & Approve Draft
+          </button>
           </button>
         </div>
       </div>
@@ -747,12 +795,12 @@ function renderCompanyClusterView() {
           <div>
             <div class="flex items-center space-x-2">
               <h3 class="text-sm font-semibold text-white tracking-tight">${comp.name}</h3>
-              <a href="${comp.website || '#'}" target="_blank" class="text-xs text-[#10b981] hover:underline font-mono">${comp.domain}</a>
+              <a href="${comp.website || '#'}" target="_blank" class="text-xs text-[#3b82f6] hover:underline font-mono">${comp.domain}</a>
               <span class="nt-pill nt-pill-gray text-[9.5px]">${compLeads.length} contacts</span>
             </div>
             <div class="text-xs text-[#9da3af] mt-0.5 flex items-center space-x-2">
               <span>Location: ${comp.location || 'Global'}</span> &middot; 
-              <span class="text-white flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-[#10b981] mr-1"></span> 24h Brand Stagger Active</span>
+              <span class="text-white flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-[#3b82f6] mr-1"></span> 24h Brand Stagger Active</span>
             </div>
           </div>
 
@@ -763,7 +811,7 @@ function renderCompanyClusterView() {
               </span>
             ` : ''}
             <span class="nt-pill nt-pill-gray">
-              <i class="fa-solid fa-video mr-1 text-[8.5px] text-[#10b981]"></i> AI Video Showcase Ready
+              <i class="fa-solid fa-video mr-1 text-[8.5px] text-[#3b82f6]"></i> AI Video Showcase Ready
             </span>
           </div>
         </div>
@@ -907,8 +955,8 @@ function renderStudioDetail() {
           <button onclick="reResearchLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5 text-[#9da3af] hover:text-white" title="Run background brand research">
             <i class="fa-solid fa-rotate mr-1 text-[10px]" aria-hidden="true"></i> Re-Research
           </button>
-          <button onclick="reDraftLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5 text-[#9da3af] hover:text-[#10b981]" title="Regenerate DTC pitch">
-            <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#10b981] text-[10px]" aria-hidden="true"></i> Redraft
+          <button onclick="reDraftLead(${lead.id})" class="nt-btn-secondary text-xs py-1 px-2.5 text-[#9da3af] hover:text-[#3b82f6]" title="Regenerate DTC pitch">
+            <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#3b82f6] text-[10px]" aria-hidden="true"></i> Redraft
           </button>
         </div>
       </div>
@@ -934,15 +982,15 @@ function renderStudioDetail() {
         <!-- Ad Creative Angle & Fatigue Gap -->
         <div class="nt-white-intel-card space-y-1">
           <div class="flex items-center justify-between">
-            <span class="nt-pill nt-pill-emerald text-[9.5px] font-bold">🎯 Ad Creative Angle</span>
-            <span class="text-[10px] text-[#059669] font-medium font-mono">Showcase Ready</span>
+            <span class="nt-pill nt-pill-blue text-[9.5px] font-bold">🎯 Ad Creative Angle</span>
+            <span class="text-[10px] text-[#2563eb] font-medium font-mono">Showcase Ready</span>
           </div>
           <p class="text-xs font-semibold text-[#0f172a] leading-relaxed">
             ${reddit.pain_point || 'High creative fatigue on Meta/TikTok paid channels; need 3–5 fresh hooks/week.'}
           </p>
           <div class="text-[11px] text-[#0f172a] font-mono pt-0.5 border-t border-slate-100 flex items-center justify-between">
             <span class="text-[#64748b]">Showcase Asset:</span>
-            <a href="${DTC_SHOWCASE_URL}" target="_blank" class="text-[#059669] hover:underline font-bold">${DTC_SHOWCASE_URL}</a>
+            <a href="${DTC_SHOWCASE_URL}" target="_blank" class="text-[#2563eb] hover:underline font-bold">${DTC_SHOWCASE_URL}</a>
           </div>
         </div>
       </div>
@@ -977,13 +1025,13 @@ function renderStudioDetail() {
         <!-- Primary Action Bar -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-[#e2e8f0] gap-2">
           <div class="flex items-center space-x-2 text-xs">
-            <span class="w-2 h-2 rounded-full ${draft?.is_approved ? 'bg-[#10b981]' : 'bg-[#f59e0b]'}"></span>
+            <span class="w-2 h-2 rounded-full ${draft?.is_approved ? 'bg-[#3b82f6]' : 'bg-[#f59e0b]'}"></span>
             <span class="font-medium text-[#475569]">${draft?.is_approved ? 'Draft Status: Approved' : 'Draft Status: Awaiting Approval'}</span>
           </div>
 
           <div class="flex items-center space-x-2">
             <button onclick="saveAndApproveDraft(${lead.id})" class="nt-btn-paper-action w-full sm:w-auto">
-              <i class="fa-solid fa-check mr-1.5 text-[#10b981]" aria-hidden="true"></i>
+              <i class="fa-solid fa-check mr-1.5 text-blue-400" aria-hidden="true"></i>
               <span>Save & Approve Draft</span>
             </button>
           </div>
@@ -1193,7 +1241,7 @@ function renderMiniQueue(slots) {
     return `
       <div class="flex items-center justify-between p-2 rounded-lg bg-[#0e0f14] border border-white/[0.04] text-xs">
         <div class="flex items-center space-x-2 truncate">
-          <span class="text-[#10b981] font-mono text-[10px] bg-[#10b981]/10 px-1.5 py-0.5 rounded">${timeFormatted}</span>
+          <span class="text-[#3b82f6] font-mono text-[10px] bg-[#3b82f6]/10 px-1.5 py-0.5 rounded">${timeFormatted}</span>
           <span class="text-white font-medium truncate">${s.lead_name || 'Prospect'}</span>
           <span class="text-[#9da3af] text-[10.5px]">(${s.company_domain || 'Brand'})</span>
         </div>
@@ -1223,7 +1271,7 @@ function renderQueueTable(slots) {
     return `
       <tr class="hover:bg-white/[0.02] transition">
         <td class="py-2.5 px-3.5">
-          <span class="text-[#10b981] font-mono text-[10.5px] bg-[#10b981]/10 px-2 py-0.5 rounded-full">
+          <span class="text-[#3b82f6] font-mono text-[10.5px] bg-[#3b82f6]/10 px-2 py-0.5 rounded-full">
             ${dateFormatted}, ${timeFormatted}
           </span>
         </td>
@@ -1278,10 +1326,10 @@ function renderMiniReplies(replies) {
 
   container.innerHTML = replies.slice(0, 3).map(r => {
     return `
-      <div onclick="switchTab('replies')" class="p-2.5 rounded-xl bg-white border border-[#e2e8f0] shadow-sm text-xs hover:border-[#10b981] cursor-pointer transition space-y-1">
+      <div onclick="switchTab('replies')" class="p-2.5 rounded-xl bg-white border border-[#e2e8f0] shadow-sm text-xs hover:border-[#3b82f6] cursor-pointer transition space-y-1">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-1.5 truncate">
-            <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+            <span class="w-2 h-2 rounded-full bg-[#3b82f6]"></span>
             <span class="text-[#0f172a] font-bold truncate">${r.lead_name || r.sender_email}</span>
             <span class="text-[11px] text-[#64748b]">(${r.company_name})</span>
           </div>
@@ -1318,7 +1366,7 @@ function renderRepliesView() {
     const isInterested = r.intent === 'interested';
 
     return `
-      <article class="nt-card p-4 space-y-3 transition border ${r.is_replied_to ? 'border-white/[0.05]' : 'border-[#10b981]/40 bg-[#12141e]'}">
+      <article class="nt-card p-4 space-y-3 transition border ${r.is_replied_to ? 'border-white/[0.05]' : 'border-[#3b82f6]/40 bg-[#12141e]'}">
         <div class="flex items-start justify-between">
           <div>
             <div class="flex items-center space-x-2">
@@ -1326,7 +1374,7 @@ function renderRepliesView() {
               <span class="nt-pill ${isInterested ? 'nt-pill-amber' : 'nt-pill-gray'} font-mono text-[9px]">
                 ${r.intent.toUpperCase()}
               </span>
-              ${r.is_replied_to ? '<span class="nt-pill nt-pill-gray text-[9px]">REPLIED</span>' : '<span class="nt-pill nt-pill-emerald text-[9px]">NEEDS RESPONSE</span>'}
+              ${r.is_replied_to ? '<span class="nt-pill nt-pill-gray text-[9px]">REPLIED</span>' : '<span class="nt-pill nt-pill-blue text-[9px]">NEEDS RESPONSE</span>'}
             </div>
             <div class="text-xs text-[#9da3af] mt-0.5">
               ${r.role_title || 'Lead'} at <strong class="text-white">${r.company_name || 'Brand'}</strong> &middot; <span class="font-mono text-[#cbd5e1]">${r.sender_email}</span>
@@ -1337,7 +1385,7 @@ function renderRepliesView() {
 
         <!-- High-Contrast Crisp White Prospect Message Card (No Black-on-Black) -->
         <div class="nt-prospect-msg-box">
-          <div class="text-[10px] text-[#059669] font-bold uppercase tracking-wider mb-1 flex items-center">
+          <div class="text-[10px] text-[#2563eb] font-bold uppercase tracking-wider mb-1 flex items-center">
             <i class="fa-solid fa-inbox mr-1.5 text-[9px]"></i> Prospect Message:
           </div>
           <div class="text-xs text-[#0f172a] font-medium leading-relaxed">
@@ -1347,13 +1395,13 @@ function renderRepliesView() {
 
         <div class="space-y-2" id="reply-composer-box-${r.id}">
           <div class="flex items-center justify-between pt-1">
-            <button onclick="toggleReplyComposer(${r.id})" class="text-[#10b981] hover:underline text-xs font-semibold flex items-center space-x-1.5">
+            <button onclick="toggleReplyComposer(${r.id})" class="text-[#3b82f6] hover:underline text-xs font-semibold flex items-center space-x-1.5">
               <i class="fa-solid fa-reply text-[10px]" aria-hidden="true"></i>
               <span>${r.is_replied_to ? 'View Sent Response' : 'Reply Back to Lead'}</span>
             </button>
             ${!r.is_replied_to ? `
               <button onclick="draftAIReplyFor(${r.id})" class="nt-btn-secondary text-xs py-1 px-2.5">
-                <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#10b981] text-[9.5px]" aria-hidden="true"></i>
+                <i class="fa-solid fa-wand-magic-sparkles mr-1 text-[#3b82f6] text-[9.5px]" aria-hidden="true"></i>
                 <span>Draft AI Response</span>
               </button>
             ` : ''}
@@ -1364,7 +1412,7 @@ function renderRepliesView() {
             <div class="flex items-center justify-end space-x-2">
               <button type="button" onclick="toggleReplyComposer(${r.id})" class="nt-btn-secondary text-xs py-1.5 px-3">Close</button>
               <button type="button" onclick="sendReplyBack(${r.id})" class="nt-btn-paper-action text-xs py-1.5 px-3.5">
-                <i class="fa-solid fa-paper-plane mr-1.5 text-[10px] text-[#10b981]" aria-hidden="true"></i>
+                <i class="fa-solid fa-paper-plane mr-1.5 text-[10px] text-blue-400"></i>
                 <span>Send Response</span>
               </button>
             </div>
@@ -1373,7 +1421,6 @@ function renderRepliesView() {
       </article>
     `;
   }).join('');
-}
 }
 
 function toggleReplyComposer(replyId) {
