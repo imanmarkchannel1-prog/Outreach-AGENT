@@ -6,11 +6,13 @@ import asyncio
 import email
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.utils import formatdate, make_msgid
 import logging
+import os
 import smtplib
 import ssl
 import time
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from typing import Optional, Tuple
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -121,7 +123,7 @@ class EmailDispatcher:
             if inbox.sent_this_hour_count >= inbox.hourly_limit:
                 # Postpone slot by 15 minutes to respect hourly ceiling
                 slot.status = "pending"
-                slot.scheduled_at = datetime.utcnow() + asyncio.timedelta(minutes=15)
+                slot.scheduled_at = datetime.utcnow() + timedelta(minutes=15)
                 await db.commit()
                 logger.info(f"Inbox {inbox.email} reached hourly limit ({inbox.hourly_limit}). Rescheduling slot {slot.id}.")
                 return False
@@ -204,15 +206,18 @@ class EmailDispatcher:
         subject: str,
         body: str,
     ) -> Tuple[bool, Optional[str]]:
-        msg = MIMEMultipart("alternative")
+        # High-deliverability RFC 2822 compliant pure plain text email
+        # Avoiding incomplete multipart/alternative structures that trigger spam filters
+        msg = MIMEText(body, "plain", "utf-8")
         msg["Subject"] = subject
         sender_header = f"{inbox.display_name} <{inbox.email}>" if inbox.display_name else inbox.email
         msg["From"] = sender_header
         msg["To"] = recipient_email
-
-        # Plain text
-        part = MIMEText(body, "plain", "utf-8")
-        msg.attach(part)
+        msg["Date"] = formatdate(localtime=True)
+        domain = inbox.email.split("@")[-1] if "@" in inbox.email else "gmail.com"
+        msg["Message-ID"] = make_msgid(domain=domain)
+        msg["Reply-To"] = sender_header
+        msg["X-Mailer"] = "Gmail Web/Mobile"
 
         try:
             with open_secure_smtp(inbox.smtp_host, inbox.smtp_port, timeout=20) as server:

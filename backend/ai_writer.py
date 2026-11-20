@@ -17,7 +17,7 @@ from backend.models import Campaign, Company, Lead
 
 logger = logging.getLogger("outreach_engine.ai_writer")
 
-DEFAULT_SHOWCASE_URL = "https://dtc-creatives.agency/showcase"
+DEFAULT_SHOWCASE_URL = ""
 
 
 class AIWriter:
@@ -33,15 +33,15 @@ class AIWriter:
             "1. End-to-End Ad Creative Production: High-converting 9:16 vertical UGC hooks, 1:1 feed ads, dynamic product showcases, and AI-rendered video ads.\n"
             "2. Creative Hook Testing Framework: Rapid iteration (3–5 new hook angles/week) to eliminate ad creative fatigue and unlock 2x–4x ROAS scale on Meta and TikTok.\n"
             "3. Super High-Quality Deliverables: Scripting, creator sourcing, 3D motion, visual hook testing, and post-production tailored for direct customer acquisition.\n"
-            "4. Creative Showcase / Portfolio: We share a custom portfolio link (https://dtc-creatives.agency/showcase) with pre-rendered AI video ads and winning DTC case studies.\n\n"
+            "4. Creative Showcase / Portfolio: We maintain pre-rendered AI video ads and winning DTC case studies shared upon permission.\n\n"
             "STRICT COPYWRITING RULES (Violating any will fail quality check):\n"
             "1. ZERO SLOP: NEVER say 'I hope this email finds you well', 'I came across', 'I noticed', 'dive into', 'synergy', 'game changer'.\n"
             "2. CONCISE: Under 100 words across 4 short, readable paragraphs.\n"
-            "3. SUBJECT: 2 to 4 natural, friendly lowercase words (e.g. 'quick thought: ridge ads', 'ad creative test for feastables').\n"
+            "3. SUBJECT: 2 to 4 natural, friendly lowercase words (e.g. 'quick thought on [brand]', 'ad creative for [brand]').\n"
             "4. P1 HOOK: Congratulate the founder or marketing lead on a recent milestone (<30 days) like a product drop, retail launch, or viral momentum.\n"
             "5. P2 CONTEXT: Reference ad creative fatigue on Meta/TikTok or audience creative saturation.\n"
             "6. P3 OFFER: Highlight our end-to-end DTC ad production (vertical UGC + AI product videos + rapid hook testing) to scale paid ROAS.\n"
-            "7. P4 CTA: Soft, low-pressure question offering a 2-minute video teardown + showcase link (e.g. 'Mind if I share the 3 AI ad concepts we modeled for your brand?').\n"
+            "7. P4 CTA: Soft, low-pressure permission question (e.g. 'Mind if I share 2 fresh hook concepts we storyboarded for your brand?'). DO NOT drop raw unverified links in Touch 1 to protect 100% Primary Inbox deliverability.\n"
         )
         if custom_instructions:
             prompt += f"\nADDITIONAL CAMPAIGN INSTRUCTIONS:\n{custom_instructions}\n"

@@ -83,7 +83,7 @@ async def lifespan(app: FastAPI):
                 name="DTC Performance Ads & Video Production",
                 offer_pitch="We handle end-to-end DTC ad creative production & testing across Meta and TikTok (vertical UGC hooks, AI product video showcases, and rapid hook testing) to eliminate ad fatigue and scale ROAS.",
                 sender_name="Alex Rivera",
-                custom_instructions="Congratulate on recent brand milestones < 30 days. Emphasize zero-slop DTC tone, ad creative hook testing, and share showcase link (https://dtc-creatives.agency/showcase).",
+                custom_instructions="Congratulate on recent brand milestones < 30 days. Emphasize zero-slop DTC tone, vertical ad hook testing, and ask permission before sharing preview links to guarantee 100% Primary Inbox deliverability.",
                 target_daily_sends=500,
             )
             db.add(default_campaign)
@@ -91,7 +91,7 @@ async def lifespan(app: FastAPI):
         else:
             camp.name = "DTC Performance Ads & Video Production"
             camp.offer_pitch = "We handle end-to-end DTC ad creative production & testing across Meta and TikTok (vertical UGC hooks, AI product video showcases, and rapid hook testing) to eliminate ad fatigue and scale ROAS."
-            camp.custom_instructions = "Congratulate on recent brand milestones < 30 days. Emphasize zero-slop DTC tone, ad creative hook testing, and share showcase link (https://dtc-creatives.agency/showcase)."
+            camp.custom_instructions = "Congratulate on recent brand milestones < 30 days. Emphasize zero-slop DTC tone, vertical ad hook testing, and ask permission before sharing preview links to guarantee 100% Primary Inbox deliverability."
             await db.commit()
 
         # Seed sample inboxes for personal Gmail rotation pool
@@ -135,41 +135,8 @@ async def lifespan(app: FastAPI):
             db.add_all(demo_inboxes)
             await db.commit()
 
-        # Seed sample replies & delivery stats if none exist
-        res_rep = await db.execute(select(Reply))
-        if not res_rep.scalars().first():
-            lead_res = await db.execute(select(Lead).limit(4))
-            leads = lead_res.scalars().all()
-            if leads:
-                for l in leads:
-                    db.add(SendLog(
-                        lead_id=l.id,
-                        recipient_email=l.email,
-                        sender_email="alex.growth.outreach1@gmail.com",
-                        subject=f"quick question: {l.company_id}",
-                        body="Delivered cold email.",
-                        status="delivered",
-                    ))
-                db.add(Reply(
-                    lead_id=leads[0].id,
-                    sender_email=leads[0].email,
-                    recipient_email="alex.growth.outreach1@gmail.com",
-                    subject="Re: quick thought",
-                    body="Hey Alex, thanks for reaching out! What does the onboarding timeline look like for a team our size? Open to chatting next week.",
-                    intent="interested",
-                ))
-                leads[0].status = "replied"
-                if len(leads) > 1:
-                    db.add(Reply(
-                        lead_id=leads[1].id,
-                        sender_email=leads[1].email,
-                        recipient_email="alex.growth.outreach1@gmail.com",
-                        subject="Re: question",
-                        body="Could you send over a brief 1-pager or architecture walkthrough first before we jump on a call?",
-                        intent="question",
-                    ))
-                    leads[1].status = "replied"
-                await db.commit()
+        # No automatic fake demo reply seeding - keep pipeline 100% authentic
+        await db.commit()
 
     # Start background scheduler
     scheduler.add_job(scheduled_dispatch_job, "interval", seconds=30)
